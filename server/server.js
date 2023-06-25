@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const express = require('express');
+import mongoose from 'mongoose';
+import express from 'express';
+import apiRouter from '../server/routes/api.js';
 const app = express();
-const apiRouter = require('./routes/api');
 
 app.use(express.json());
 app.use('/api', apiRouter);

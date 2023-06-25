@@ -1,4 +1,7 @@
-const express = require('express');
+import Something from '../model/Something.js';
+import express from 'express';
 const router = express.Router();
 
-module.exports = router;
+console.log(Something);
+
+export default router;
