@@ -2,6 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const BookModel = require('./model/Book');
 const RoleModel = require('./model/Role');
+const StoredItemModel = require('./model/StoredItem');
+const Book = require('./model/Book');
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -17,6 +19,7 @@ const main = async () => {
 
   await populateBooks();
   await populateRoles();
+  await populateStorage();
 
   await mongoose.disconnect();
   console.log('Disconnected from DB');
@@ -74,4 +77,19 @@ async function populateRoles() {
 
   await RoleModel.create(...roles);
   console.log('Roles created');
+}
+
+async function populateStorage() {
+  await StoredItemModel.deleteMany({});
+
+  const books = await Book.find({});
+  const storage = books.map((book) => {
+    return {
+      item: book._id,
+      amount: 10,
+    };
+  });
+
+  await StoredItemModel.create(...storage);
+  console.log('Created storage');
 }
