@@ -46,17 +46,24 @@ const getOneOrder = async (req, res) => {
 };
 
 // Help to process CREATE and UPDATE orders
-const orderProcessing = (orderItems, id) => {
+const orderProcessing = async (orderItems, id) => {
   let total = 0;
-  const newOrderItems = [];
-  orderItems.forEach(async (item) => {
+  const newOrderItems = await Promise.all(orderItems.map(async (item) => {
     item.price = item.amount * item.book.price;
     total += item.price;
     item.order = id;
     item.item = item.book._id;
-    const orderItem = await OrderItem.create(item);
-    newOrderItems.push(orderItem);
-  });
+    const orderedItem = await OrderItem.findOne({order: id, item: item.book._id});
+    let orderItem;
+    if (orderedItem) {
+      orderedItem.amount = item.amount;
+      orderedItem.price = item.price;
+      orderItem = await orderedItem.save();
+    } else {
+      orderItem = await OrderItem.create(item);
+    }
+    return orderItem;
+  }));
   return {newOrderItems: newOrderItems, total: total};
 };
 
@@ -69,7 +76,7 @@ const addOneOrder = async (req, res) => {
     order.state = 'cart';
     order.totalPrice = 0;
     let newOrder = await OrderHeader.create(order);
-    const {newOrderItems, total} = orderProcessing(orderItems, newOrder._id);
+    const {newOrderItems, total} = await orderProcessing(orderItems, newOrder._id);
     newOrder.totalPrice = total;
     newOrder = await newOrder.save();
     newOrder.items = newOrderItems;
