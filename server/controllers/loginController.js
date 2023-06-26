@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const User = require('../model/User.js');
 
 //Login user if the password is correct
@@ -6,7 +7,12 @@ const login = async (req, res) => {
   try {
     const account = await User.findOne({userName: userName});
     if (account.password === password) {
-      res.status(200).json({token: account._id});
+      account.token = account._id;
+      const isSaved = await account.save();
+      if (!isSaved) {
+        return res.status(500).json({error: 'Can\'t create token'});
+      }
+      res.status(200).json({token: account.token});
     } else {
       res.status(401).json({error: 'Wrong password'});
     }

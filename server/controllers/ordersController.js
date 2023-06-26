@@ -44,6 +44,18 @@ const getOneOrder = async (req, res) => {
   }
 };
 
+//CREATE a new order
+const addOneOrder = async (req, res) => {
+  try {
+    const order = req.body;
+    order.user = req.header.token;
+    const newOrder = await OrderHeader.create(req.body);
+    res.status(201).json(newOrder);
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+};
+
 
 module.exports = {
   getAllOrders,
