@@ -3,14 +3,18 @@ const express = require('express')
 const {
     getAllBooks,
     getBook
-} = require('../controllers/bookController')
+} = require('../controllers/booksController')
 
+const {
+    createAccount
+} = require('../controllers/loginController')
 
 const router = express.Router();
 
 
+
 //LOGIN page
-router.post('/login', )
+router.post('/login', createAccount)
 
 //GET all books
 router.get('/books', getAllBooks)
@@ -56,19 +60,6 @@ router.delete('/users/:id', deleteOneUser)
 
 //UPDATE one user
 router.patch('/users/:id', updateOneUser)
-
-
-
-
-//ADMIN page
-router.get('/admin', )
-
-//USER page GET all books
-router.get('/user', )
-
-//GET a single book
-
-router.get('/:id', getBook)
 
 
 module.exports = router
