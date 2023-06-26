@@ -49,7 +49,7 @@ router.get('/books/:id', idValidation, getOneBook);
 router.post('/books', userValidation, addOneBook);
 
 //DELETE a book with ADMIN account
-router.delete('/books', deleteOneBook);
+router.delete('/books', idValidation, deleteOneBook);
 
 //UPDATE a book with ADMIN account
 router.patch('/books/:id', idValidation, userValidation, updateOneBook);
@@ -70,7 +70,7 @@ router.delete('/orders/:id', idValidation, deleteOneOrder);
 router.patch('/orders/:id', idValidation, updateOneOrder);
 
 //GET all users with ADMIN account
-router.get('/users', getAllUsers);
+router.get('/users', idValidation, userValidation, getAllUsers);
 
 //GET one user
 router.get('/users/:id', idValidation, getOneUser);

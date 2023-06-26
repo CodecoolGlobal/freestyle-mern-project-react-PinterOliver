@@ -1,13 +1,13 @@
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
-const Book = require('../models/Book');
+const Book = require('../model/Book');
 const StoredItem = require('../model/StoredItem.js');
 
 // GET all books
 const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find({}).sort({title: -1});
-    res.status(200).json(books);
+    const book = await Book.find({}).sort({title: -1});
+    res.status(200).json(book);
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -46,13 +46,30 @@ const deleteOneBook = async (req, res) => {
     const { id } = req.params
     const book = await Book.findOneAndDelete({_id: id})
     if (!book) {
-        return res.status(404).json({error: 'No such todo'})
+        return res.status(404).json({error: 'No such book'})
     }
     res.status(200).json(book)
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 }
+
+//UPDATE one book
+const updateOneBook = async (req, res) => {
+  const { id } = req.params
+  try {
+    const book = await Book.findOneAndUpdate({_id: id}, {
+      ...req.body
+  })
+    if (!book) {
+        return res.status(404).json({error: 'No such book'})
+    }
+    res.status(200).json(book)
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+}
+
 
 module.exports = {
   getAllBooks,
