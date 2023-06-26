@@ -27,6 +27,8 @@ const getOneOrder = async (req, res) => {
     if (!order) {
       return res.status(404).json({error: 'No such order'});
     }
+    const orderItems = await OrderItem.find({order: id});
+    order.items = orderItems;
     res.status(200).json(order);
   } catch (error) {
     res.status(400).json({error: error.message});

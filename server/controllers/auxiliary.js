@@ -4,10 +4,10 @@ const Role = require('../model/Role.js');
 const User = require('../model/User.js');
 // Mongoose validation
 
-const bookIdValidation = (res, req, next) => {
+const idValidation = (res, req, next) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({error: 'Book ID is not valid'});
+    return res.status(404).json({error: 'ID is not valid'});
   }
   next();
 };
@@ -29,6 +29,6 @@ const userValidation = async (res, req, next) => {
 };
 
 module.exports = {
-  bookIdValidation,
+  idValidation,
   userValidation,
 };
