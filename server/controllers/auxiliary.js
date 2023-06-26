@@ -13,11 +13,8 @@ const idValidation = (res, req, next) => {
 };
 
 const userValidation = async (res, req, next) => {
-  const id = req.header.token;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({error: 'User ID is not valid'});
-  }
-  const user = await User.findById(id);
+  const token = req.header.token;
+  const user = await User.findOne({token: token});
   if (!user) {
     return res.status(404).json({error: 'No such user'});
   }
