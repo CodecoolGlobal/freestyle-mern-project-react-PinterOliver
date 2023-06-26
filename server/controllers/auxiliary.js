@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const Role = require('../model/Role.js');
 const User = require('../model/User.js');
+const OrderHeader = require('../model/OrderHeader.js');
 // Mongoose validation
 
 const idValidation = (res, req, next) => {
@@ -41,9 +42,24 @@ const userAdminValidation = async (res, req, next) => {
   next();
 };
 
+const orderValidation = async (res, req, next) => {
+  const user = req.user;
+  const isExist = await OrderHeader.findOne({user: user._id});
+  if (isExist && req.header.method === 'POST') {
+    return res.status(405).json({success: false, rightMethod: 'PATCH'});
+  }
+  if (!isExist && req.header.method === 'PATCH') {
+    return res.status(405).json({success: false, rightMethod: 'POST'});
+  }
+  next();
+};
+
+// Other functions
+
 module.exports = {
   idValidation,
   userValidation,
   bookAdminValidation,
   userAdminValidation,
+  orderValidation,
 };
