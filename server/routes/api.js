@@ -1,13 +1,14 @@
 const express = require('express')
 
 const {
-    getAllBooks,
-    getBook
-} = require('../controllers/booksController')
-
-const {
     login
 } = require('../controllers/loginController')
+
+const {
+    getAllBooks,
+    getOneBook
+} = require('../controllers/booksController')
+
 
 const router = express.Router();
 
