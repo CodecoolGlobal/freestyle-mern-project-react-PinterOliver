@@ -7,7 +7,7 @@ const login = async (req, res) => {
   try {
     const account = await User.findOne({userName: userName});
     if (account.password === password) {
-      account.token = account._id;
+      account.token = account._id.toString();
       const isSaved = await account.save();
       if (!isSaved) {
         return res.status(500).json({error: 'Can\'t create token'});
