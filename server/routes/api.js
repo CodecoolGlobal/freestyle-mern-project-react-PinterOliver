@@ -30,6 +30,10 @@ const {
 
 const router = express.Router();
 
+const {
+  bookIdValidation,
+  userValidation,
+} = require('../controllers/auxiliary');
 
 
 //LOGIN page
@@ -39,10 +43,10 @@ router.post('/login', login);
 router.get('/books', getAllBooks);
 
 //GET one book
-router.get('/books/:id', getOneBook);
+router.get('/books/:id', bookIdValidation, getOneBook);
 
 //Add new BOOK with ADMIN account
-router.post('/books', addOneBook);
+router.post('/books', userValidation, addOneBook);
 
 //DELETE a book with ADMIN account
 router.delete('/books', deleteOneBook);

@@ -1,10 +1,8 @@
-const mongoose = require('mongoose');
 const User = require('../model/User.js');
 
 //Login user if the password is correct
 const login = async (req, res) => {
   const {userName, password} = req.body;
-
   try {
     const account = await User.findOne({userName: userName});
     if (account.password === password) {
