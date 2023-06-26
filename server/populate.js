@@ -11,6 +11,8 @@ if (!mongoUrl) {
 const main = async () => {
   await mongoose.connect(mongoUrl);
 
+  console.log('pop');
+
   await mongoose.disconnect();
 };
 
