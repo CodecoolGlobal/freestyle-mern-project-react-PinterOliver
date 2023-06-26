@@ -1,13 +1,13 @@
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
-const Book = require('../models/Book');
+const Book = require('../model/Book');
 const StoredItem = require('../model/StoredItem.js');
 
 // GET all books
 const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find({}).sort({title: -1});
-    res.status(200).json(books);
+    const book = await Book.find({}).sort({title: -1});
+    res.status(200).json(book);
   } catch (error) {
     res.status(400).json({error: error.message});
   }

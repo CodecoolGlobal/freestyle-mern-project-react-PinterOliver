@@ -70,7 +70,7 @@ router.delete('/orders/:id', idValidation, deleteOneOrder);
 router.patch('/orders/:id', idValidation, updateOneOrder);
 
 //GET all users with ADMIN account
-router.get('/users', getAllUsers);
+router.get('/users', idValidation, userValidation, getAllUsers);
 
 //GET one user
 router.get('/users/:id', idValidation, getOneUser);
