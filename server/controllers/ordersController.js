@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
 const Book = require('../model/Book.js');
@@ -12,6 +13,10 @@ const getAllOrders = async (req, res) => {
     const orderItems = await OrderItem.find({});
     orders.forEach((order) => {
       order.items = orderItems.filter((item) => item.order === order._id);
+      order.items.forEach(async (item) => {
+        const book = await Book.findById(item.item);
+        item.book = book;
+      });
     });
     res.status(200).json(orders);
   } catch (error) {
@@ -29,6 +34,10 @@ const getOneOrder = async (req, res) => {
     }
     const orderItems = await OrderItem.find({order: id});
     order.items = orderItems;
+    order.items.forEach(async (item) => {
+      const book = await Book.findById(item.item);
+      item.book = book;
+    });
     res.status(200).json(order);
   } catch (error) {
     res.status(400).json({error: error.message});
