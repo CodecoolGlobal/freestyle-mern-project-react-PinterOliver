@@ -52,10 +52,9 @@ const orderValidation = async (res, req, next) => {
   if (!isExist && req.header.method === 'PATCH') {
     return res.status(405).json({success: false, rightMethod: 'POST'});
   }
+  req.order = isExist;
   next();
 };
-
-// Other functions
 
 module.exports = {
   idValidation,

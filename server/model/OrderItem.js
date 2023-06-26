@@ -6,6 +6,7 @@ const itemSchema = new Schema({
   item: mongoose.Types.ObjectId,
   order: mongoose.Types.ObjectId,
   amount: Number,
+  bookPrice: Number,
   price: Number,
   createdAt: {
     type: Date,
