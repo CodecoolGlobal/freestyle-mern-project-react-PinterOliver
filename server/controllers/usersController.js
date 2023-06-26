@@ -10,7 +10,7 @@ const getAllUsers = async (req, res) => {
     } catch (error) {
       res.status(400).json({error: error.message});
     }
-  };
+};
 
 //GET one user
 const getOneUser = async (req, res) => {
@@ -24,7 +24,7 @@ const getOneUser = async (req, res) => {
     } catch (error) {
       res.status(400).json({error: error.message});
     }
-  };
+};
 
 //CREATE a new user (registration)
 
@@ -34,7 +34,23 @@ const deleteOneUser = async (req, res) => {
       const { id } = req.params
       const user = await User.findOneAndDelete({_id: id})
       if (!user) {
-          return res.status(404).json({error: 'No such book'})
+          return res.status(404).json({error: 'No such User'})
+      }
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+};
+
+//UPDATE one user
+const updateOneUser = async (req, res) => {
+    const { id } = req.params
+    try {
+      const user = await User.findOneAndUpdate({_id: id}, {
+        ...req.body
+    })
+      if (!user) {
+          return res.status(404).json({error: 'No such User'})
       }
       res.status(200).json(user)
     } catch (error) {
