@@ -35,7 +35,7 @@ const {
   userValidation,
   bookAdminValidation,
   userAdminValidation,
-} = require('../controllers/auxiliary');
+} = require('../controllers/validation');
 
 
 //LOGIN page
