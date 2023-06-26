@@ -33,6 +33,7 @@ const router = express.Router();
 const {
   idValidation,
   userValidation,
+  bookAdminValidation,
 } = require('../controllers/auxiliary');
 
 
@@ -46,13 +47,13 @@ router.get('/books', getAllBooks);
 router.get('/books/:id', idValidation, getOneBook);
 
 //Add new BOOK with ADMIN account
-router.post('/books', userValidation, addOneBook);
+router.post('/books', userValidation, bookAdminValidation, addOneBook);
 
 //DELETE a book with ADMIN account
 router.delete('/books', idValidation, deleteOneBook);
 
 //UPDATE a book with ADMIN account
-router.patch('/books/:id', idValidation, userValidation, updateOneBook);
+router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, updateOneBook);
 
 //GET all orders
 router.get('/orders', getAllOrders);

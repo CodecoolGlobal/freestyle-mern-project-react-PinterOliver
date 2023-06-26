@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 /* eslint-disable consistent-return */
 const mongoose = require('mongoose');
 const Role = require('../model/Role.js');
@@ -18,6 +19,12 @@ const userValidation = async (res, req, next) => {
   if (!user) {
     return res.status(404).json({error: 'No such user'});
   }
+  req.user = user;
+  next();
+};
+
+const bookAdminValidation = async (res, req, next) => {
+  const user = req.user;
   const role = await Role.findOne({name: user.role});
   if (!role.canModifyItems) {
     return res.status(401).json({error: 'You have no right to access'});
@@ -28,4 +35,5 @@ const userValidation = async (res, req, next) => {
 module.exports = {
   idValidation,
   userValidation,
+  bookAdminValidation,
 };
