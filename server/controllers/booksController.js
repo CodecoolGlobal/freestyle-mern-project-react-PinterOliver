@@ -44,4 +44,6 @@ module.exports = {
   getAllBooks,
   getOneBook,
   addOneBook,
+  deleteOneBook,
+  updateOneBook,
 };
