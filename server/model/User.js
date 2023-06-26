@@ -1,9 +1,14 @@
+/* eslint-disable camelcase */
 const mongoose = require('mongoose');
 
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
-  name: String,
+  userName: String,
+  name: {
+    first: String,
+    last: String,
+  },
   password: String,
   email: String,
   role: mongoose.Types.ObjectId,
