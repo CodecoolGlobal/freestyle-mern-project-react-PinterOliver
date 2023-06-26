@@ -46,13 +46,30 @@ const deleteOneBook = async (req, res) => {
     const { id } = req.params
     const book = await Book.findOneAndDelete({_id: id})
     if (!book) {
-        return res.status(404).json({error: 'No such todo'})
+        return res.status(404).json({error: 'No such book'})
     }
     res.status(200).json(book)
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 }
+
+//UPDATE one book
+const updateOneBook = async (req, res) => {
+  const { id } = req.params
+  try {
+    const book = await Book.findOneAndUpdate({_id: id}, {
+      ...req.body
+  })
+    if (!book) {
+        return res.status(404).json({error: 'No such book'})
+    }
+    res.status(200).json(book)
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+}
+
 
 module.exports = {
   getAllBooks,
