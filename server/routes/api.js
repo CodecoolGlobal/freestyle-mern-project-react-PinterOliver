@@ -1,7 +1,7 @@
-import Something from '../model/Something.js';
-import express from 'express';
+const Something = require('../model/Something.js');
+const express = require('express');
 const router = express.Router();
 
 console.log(Something);
 
-export default router;
+module.exports = router;

@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const {Schema, model} = mongoose;
 
 const SomethingSchema = new Schema({});
 
 const Something = model('Something', SomethingSchema);
 
-export default Something;
+module.exports = Something;
