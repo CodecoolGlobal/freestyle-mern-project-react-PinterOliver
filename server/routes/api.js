@@ -6,7 +6,8 @@ const {
 
 const {
     getAllBooks,
-    getOneBook
+    getOneBook,
+    addOneBook
 } = require('../controllers/booksController')
 
 
