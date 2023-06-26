@@ -1,20 +1,26 @@
-import mongoose from 'mongoose';
-import express from 'express';
-import apiRouter from '../server/routes/api.js';
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+
+const { MONGO_URL, PORT = 8080 } = process.env;
+
+if (!MONGO_URL) {
+  console.error('Missing MONGO_URL environment variable');
+  process.exit(1);
+}
+
 const app = express();
-
 app.use(express.json());
-app.use('/api', apiRouter);
 
-const mongoUsername = '*';
-const mongoPassword = '*';
+const main = async () => {
+  await mongoose.connect(MONGO_URL);
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPassword}@cluster0.h69pmvj.mongodb.net/?retryWrites=true&w=majority`)
-  .then(() => console.log('Connected to Database'));
+  app.listen(PORT, () => {
+    console.log(`App is listening on ${PORT}`);
+  });
+};
 
-const googleApiKey = 'AIzaSyCZt3uUWjLlYtxfcQgaGsukWEIoiCTWE0g';
-
-console.log(googleApiKey);
-
-const port = 4000;
-app.listen(port, () => console.log(`http://127.0.0.1:${port}`));
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
