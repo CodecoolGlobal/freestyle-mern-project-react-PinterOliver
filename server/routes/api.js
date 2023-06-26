@@ -6,7 +6,7 @@ const {
 } = require('../controllers/booksController')
 
 const {
-    createAccount
+    login
 } = require('../controllers/loginController')
 
 const router = express.Router();
@@ -14,7 +14,7 @@ const router = express.Router();
 
 
 //LOGIN page
-router.post('/login', createAccount)
+router.post('/login', login)
 
 //GET all books
 router.get('/books', getAllBooks)
