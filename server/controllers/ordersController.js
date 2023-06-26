@@ -5,6 +5,7 @@ const Book = require('../model/Book.js');
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
 const StoredItem = require('../model/StoredItem.js');
+const User = require('../model/User.js');
 
 // GET all orders
 const getAllOrders = async (req, res) => {
@@ -48,7 +49,13 @@ const getOneOrder = async (req, res) => {
 const addOneOrder = async (req, res) => {
   try {
     const order = req.body;
-    order.user = req.header.token;
+    const user = await User.findOne({token: req.header.token});
+    order.user = user._id;
+    order.state = 'placed';
+    const total = 0;
+    order.items.forEach(async (item) => {
+      
+    })
     const newOrder = await OrderHeader.create(req.body);
     res.status(201).json(newOrder);
   } catch (error) {
