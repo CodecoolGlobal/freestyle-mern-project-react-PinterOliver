@@ -2,10 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "devStart": "nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +20,5 @@
   "devDependencies": {
     "eslint": "^8.43.0",
     "nodemon": "^2.0.22"
-  },
-  "type": "module"
+  }
 }
