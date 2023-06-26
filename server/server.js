@@ -9,7 +9,8 @@ app.use('/api', apiRouter);
 const mongoUsername = '*';
 const mongoPassword = '*';
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPassword}@cluster0.h69pmvj.mongodb.net/?retryWrites=true&w=majority`);
+mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPassword}@cluster0.h69pmvj.mongodb.net/?retryWrites=true&w=majority`)
+  .then(() => console.log('Connected to Database'));
 
 const googleApiKey = 'AIzaSyCZt3uUWjLlYtxfcQgaGsukWEIoiCTWE0g';
 
