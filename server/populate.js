@@ -38,11 +38,10 @@ async function populateBooks() {
     const jsonData = await response.json();
 
     const books = jsonData.items.map((book) => {
-      console.log(book.volumeInfo.publishedDate);
       return {
         title: book.volumeInfo.title,
         author: book.volumeInfo.authors ? book.volumeInfo.authors[0] : null,
-        publishedAt: new Date(book.volumeInfo.publishedDate),
+        publishedYear: String(book.volumeInfo.publishedDate).substring(0, 4),
         price: book.saleInfo.listPrice?.amount,
         genres: book.volumeInfo.categories,
         description: book.volumeInfo.description,
