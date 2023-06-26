@@ -32,8 +32,18 @@ const bookAdminValidation = async (res, req, next) => {
   next();
 };
 
+const userAdminValidation = async (res, req, next) => {
+  const user = req.user;
+  const role = await Role.findOne({name: user.role});
+  if (!role.canViewAllUsers) {
+    return res.status(401).json({error: 'You have no right to access'});
+  }
+  next();
+};
+
 module.exports = {
   idValidation,
   userValidation,
   bookAdminValidation,
+  userAdminValidation,
 };
