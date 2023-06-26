@@ -52,7 +52,7 @@ const deleteOneBook = async (req, res) => {
   } catch (error) {
     res.status(400).json({error: error.message});
   }
-}
+};
 
 //UPDATE one book
 const updateOneBook = async (req, res) => {
@@ -68,7 +68,7 @@ const updateOneBook = async (req, res) => {
   } catch (error) {
     res.status(400).json({error: error.message});
   }
-}
+};
 
 
 module.exports = {
