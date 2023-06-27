@@ -8,7 +8,7 @@ const Book = require('../model/Book');
 
 // Mongoose validation
 
-const idValidation = (res, req, next) => {
+const idValidation = (req, res, next) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({error: 'ID is not valid'});
@@ -16,7 +16,7 @@ const idValidation = (res, req, next) => {
   next();
 };
 
-const userValidation = async (res, req, next) => {
+const userValidation = async (req, res, next) => {
   const token = req.header.token;
   const user = await User.findOne({token: token});
   if (!user) {
@@ -26,7 +26,7 @@ const userValidation = async (res, req, next) => {
   next();
 };
 
-const bookAdminValidation = async (res, req, next) => {
+const bookAdminValidation = async (req, res, next) => {
   const user = req.user;
   const role = await Role.findOne({name: user.role});
   if (!role.canModifyItems) {
@@ -35,7 +35,7 @@ const bookAdminValidation = async (res, req, next) => {
   next();
 };
 
-const userAdminValidation = async (res, req, next) => {
+const userAdminValidation = async (req, res, next) => {
   const user = req.user;
   const role = await Role.findOne({name: user.role});
   if (!role.canViewAllUsers) {
@@ -44,7 +44,7 @@ const userAdminValidation = async (res, req, next) => {
   next();
 };
 
-const orderValidation = async (res, req, next) => {
+const orderValidation = async (req, res, next) => {
   const user = req.user;
   const isExist = await OrderHeader.findOne({user: user._id});
   if (isExist && req.header.method === 'POST') {
@@ -57,7 +57,7 @@ const orderValidation = async (res, req, next) => {
   next();
 };
 
-const bookValidation = async (res, req, next) => {
+const bookValidation = async (req, res, next) => {
   const isExist = await Book.findOne({title: req.body.title});
   if (isExist && req.header.method === 'POST') {
     return res.status(405).json({
@@ -77,7 +77,7 @@ const bookValidation = async (res, req, next) => {
   next();
 };
 
-const userOrderValidation = async (res, req, next) => {
+const userOrderValidation = async (req, res, next) => {
   const id = req.params.id;
   const user = req.user;
   const order = await OrderHeader.findById(id);
