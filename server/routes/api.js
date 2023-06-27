@@ -33,56 +33,58 @@ const router = express.Router();
 const {
   idValidation,
   userValidation,
-} = require('../controllers/auxiliary');
+  bookAdminValidation,
+  userAdminValidation,
+} = require('../controllers/validation');
 
 
 //LOGIN page
 router.post('/login', login);
 
 //GET all books
-router.get('/books', getAllBooks);
+router.get('/books', userValidation, getAllBooks);
 
 //GET one book
-router.get('/books/:id', idValidation, getOneBook);
+router.get('/books/:id', idValidation, userValidation, getOneBook);
 
 //Add new BOOK with ADMIN account
-router.post('/books', userValidation, addOneBook);
+router.post('/books', userValidation, bookAdminValidation, addOneBook);
 
 //DELETE a book with ADMIN account
-router.delete('/books', idValidation, deleteOneBook);
+router.delete('/books', idValidation, userValidation, bookAdminValidation, deleteOneBook);
 
 //UPDATE a book with ADMIN account
-router.patch('/books/:id', idValidation, userValidation, updateOneBook);
+router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, updateOneBook);
 
 //GET all orders
-router.get('/orders', getAllOrders);
+router.get('/orders', userValidation, getAllOrders);
 
 //GET one order
-router.get('/orders/:id', idValidation, getOneOrder);
+router.get('/orders/:id', idValidation, userValidation, getOneOrder);
 
 //CREATE a new order
-router.post('/orders', addOneOrder);
+router.post('/orders', userValidation, addOneOrder);
 
 //DELETE one order
 router.delete('/orders/:id', idValidation, deleteOneOrder);
 
 //UPDATE one order
-router.patch('/orders/:id', idValidation, updateOneOrder);
+router.patch('/orders/:id', idValidation, userValidation, updateOneOrder);
 
 //GET all users with ADMIN account
-router.get('/users', idValidation, userValidation, getAllUsers);
+router.get('/users', idValidation, userValidation, userAdminValidation, getAllUsers);
 
 //GET one user
-router.get('/users/:id', idValidation, getOneUser);
+router.get('/users/:id', idValidation, userValidation, getOneUser);
 
 //CREATE a new user (registration)
 router.post('/users', addOneUser);
 
 //DELETE one user
-router.delete('/users/:id', idValidation, deleteOneUser);
+router.delete('/users/:id', idValidation, userValidation, deleteOneUser);
 
 //UPDATE one user
-router.patch('/users/:id', idValidation, updateOneUser);
+router.patch('/users/:id', idValidation, userValidation, updateOneUser);
 
 
 module.exports = router;

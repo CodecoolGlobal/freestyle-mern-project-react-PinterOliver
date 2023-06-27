@@ -1,7 +1,5 @@
 /* eslint-disable consistent-return */
-const mongoose = require('mongoose');
 const Book = require('../model/Book');
-const StoredItem = require('../model/StoredItem.js');
 
 // GET all books
 const getAllBooks = async (req, res) => {
@@ -43,12 +41,12 @@ const addOneBook = async (req, res) => {
 //DELETE a book with ADMIN account
 const deleteOneBook = async (req, res) => {
   try {
-    const { id } = req.params
-    const book = await Book.findOneAndDelete({_id: id})
+    const { id } = req.params;
+    const book = await Book.findOneAndDelete({_id: id});
     if (!book) {
-        return res.status(404).json({error: 'No such book'})
+      return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(book)
+    res.status(200).json(book);
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -56,15 +54,15 @@ const deleteOneBook = async (req, res) => {
 
 //UPDATE one book
 const updateOneBook = async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   try {
     const book = await Book.findOneAndUpdate({_id: id}, {
-      ...req.body
-  })
+      ...req.body,
+    });
     if (!book) {
-        return res.status(404).json({error: 'No such book'})
+      return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(book)
+    res.status(200).json(book);
   } catch (error) {
     res.status(400).json({error: error.message});
   }
