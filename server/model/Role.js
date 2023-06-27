@@ -16,6 +16,10 @@ const roleSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  canViewAllUsers: {
+    type: Boolean,
+    default: false,
+  },
   canAccessStorage: {
     type: Boolean,
     default: false,

@@ -50,6 +50,7 @@ async function populateBooks() {
         price: book.saleInfo.listPrice?.amount,
         genres: book.volumeInfo.categories,
         description: book.volumeInfo.description,
+        image_url: book.volumeInfo.imageLinks?.thumbnail ?? '',
       };
     });
 
