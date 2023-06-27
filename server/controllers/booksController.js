@@ -1,11 +1,17 @@
+/* eslint-disable require-atomic-updates */
 /* eslint-disable consistent-return */
 const Book = require('../model/Book');
+const StoredItem = require('../model/StoredItem');
 
 // GET all books
 const getAllBooks = async (req, res) => {
   try {
-    const book = await Book.find({}).sort({title: -1});
-    res.status(200).json(book);
+    const books = await Book.find({}).sort({title: -1});
+    const fullBooks = await Promise.all(books.map(async (book) => {
+      const amount = await StoredItem.find({item: book._id});
+      book.amount = amount;
+    }));
+    res.status(200).json({books: fullBooks});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
