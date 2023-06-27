@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const apiRouter = require('./routes/api');
+const app = express();
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -10,7 +11,6 @@ if (!MONGO_URL) {
   process.exit(1);
 }
 
-const app = express();
 app.use(express.json());
 app.use('/api', apiRouter);
 
