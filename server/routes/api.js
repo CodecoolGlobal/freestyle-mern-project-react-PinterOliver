@@ -91,5 +91,4 @@ router.delete('/users/:id', idValidation, userValidation, deleteOneUser);
 //UPDATE one user
 router.patch('/users/:id', idValidation, userValidation, updateOneUser);
 
-
 module.exports = router;

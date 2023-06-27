@@ -29,18 +29,18 @@ const getOneUser = async (req, res) => {
 const addOneUser = async (req, res) => {
   try {
     const userName = await User.findOne({userName: req.body.userName});
-      if (userName) {
-        return res.status(403).json({error: 'There is already a User with this Username'});
-      }
-      const userEmail = await User.findOne({email: req.body.email});
-      if (userEmail) {
-        return res.status(403).json({error: 'This email address is already used'});
-      }
-      const newUser = await User.create(req.body);
-      res.status(201).json(newUser);
-    } catch (error) {
-      res.status(400).json({error: error.message});
+    if (userName) {
+      return res.status(403).json({error: 'There is already a User with this Username'});
     }
+    const userEmail = await User.findOne({email: req.body.email});
+    if (userEmail) {
+      return res.status(403).json({error: 'This email address is already used'});
+    }
+    const newUser = await User.create(req.body);
+    res.status(201).json(newUser);
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
 };
 
 //DELETE one user
@@ -63,7 +63,7 @@ const updateOneUser = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate({_id: id}, {
       ...req.body,
-    }, {returnDocument: "after"});
+    }, {returnDocument: 'after'});
     if (!user) {
       return res.status(404).json({error: 'No such User'});
     }
