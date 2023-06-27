@@ -85,6 +85,10 @@ const userOrderValidation = async (req, res, next) => {
   if (order.user !== user._id) {
     return res.status(401).json({error: 'You have no right to access'});
   }
+  const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
+  if (forbiddenStates.includes(order.state)) {
+    return res.status(403).json({error: 'You can\'t access this order anymore'});
+  }
   req.order = order;
   next();
 };
