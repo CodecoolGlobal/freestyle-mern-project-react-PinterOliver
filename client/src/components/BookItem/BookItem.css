@@ -19,4 +19,9 @@ height: 130px;
   padding: 5px;
   border-radius: 5px;
   border: black 1px solid;
+  display: inline-block;
+}
+.itemsContainer{
+  position: relative;
+  left: 20vw
 }
