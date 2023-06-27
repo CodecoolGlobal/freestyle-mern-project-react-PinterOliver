@@ -51,15 +51,28 @@ const orderProcessing = async (orderItems, order, newState) => {
   let oldItems = [];
   if (order.state !== 'cart') {
     const oldOrderItems = await OrderItem.find({order: order._id});
-    oldItems = await Promise.all(oldOrderItems.map(async (item) => {
-      const storedItem = await StoredItem.findOne({item: item.book._id});
-      storedItem.amount += item.amount;
+    console.log("ajj de unom már")
+    oldItems = await Promise.all(oldOrderItems.map(async (oldOrder) => {
+      //console.log(oldOrderItems)
+      const storedItem = await StoredItem.findOne({item: '6499e9b336b6b6e16911891a'})
+      const book = await Book.findById('6499e9b336b6b6e16911891a')
+      const order = await OrderItem.findById('6499e9b336b6b6e16911891a')
+      const storedI = await StoredItem.findById('6499e9b336b6b6e16911891a')
+      console.log(book)
+      console.log(order)
+      console.log(storedI)
+      // console.log('find' + await StoredItem.findOne({item: '6499e9b336b6b6e16911891a'}))
+      // console.log('oldorder' + oldOrder.item)
+      // console.log('stored' + storedItem)
+      console.log("ajj de unom már 2");
+      storedItem.amount += oldOrder.amount;
       return await storedItem.save();
     }));
   }
   const newOrderItems = await Promise.all(orderItems.map(async (item) => {
     if (newState !== 'cart') {
       const storedItem = await StoredItem.findOne({item: item.book._id});
+      console.log("ajj de unom már 3")
       if (storedItem.amount < item.amount) {
         item.amount = storedItem.amount;
         console.log('Not enough books');
@@ -68,14 +81,18 @@ const orderProcessing = async (orderItems, order, newState) => {
       storedItem.save();
     }
     const isExist = oldItems.find((oldItem) => oldItem.item === item.book._id);
+    console.log("ajj de unom már 4")
     if (canPriceChange || !isExist || item.amount > isExist.amount) {
       item.bookPrice = item.book.price;
     }
     item.price = item.amount * item.bookPrice;
     total += item.price;
     item.order = order._id;
+    console.log("ajj de unom már 5")
     item.item = item.book._id;
+    console.log("ajj de unom már 6")
     const orderedItem = await OrderItem.findOne({order: order._id, item: item.book._id});
+    console.log("ajj de unom már 7")
     let orderItem;
     if (orderedItem) {
       orderedItem.amount = item.amount;
@@ -115,10 +132,12 @@ const updateOneOrder = async (req, res) => {
     const orderItems = req.body.items;
     const order = req.order;
     const newState = req.body.newState; 
+    let newOrderItems = [];
     if (orderItems) {
-      const {newOrderItems, total} =
-        await orderProcessing(orderItems, order, newState);
-        order.totalPrice = total;
+      const responseItem = 
+      await orderProcessing(orderItems, order, newState);
+        order.totalPrice = responseItem.total;
+        newOrderItems = responseItem.newOrderItems;
     }
     if (newState) order.state = newState;
     const savedOrder = await order.save();

@@ -82,7 +82,6 @@ const userOrderValidation = async (req, res, next) => {
   const id = req.params.id;
   const user = req.user;
   const order = await OrderHeader.findById(id);
-   console.log(Object.values(order.user)[0] === Object.values(user._id)[0])
   if (Object.values(order.user)[0] !== Object.values(user._id)[0]) {
     return res.status(401).json({error: 'You have no right to access'});
   }
