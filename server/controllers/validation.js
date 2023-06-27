@@ -94,6 +94,18 @@ const userOrderValidation = async (req, res, next) => {
   next();
 };
 
+const userDataValidation = async (req, res, next) => {
+  const userName = await User.findOne({userName: req.body.userName});
+  if (userName) {
+    return res.status(403).json({error: 'There is already a User with this Username'});
+  }
+  const userEmail = await User.findOne({email: req.body.email});
+  if (userEmail) {
+    return res.status(403).json({error: 'This email address is already used'});
+  }
+  next();
+};
+
 module.exports = {
   idValidation,
   userValidation,
@@ -102,4 +114,5 @@ module.exports = {
   orderValidation,
   userOrderValidation,
   bookValidation,
+  userDataValidation,
 };
