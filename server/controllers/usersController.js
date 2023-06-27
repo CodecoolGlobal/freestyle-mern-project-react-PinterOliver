@@ -55,7 +55,7 @@ const updateOneUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({error: 'No such User exists to update'});
     }
-    res.status(200).json(user);
+    res.status(200).json({user: user});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

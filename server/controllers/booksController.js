@@ -28,7 +28,7 @@ const getOneBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(book);
+    res.status(200).json({book: book});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -38,7 +38,7 @@ const getOneBook = async (req, res) => {
 const addOneBook = async (req, res) => {
   try {
     const newBook = await Book.create(req.body);
-    res.status(201).json(newBook);
+    res.status(201).json({book: newBook});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -52,7 +52,7 @@ const deleteOneBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(book);
+    res.status(200).json({book: book});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -68,7 +68,7 @@ const updateOneBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(book);
+    res.status(200).json({book: book});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
