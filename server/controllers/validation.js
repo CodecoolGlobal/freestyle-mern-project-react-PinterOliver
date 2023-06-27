@@ -65,7 +65,7 @@ const userOrderValidation = async (res, req, next) => {
   }
   req.order = order;
   next();
-}
+};
 
 module.exports = {
   idValidation,

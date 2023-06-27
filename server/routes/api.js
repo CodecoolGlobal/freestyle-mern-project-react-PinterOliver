@@ -43,10 +43,10 @@ const {
 router.post('/login', login);
 
 //GET all books
-router.get('/books', userValidation, getAllBooks);
+router.get('/books', getAllBooks);
 
 //GET one book
-router.get('/books/:id', idValidation, userValidation, getOneBook);
+router.get('/books/:id', idValidation, getOneBook);
 
 //Add new BOOK with ADMIN account
 router.post('/books', userValidation, bookAdminValidation, addOneBook);
