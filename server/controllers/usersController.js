@@ -27,11 +27,13 @@ const getOneUser = async (req, res) => {
 
 //CREATE a new user (registration)
 const addOneUser = async (req, res) => {
-    try {
-      if (User.findOne({userName: req.body.userName})) {
+  try {
+    const userName = await User.findOne({userName: req.body.userName});
+      if (userName) {
         return res.status(403).json({error: 'There is already a User with this Username'});
       }
-      if (User.findOne({email: req.body.email})) {
+      const userEmail = await User.findOne({email: req.body.email});
+      if (userEmail) {
         return res.status(403).json({error: 'This email address is already used'});
       }
       const newUser = await User.create(req.body);
