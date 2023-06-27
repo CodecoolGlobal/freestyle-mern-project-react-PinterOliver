@@ -17,7 +17,7 @@ const idValidation = (req, res, next) => {
 };
 
 const userValidation = async (req, res, next) => {
-  const token = req.header.token;
+  const token = req.headers.token;
   const user = await User.findOne({token: token});
   if (!user) {
     return res.status(404).json({error: 'No such user'});
@@ -48,10 +48,10 @@ const userAdminValidation = async (req, res, next) => {
 const orderValidation = async (req, res, next) => {
   const user = req.user;
   const isExist = await OrderHeader.findOne({user: user._id});
-  if (isExist && req.header.method === 'POST') {
+  if (isExist && req.headers.method === 'POST') {
     return res.status(405).json({success: false, rightMethod: 'PATCH'});
   }
-  if (!isExist && req.header.method === 'PATCH') {
+  if (!isExist && req.headers.method === 'PATCH') {
     return res.status(405).json({success: false, rightMethod: 'POST'});
   }
   req.order = isExist;
@@ -60,14 +60,14 @@ const orderValidation = async (req, res, next) => {
 
 const bookValidation = async (req, res, next) => {
   const isExist = await Book.findOne({title: req.body.title});
-  if (isExist && req.header.method === 'POST') {
+  if (isExist && req.headers.method === 'POST') {
     return res.status(405).json({
       error: 'There is already a book with this title',
       success: false,
       rightMethod: 'PATCH',
     });
   }
-  if (!isExist && req.header.method === 'PATCH') {
+  if (!isExist && req.headers.method === 'PATCH') {
     return res.status(405).json({
       error: 'There is no book with this title',
       success: false,
