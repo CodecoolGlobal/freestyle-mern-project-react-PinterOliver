@@ -12,12 +12,12 @@ const login = async (req, res) => {
       if (!isSaved) {
         return res.status(500).json({error: 'Can\'t create token'});
       }
-      res.status(200).json({token: account.token});
+      res.status(202).json({token: account.token});
     } else {
       res.status(401).json({error: 'Wrong password'});
     }
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 

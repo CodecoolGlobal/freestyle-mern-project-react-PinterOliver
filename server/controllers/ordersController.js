@@ -21,7 +21,7 @@ const getAllOrders = async (req, res) => {
     }));
     res.status(200).json({orders: orders});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -43,7 +43,7 @@ const getOneOrder = async (req, res) => {
     });
     res.status(200).json({order: order});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -113,7 +113,7 @@ const addOneOrder = async (req, res) => {
     newOrder.items = newOrderItems;
     res.status(201).json({order: newOrder});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -141,7 +141,7 @@ const updateOneOrder = async (req, res) => {
     savedOrder.deletedOrderItems = deletedOrderItems;
     res.status(202).json({order: savedOrder});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -154,7 +154,7 @@ const deleteOneOrder = async (req, res) => {
     deletedOrder.items = deletedItems;
     res.status(202).json({order: deletedOrder});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -173,7 +173,7 @@ const getCartOrder = async (req, res) => {
     });
     res.status(200).json({message: 'User has a cart', order: order});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
