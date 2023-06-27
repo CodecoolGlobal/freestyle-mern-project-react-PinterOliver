@@ -130,6 +130,7 @@ const updateOneOrder = async (req, res) => {
 // DELETE an order
 const deleteOneOrder = async (req, res) => {
   try {
+    const { id } = req.params;
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
     const deletedItems = await OrderItem.deleteMany({order: id});
     deletedOrder.items = deletedItems;
