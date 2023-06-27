@@ -59,15 +59,30 @@ const deleteOneUser = async (req, res) => {
 
 //UPDATE one user
 const updateOneUser = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await User.findOneAndUpdate({_id: id}, {
-      ...req.body,
-    });
+    const { id } = req.params;
+    const user = await User.findById(id);
+    const newUserData = req.body;
+    for (const detail in newUserData) {
+      if (Object.hasOwnProperty.call(newUserData, detail)) {
+        const element = newUserData[detail];
+        if (typeof element === "object") {
+          for (const key in object) {
+            if (Object.hasOwnProperty.call(object, key)) {
+              const element = object[key];
+              
+            }
+          }
+        }
+      }
+    }
+    if (newUserData.userName) user.userName = newUserData.userName;
+    if (newUserData.)
+    const updatedUser = await user.save();
     if (!user) {
       return res.status(404).json({error: 'No such User'});
     }
-    res.status(200).json(user);
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(400).json({error: error.message});
   }
