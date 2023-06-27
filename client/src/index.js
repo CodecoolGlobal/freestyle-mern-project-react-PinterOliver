@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-
-import Login from './components/login';
+import Layout from './pages/Layout';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login />,
+    element: <Layout />,
   },
 ]);
 
