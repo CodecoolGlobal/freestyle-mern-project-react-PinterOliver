@@ -53,15 +53,25 @@ const userAdminValidation = async (req, res, next) => {
 };
 
 const orderValidation = async (req, res, next) => {
-  const user = req.user;
-  const isExist = await OrderHeader.findOne({user: user._id});
-  if (isExist && req.headers.method === 'POST') {
-    return res.status(405).json({rightMethod: 'PATCH'});
+  console.log(req.headers.method);
+  const id = req.params.id;
+  const order = await OrderHeader.findById(id);
+  for (const key in req.headers) {
+    console.log(`${key}: ${req.headers[key]}`);
   }
-  if (!isExist && req.headers.method === 'PATCH') {
-    return res.status(405).json({rightMethod: 'POST'});
+  if (!order) {
+    switch (req.headers.method) {
+    case 'PATCH':
+      return res.status(405).json({rightMethod: 'POST'});
+    case 'DELETE':
+      return res.status(404).json({error: 'No such order exists to delete'});
+    }
   }
-  req.order = isExist;
+  const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
+  if (forbiddenStates.includes(order.state)) {
+    return res.status(403).json({error: 'You can\'t access this order anymore'});
+  }
+  req.order = order;
   next();
 };
 
@@ -83,21 +93,6 @@ const bookValidation = async (req, res, next) => {
   next();
 };
 
-const userOrderValidation = async (req, res, next) => {
-  const id = req.params.id;
-  const user = req.user;
-  const order = await OrderHeader.findById(id);
-  if (Object.values(order.user)[0] !== Object.values(user._id)[0]) {
-    return res.status(401).json({error: 'You have no right to access'});
-  }
-  const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
-  if (forbiddenStates.includes(order.state)) {
-    return res.status(403).json({error: 'You can\'t access this order anymore'});
-  }
-  req.order = order;
-  next();
-};
-
 const userDataValidation = async (req, res, next) => {
   const userName = await User.findOne({userName: req.body.userName});
   if (userName) {
@@ -114,9 +109,9 @@ module.exports = {
   idValidation,
   userValidation,
   bookAdminValidation,
+  orderAdminValidation,
   userAdminValidation,
   orderValidation,
-  userOrderValidation,
   bookValidation,
   userDataValidation,
 };

@@ -35,8 +35,9 @@ const {
   idValidation,
   userValidation,
   bookAdminValidation,
+  orderAdminValidation,
   userAdminValidation,
-  userOrderValidation,
+  orderValidation,
   bookValidation,
   userDataValidation,
 } = require('../controllers/validation');
@@ -61,22 +62,24 @@ router.delete('/books/:id', idValidation, userValidation, bookAdminValidation, d
 router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
 
 //GET all orders
-router.get('/orders', userValidation, getAllOrders);
+router.get('/orders', userValidation, orderAdminValidation, getAllOrders);
 
 //GET cart order
-router.get('/orders/cart', userValidation, getCartOrder);
+router.get('/orders/cart', userValidation, orderAdminValidation, getCartOrder);
 
 //GET one order
-router.get('/orders/:id', idValidation, userValidation, getOneOrder);
+router.get('/orders/:id', idValidation, userValidation, orderAdminValidation, getOneOrder);
 
 //CREATE a new order
-router.post('/orders', userValidation, addOneOrder);
+router.post('/orders', userValidation, orderAdminValidation, addOneOrder);
 
 //DELETE one order
-router.delete('/orders/:id', idValidation, userValidation, userOrderValidation, deleteOneOrder);
+// eslint-disable-next-line max-len
+router.delete('/orders/:id', idValidation, userValidation, orderValidation, orderAdminValidation, deleteOneOrder);
 
 //UPDATE one order
-router.patch('/orders/:id', idValidation, userValidation, userOrderValidation, updateOneOrder);
+// eslint-disable-next-line max-len
+router.patch('/orders/:id', idValidation, userValidation, orderValidation, orderAdminValidation, updateOneOrder);
 
 //GET all users with ADMIN account
 router.get('/users', userValidation, userAdminValidation, getAllUsers);
