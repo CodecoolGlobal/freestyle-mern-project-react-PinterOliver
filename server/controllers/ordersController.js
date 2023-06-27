@@ -51,9 +51,9 @@ const orderProcessing = async (orderItems, order, newState) => {
   let oldItems = [];
   if (order.state !== 'cart') {
     const oldOrderItems = await OrderItem.find({order: order._id});
-    oldItems = await Promise.all(oldOrderItems.map(async (item) => {
-      const storedItem = await StoredItem.findOne({item: item.book._id});
-      storedItem.amount += item.amount;
+    oldItems = await Promise.all(oldOrderItems.map(async (oldOrder) => {
+      const storedItem = await StoredItem.findOne({item: oldOrder.item});
+      storedItem.amount += oldOrder.amount;
       return await storedItem.save();
     }));
   }
@@ -116,12 +116,18 @@ const updateOneOrder = async (req, res) => {
     const order = req.order;
     let newState = req.body.newState;
     if (!newState) newState = order.state;
-    const {newOrderItems, total} =
-      await orderProcessing(orderItems, order, newState);
+    let newOrderItems = [];
+    if (orderItems) {
+      const responseItem =
+        await orderProcessing(orderItems, order, newState);
+      order.totalPrice = responseItem.total;
+      newOrderItems = responseItem.newOrderItems;
+    }
     if (newState) order.state = newState;
-    order.totalPrice = total;
     const savedOrder = await order.save();
-    savedOrder.items = newOrderItems;
+    if (orderItems) {
+      savedOrder.items = newOrderItems;
+    }
     res.status(202).json(savedOrder);
   } catch (error) {
     res.status(400).json({error: error.message});
