@@ -8,15 +8,17 @@ const StoredItem = require('../model/StoredItem.js');
 // GET all orders
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await OrderHeader.find({}).sort({createdAt: -1});
+    const search = req.search;
+    const orders = await OrderHeader.find(search).sort({createdAt: -1});
     const orderItems = await OrderItem.find({});
-    orders.forEach((order) => {
+    await Promise.all(orders.map(async (order) => {
       order.items = orderItems.filter((item) => item.order === order._id);
-      order.items.forEach(async (item) => {
+      return await Promise.all(order.items.map(async (item) => {
         const book = await Book.findById(item.item);
         item.book = book;
-      });
-    });
+        return book;
+      }));
+    }));
     res.status(200).json({orders: orders});
   } catch (error) {
     res.status(400).json({error: error.message});
