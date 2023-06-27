@@ -38,8 +38,6 @@ const {
   userOrderValidation,
   bookValidation,
 } = require('../controllers/validation');
-
-
 //LOGIN page
 router.post('/login', login);
 
@@ -62,4 +60,32 @@ router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, bo
 //GET all orders
 router.get('/orders', userValidation, getAllOrders);
 
-export default router;
+//GET one order
+router.get('/orders/:id', idValidation, userValidation, getOneOrder);
+
+//CREATE a new order
+router.post('/orders', userValidation, addOneOrder);
+
+//DELETE one order
+router.delete('/orders/:id', idValidation, userValidation, userOrderValidation, deleteOneOrder);
+
+//UPDATE one order
+router.patch('/orders/:id', idValidation, userValidation, userOrderValidation, updateOneOrder);
+
+//GET all users with ADMIN account
+router.get('/users', idValidation, userValidation, userAdminValidation, getAllUsers);
+
+//GET one user
+router.get('/users/:id', idValidation, userValidation, getOneUser);
+
+//CREATE a new user (registration)
+router.post('/users', addOneUser);
+
+//DELETE one user
+router.delete('/users/:id', idValidation, userValidation, deleteOneUser);
+
+//UPDATE one user
+router.patch('/users/:id', idValidation, userValidation, updateOneUser);
+
+
+module.exports = router;
