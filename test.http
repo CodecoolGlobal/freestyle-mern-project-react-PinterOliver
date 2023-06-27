@@ -1,1 +1,13 @@
-GET http://localhost:8080/api/books
+POST http://localhost:8080/api/books
+Content-Type: application/json
+token: "649ac7d59584926a20c5c9a0"
+
+{
+  "title": "asd",
+  "author": "Shtrjttring",
+  "publishedYear": 2000,
+  "price": 2000,
+  "genres": ["fbdfb"],
+  "description": "Str,ik.i.hi.vichhredyhrhing",
+  "image_url": "url"
+}
