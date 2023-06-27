@@ -72,6 +72,7 @@ async function populateRoles() {
       canViewItems: true,
       canModifyItems: true,
       canViewAllOrders: true,
+      canViewAllUsers: true,
       canAccessStorage: true,
     },
   ];
