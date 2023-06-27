@@ -27,21 +27,18 @@ const getOneUser = async (req, res) => {
 
 //CREATE a new user (registration)
 const addOneUser = async (req, res) => {
-  try {
-    if (User.findOne({userName: req.body.userName})) {
-      return res.status(403).json({error: 'There is already a User with this Username'});
+    try {
+      if (User.findOne({userName: req.body.userName})) {
+        return res.status(403).json({error: 'There is already a User with this Username'});
+      }
+      if (User.findOne({email: req.body.email})) {
+        return res.status(403).json({error: 'This email address is already used'});
+      }
+      const newUser = await User.create(req.body);
+      res.status(201).json(newUser);
+    } catch (error) {
+      res.status(400).json({error: error.message});
     }
-    if (User.findOne({password: req.body.password})) {
-      return res.status(403).json({error: 'This password has already been used by a Username'});
-    }
-    if (User.findOne({email: req.body.email})) {
-      return res.status(403).json({error: 'This email address is already used'});
-    }
-    const newUser = await User.create(req.body);
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(400).json({error: error.message});
-  }
 };
 
 //DELETE one user
