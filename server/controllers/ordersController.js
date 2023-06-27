@@ -66,7 +66,7 @@ const orderProcessing = async (orderItems, order, newState) => {
       }
       storedItem.amount -= item.amount;
     }
-    storedItem.save();
+    await storedItem.save();
     const isExist = oldItems.find((oldItem) => oldItem.item === item.book._id);
     if (canPriceChange || !isExist || item.amount > isExist.amount) {
       item.bookPrice = item.book.price;
@@ -86,7 +86,11 @@ const orderProcessing = async (orderItems, order, newState) => {
     }
     return orderItem;
   }));
-  return {newOrderItems: newOrderItems, total: total};
+  const deletedOrderItems = await Promise.all(
+    newOrderItems.filter((newOrder) => !newOrder.amount).map(async (item) => {
+      return await OrderItem.findByIdAndDelete(item._id);
+    }));
+  return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
 };
 
 //CREATE a new order
@@ -116,18 +120,21 @@ const updateOneOrder = async (req, res) => {
     const order = req.order;
     let newState = req.body.newState;
     if (!newState) newState = order.state;
-    let newOrderItems = [];
+    let newOrderItems;
+    let deletedOrderItems;
     if (orderItems) {
       const responseItem =
         await orderProcessing(orderItems, order, newState);
       order.totalPrice = responseItem.total;
       newOrderItems = responseItem.newOrderItems;
+      deletedOrderItems = responseItem.deletedOrderItems;
     }
     if (newState) order.state = newState;
     const savedOrder = await order.save();
     if (orderItems) {
       savedOrder.items = newOrderItems;
     }
+    savedOrder.deletedOrderItems = deletedOrderItems;
     res.status(202).json(savedOrder);
   } catch (error) {
     res.status(400).json({error: error.message});
@@ -147,10 +154,30 @@ const deleteOneOrder = async (req, res) => {
   }
 };
 
+const getCartOrder = async (req, res) => {
+  const user = req.user;
+  try {
+    const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
+    if (!order) {
+      return res.status(204).json({message: 'Cart is empty'});
+    }
+    const orderItems = await OrderItem.find({order: user._id});
+    order.items = orderItems;
+    order.items.forEach(async (item) => {
+      const book = await Book.findById(item.item);
+      item.book = book;
+    });
+    res.status(200).json({message: 'User has a cart', order: order});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+};
+
 module.exports = {
   getAllOrders,
   getOneOrder,
   addOneOrder,
   deleteOneOrder,
   updateOneOrder,
+  getCartOrder,
 };
