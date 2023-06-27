@@ -50,10 +50,10 @@ const orderValidation = async (req, res, next) => {
   const user = req.user;
   const isExist = await OrderHeader.findOne({user: user._id});
   if (isExist && req.headers.method === 'POST') {
-    return res.status(405).json({success: false, rightMethod: 'PATCH'});
+    return res.status(405).json({rightMethod: 'PATCH'});
   }
   if (!isExist && req.headers.method === 'PATCH') {
-    return res.status(405).json({success: false, rightMethod: 'POST'});
+    return res.status(405).json({rightMethod: 'POST'});
   }
   req.order = isExist;
   next();
@@ -64,14 +64,12 @@ const bookValidation = async (req, res, next) => {
   if (isExist && req.headers.method === 'POST') {
     return res.status(405).json({
       error: 'There is already a book with this title',
-      success: false,
       rightMethod: 'PATCH',
     });
   }
   if (!isExist && req.headers.method === 'PATCH') {
     return res.status(405).json({
       error: 'There is no book with this title',
-      success: false,
       rightMethod: 'POST',
     });
   }
