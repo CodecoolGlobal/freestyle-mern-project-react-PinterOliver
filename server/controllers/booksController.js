@@ -36,7 +36,6 @@ const getOneBook = async (req, res) => {
 //ADD one new book with ADMIN account
 const addOneBook = async (req, res) => {
   try {
-    
     const newBook = await Book.create(req.body);
     res.status(201).json(newBook);
   } catch (error) {
