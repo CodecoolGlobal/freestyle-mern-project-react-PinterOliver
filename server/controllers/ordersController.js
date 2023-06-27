@@ -114,13 +114,17 @@ const updateOneOrder = async (req, res) => {
   try {
     const orderItems = req.body.items;
     const order = req.order;
-    const newState = req.body.newState;
-    const {newOrderItems, total} =
-      await orderProcessing(orderItems, order, newState);
+    const newState = req.body.newState; 
+    if (orderItems) {
+      const {newOrderItems, total} =
+        await orderProcessing(orderItems, order, newState);
+        order.totalPrice = total;
+    }
     if (newState) order.state = newState;
-    order.totalPrice = total;
     const savedOrder = await order.save();
-    savedOrder.items = newOrderItems;
+    if (orderItems) {
+      savedOrder.items = newOrderItems;
+    }
     res.status(202).json(savedOrder);
   } catch (error) {
     res.status(400).json({error: error.message});
