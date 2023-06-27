@@ -35,6 +35,7 @@ const {
   userValidation,
   bookAdminValidation,
   userAdminValidation,
+  userOrderValidation,
 } = require('../controllers/validation');
 
 
@@ -66,10 +67,10 @@ router.get('/orders/:id', idValidation, userValidation, getOneOrder);
 router.post('/orders', userValidation, addOneOrder);
 
 //DELETE one order
-router.delete('/orders/:id', idValidation, deleteOneOrder);
+router.delete('/orders/:id', idValidation, userValidation, userOrderValidation, deleteOneOrder);
 
 //UPDATE one order
-router.patch('/orders/:id', idValidation, userValidation, updateOneOrder);
+router.patch('/orders/:id', idValidation, userValidation, userOrderValidation, updateOneOrder);
 
 //GET all users with ADMIN account
 router.get('/users', idValidation, userValidation, userAdminValidation, getAllUsers);

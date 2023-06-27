@@ -56,10 +56,22 @@ const orderValidation = async (res, req, next) => {
   next();
 };
 
+const userOrderValidation = async (res, req, next) => {
+  const id = req.params.id;
+  const user = req.user;
+  const order = await OrderHeader.findById(id);
+  if (order.user !== user._id) {
+    return res.status(401).json({error: 'You have no right to access'});
+  }
+  req.order = order;
+  next();
+}
+
 module.exports = {
   idValidation,
   userValidation,
   bookAdminValidation,
   userAdminValidation,
   orderValidation,
+  userOrderValidation,
 };

@@ -128,12 +128,12 @@ const updateOneOrder = async (req, res) => {
 };
 
 // DELETE an order
-// not working yet - Oliver is working on it
 const deleteOneOrder = async (req, res) => {
   try {
-    const order = req.order;
-    const deletedOrder = await order.remove();
-    res.status(200).json(deletedOrder);
+    const deletedOrder = await OrderHeader.findByIdAndDelete(id);
+    const deletedItems = await OrderItem.deleteMany({order: id});
+    deletedOrder.items = deletedItems;
+    res.status(202).json(deletedOrder);
   } catch (error) {
     res.status(400).json({error: error.message});
   }
