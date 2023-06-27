@@ -36,9 +36,7 @@ const getOneBook = async (req, res) => {
 //ADD one new book with ADMIN account
 const addOneBook = async (req, res) => {
   try {
-    if (Book.findOne({title: req.body.title})) {
-      return res.status(403).json({error: 'There is already a book with this title'});
-    }
+    
     const newBook = await Book.create(req.body);
     res.status(201).json(newBook);
   } catch (error) {

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Role = require('../model/Role.js');
 const User = require('../model/User.js');
 const OrderHeader = require('../model/OrderHeader.js');
+const Book = require('../model/Book');
 
 // Mongoose validation
 
@@ -56,6 +57,26 @@ const orderValidation = async (res, req, next) => {
   next();
 };
 
+const bookValidation = async (res, req, next) => {
+  const isExist = await Book.findOne({title: req.body.title});
+  if (isExist && req.header.method === 'POST') {
+    return res.status(405).json({
+      error: 'There is already a book with this title',
+      success: false,
+      rightMethod: 'PATCH',
+    });
+  }
+  if (!isExist && req.header.method === 'PATCH') {
+    return res.status(405).json({
+      error: 'There is no book with this title',
+      success: false,
+      rightMethod: 'POST',
+    });
+  }
+  req.book = isExist;
+  next();
+};
+
 const userOrderValidation = async (res, req, next) => {
   const id = req.params.id;
   const user = req.user;
@@ -74,4 +95,5 @@ module.exports = {
   userAdminValidation,
   orderValidation,
   userOrderValidation,
+  bookValidation,
 };

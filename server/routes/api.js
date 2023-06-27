@@ -36,6 +36,7 @@ const {
   bookAdminValidation,
   userAdminValidation,
   userOrderValidation,
+  bookValidation,
 } = require('../controllers/validation');
 
 
@@ -49,13 +50,14 @@ router.get('/books', getAllBooks);
 router.get('/books/:id', idValidation, getOneBook);
 
 //Add new BOOK with ADMIN account
-router.post('/books', userValidation, bookAdminValidation, addOneBook);
+router.post('/books', userValidation, bookAdminValidation, bookValidation, addOneBook);
 
 //DELETE a book with ADMIN account
 router.delete('/books', idValidation, userValidation, bookAdminValidation, deleteOneBook);
 
 //UPDATE a book with ADMIN account
-router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, updateOneBook);
+// eslint-disable-next-line max-len
+router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
 
 //GET all orders
 router.get('/orders', userValidation, getAllOrders);
