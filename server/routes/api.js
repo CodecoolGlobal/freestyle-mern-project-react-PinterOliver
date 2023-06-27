@@ -38,7 +38,9 @@ const {
   userAdminValidation,
   userOrderValidation,
   bookValidation,
+  userDataValidation,
 } = require('../controllers/validation');
+
 //LOGIN page
 router.post('/login', login);
 
@@ -83,13 +85,12 @@ router.get('/users', userValidation, userAdminValidation, getAllUsers);
 router.get('/users/:id', idValidation, userValidation, getOneUser);
 
 //CREATE a new user (registration)
-router.post('/users', addOneUser);
+router.post('/users', userDataValidation, addOneUser);
 
 //DELETE one user
 router.delete('/users/:id', idValidation, userValidation, deleteOneUser);
 
 //UPDATE one user
-router.patch('/users/:id', idValidation, userValidation, updateOneUser);
-
+router.patch('/users/:id', idValidation, userValidation, userDataValidation, updateOneUser);
 
 module.exports = router;

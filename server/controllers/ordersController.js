@@ -17,7 +17,7 @@ const getAllOrders = async (req, res) => {
         item.book = book;
       });
     });
-    res.status(200).json(orders);
+    res.status(200).json({orders: orders});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -37,7 +37,7 @@ const getOneOrder = async (req, res) => {
       const book = await Book.findById(item.item);
       item.book = book;
     });
-    res.status(200).json(order);
+    res.status(200).json({order: order});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -107,7 +107,7 @@ const addOneOrder = async (req, res) => {
     newOrder.totalPrice = total;
     newOrder = await newOrder.save();
     newOrder.items = newOrderItems;
-    res.status(201).json(newOrder);
+    res.status(201).json({order: newOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -135,7 +135,7 @@ const updateOneOrder = async (req, res) => {
       savedOrder.items = newOrderItems;
     }
     savedOrder.deletedOrderItems = deletedOrderItems;
-    res.status(202).json(savedOrder);
+    res.status(202).json({order: savedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -148,7 +148,7 @@ const deleteOneOrder = async (req, res) => {
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
     const deletedItems = await OrderItem.deleteMany({order: id});
     deletedOrder.items = deletedItems;
-    res.status(202).json(deletedOrder);
+    res.status(202).json({order: deletedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

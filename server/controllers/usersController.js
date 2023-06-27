@@ -4,22 +4,18 @@ const User = require('../model/User');
 // GET all users
 const getAllUsers = async (req, res) => {
   try {
-    const user = await User.find({}).sort({userName: -1});
-    res.status(200).json(user);
+    const users = await User.find({}).sort({userName: -1});
+    res.status(200).json({users: users});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 };
 
 //GET one user
-const getOneUser = async (req, res) => {
-  const { id } = req.params;
+const getOneUser = (req, res) => {
   try {
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).json({error: 'No such User'});
-    }
-    res.status(200).json(user);
+    const user = req.user;
+    res.status(200).json({user: user});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -28,30 +24,22 @@ const getOneUser = async (req, res) => {
 //CREATE a new user (registration)
 const addOneUser = async (req, res) => {
   try {
-    const userName = await User.findOne({userName: req.body.userName});
-      if (userName) {
-        return res.status(403).json({error: 'There is already a User with this Username'});
-      }
-      const userEmail = await User.findOne({email: req.body.email});
-      if (userEmail) {
-        return res.status(403).json({error: 'This email address is already used'});
-      }
-      const newUser = await User.create(req.body);
-      res.status(201).json(newUser);
-    } catch (error) {
-      res.status(400).json({error: error.message});
-    }
+    const newUser = await User.create(req.body);
+    res.status(201).json({user: newUser});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
 };
 
 //DELETE one user
 const deleteOneUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findOneAndDelete({_id: id});
+    const user = await User.findByIdAndDelete(id);
     if (!user) {
-      return res.status(404).json({error: 'No such User'});
+      return res.status(404).json({error: 'No such User exists to delete'});
     }
-    res.status(200).json(user);
+    res.status(200).json({user: user});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -61,13 +49,13 @@ const deleteOneUser = async (req, res) => {
 const updateOneUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findOneAndUpdate({_id: id}, {
+    const user = await User.findByIdAndUpdate(id, {
       ...req.body,
-    }, {returnDocument: "after"});
+    }, {returnDocument: 'after'});
     if (!user) {
-      return res.status(404).json({error: 'No such User'});
+      return res.status(404).json({error: 'No such User exists to update'});
     }
-    res.status(200).json(user);
+    res.status(200).json({user: user});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

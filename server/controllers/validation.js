@@ -50,10 +50,10 @@ const orderValidation = async (req, res, next) => {
   const user = req.user;
   const isExist = await OrderHeader.findOne({user: user._id});
   if (isExist && req.headers.method === 'POST') {
-    return res.status(405).json({success: false, rightMethod: 'PATCH'});
+    return res.status(405).json({rightMethod: 'PATCH'});
   }
   if (!isExist && req.headers.method === 'PATCH') {
-    return res.status(405).json({success: false, rightMethod: 'POST'});
+    return res.status(405).json({rightMethod: 'POST'});
   }
   req.order = isExist;
   next();
@@ -64,14 +64,12 @@ const bookValidation = async (req, res, next) => {
   if (isExist && req.headers.method === 'POST') {
     return res.status(405).json({
       error: 'There is already a book with this title',
-      success: false,
       rightMethod: 'PATCH',
     });
   }
   if (!isExist && req.headers.method === 'PATCH') {
     return res.status(405).json({
       error: 'There is no book with this title',
-      success: false,
       rightMethod: 'POST',
     });
   }
@@ -94,6 +92,18 @@ const userOrderValidation = async (req, res, next) => {
   next();
 };
 
+const userDataValidation = async (req, res, next) => {
+  const userName = await User.findOne({userName: req.body.userName});
+  if (userName) {
+    return res.status(403).json({error: 'There is already a User with this Username'});
+  }
+  const userEmail = await User.findOne({email: req.body.email});
+  if (userEmail) {
+    return res.status(403).json({error: 'This email address is already used'});
+  }
+  next();
+};
+
 module.exports = {
   idValidation,
   userValidation,
@@ -102,4 +112,5 @@ module.exports = {
   orderValidation,
   userOrderValidation,
   bookValidation,
+  userDataValidation,
 };
