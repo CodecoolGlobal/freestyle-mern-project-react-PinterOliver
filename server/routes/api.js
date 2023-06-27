@@ -53,7 +53,7 @@ router.get('/books/:id', idValidation, getOneBook);
 router.post('/books', userValidation, bookAdminValidation, bookValidation, addOneBook);
 
 //DELETE a book with ADMIN account
-router.delete('/books', idValidation, userValidation, bookAdminValidation, deleteOneBook);
+router.delete('/books/:id', idValidation, userValidation, bookAdminValidation, deleteOneBook);
 
 //UPDATE a book with ADMIN account
 // eslint-disable-next-line max-len
