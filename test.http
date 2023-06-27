@@ -1,7 +1,26 @@
-DELETE http://localhost:8080/api/books/649acab55b46af49c71b45f7
+# DELETE http://localhost:8080/api/books/649acab55b46af49c71b45f7
+# Content-Type: application/json
+# token: 649ac7d59584926a20c5c9a0
+
+
+# POST http://localhost:8080/api/books/
+# Content-Type: application/json
+# token: 649ac7d59584926a20c5c9a0
+
+# {
+#   "title": "String",
+#   "author": "String",
+#   "publishedYear": 2000,
+#   "price": 500,
+#   "genres": ["String"],
+#   "description": "String",
+#   "image_url": "String"
+# }
+
+PATCH http://localhost:8080/api/books/649ad1a7df225071480be1a6
 Content-Type: application/json
 token: 649ac7d59584926a20c5c9a0
 
 {
-"er": "rrrr"
+   "price": 800000000
 }
