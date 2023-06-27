@@ -40,6 +40,7 @@ const {
   orderValidation,
   bookValidation,
   userDataValidation,
+  userUserValidation,
 } = require('../controllers/validation');
 
 //LOGIN page
@@ -85,15 +86,18 @@ router.patch('/orders/:id', idValidation, userValidation, orderAdminValidation, 
 router.get('/users', userValidation, userAdminValidation, getAllUsers);
 
 //GET one user
-router.get('/users/:id', idValidation, userValidation, getOneUser);
+// eslint-disable-next-line max-len
+router.get('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser);
 
 //CREATE a new user (registration)
 router.post('/users', userDataValidation, addOneUser);
 
 //DELETE one user
-router.delete('/users/:id', idValidation, userValidation, deleteOneUser);
+// eslint-disable-next-line max-len
+router.delete('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser);
 
 //UPDATE one user
-router.patch('/users/:id', idValidation, userValidation, userDataValidation, updateOneUser);
+// eslint-disable-next-line max-len
+router.patch('/users/:id', idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
 
 module.exports = router;

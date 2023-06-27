@@ -46,8 +46,12 @@ const orderAdminValidation = async (req, res, next) => {
 const userAdminValidation = async (req, res, next) => {
   const user = req.user;
   const role = await Role.findById(user.role);
-  if (!role.canViewAllUsers) {
-    return res.status(401).json({error: 'You have no right to access'});
+  if (role.canViewAllUsers) {
+    req.search = {};
+    req.isAdmin = true;
+  } else {
+    req.search = {_id: user._id};
+    req.isAdmin = false;
   }
   next();
 };
@@ -103,6 +107,18 @@ const userDataValidation = async (req, res, next) => {
   next();
 };
 
+const userUserValidation = async (req, res, next) => {
+  const { id } = req.params;
+  const token = req.headers.token;
+  const isAdmin = req.isAdmin;
+  const user = await User.findById(id);
+  if (!user || (!isAdmin && user.token !== token)) {
+    return res.status(400).json({error: 'Wrong ID'});
+  }
+  req.userData = user;
+  next();
+};
+
 module.exports = {
   idValidation,
   userValidation,
@@ -112,4 +128,5 @@ module.exports = {
   orderValidation,
   bookValidation,
   userDataValidation,
+  userUserValidation,
 };
