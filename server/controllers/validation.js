@@ -39,7 +39,7 @@ const orderAdminValidation = async (req, res, next) => {
   const user = req.user;
   const role = await Role.findById(user.role);
   if (role.canViewAllOrders) req.search = {};
-  else req.search = {_id: user._id};
+  else req.search = {user: user._id};
   next();
 };
 
@@ -53,14 +53,12 @@ const userAdminValidation = async (req, res, next) => {
 };
 
 const orderValidation = async (req, res, next) => {
-  console.log(req.headers.method);
+  const search = req.search;
   const id = req.params.id;
-  const order = await OrderHeader.findById(id);
-  for (const key in req.headers) {
-    console.log(`${key}: ${req.headers[key]}`);
-  }
+  search._id = id;
+  const order = await OrderHeader.findOne(search);
   if (!order) {
-    switch (req.headers.method) {
+    switch (req.method) {
     case 'PATCH':
       return res.status(405).json({rightMethod: 'POST'});
     case 'DELETE':
@@ -77,13 +75,13 @@ const orderValidation = async (req, res, next) => {
 
 const bookValidation = async (req, res, next) => {
   const isExist = await Book.findOne({title: req.body.title});
-  if (isExist && req.headers.method === 'POST') {
+  if (isExist && req.method === 'POST') {
     return res.status(405).json({
       error: 'There is already a book with this title',
       rightMethod: 'PATCH',
     });
   }
-  if (!isExist && req.headers.method === 'PATCH') {
+  if (!isExist && req.method === 'PATCH') {
     return res.status(405).json({
       error: 'There is no book with this title',
       rightMethod: 'POST',

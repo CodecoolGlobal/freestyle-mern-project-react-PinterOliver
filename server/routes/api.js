@@ -75,11 +75,11 @@ router.post('/orders', userValidation, orderAdminValidation, addOneOrder);
 
 //DELETE one order
 // eslint-disable-next-line max-len
-router.delete('/orders/:id', idValidation, userValidation, orderValidation, orderAdminValidation, deleteOneOrder);
+router.delete('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrder);
 
 //UPDATE one order
 // eslint-disable-next-line max-len
-router.patch('/orders/:id', idValidation, userValidation, orderValidation, orderAdminValidation, updateOneOrder);
+router.patch('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrder);
 
 //GET all users with ADMIN account
 router.get('/users', userValidation, userAdminValidation, getAllUsers);

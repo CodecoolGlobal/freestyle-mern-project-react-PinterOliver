@@ -27,11 +27,13 @@ const getAllOrders = async (req, res) => {
 
 // GET one order
 const getOneOrder = async (req, res) => {
-  const { id } = req.params;
   try {
-    const order = await OrderHeader.findById(id);
+    const search = req.search;
+    const { id } = req.params;
+    search._id = id;
+    const order = await OrderHeader.findOne(search);
     if (!order) {
-      return res.status(404).json({error: 'No such order'});
+      return res.status(404).json({error: 'You don\'t have such order'});
     }
     const orderItems = await OrderItem.find({order: id});
     order.items = orderItems;
@@ -157,8 +159,8 @@ const deleteOneOrder = async (req, res) => {
 };
 
 const getCartOrder = async (req, res) => {
-  const user = req.user;
   try {
+    const user = req.user;
     const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
     if (!order) {
       return res.status(204).json({message: 'Cart is empty'});
