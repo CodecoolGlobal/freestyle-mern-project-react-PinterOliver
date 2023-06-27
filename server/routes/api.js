@@ -18,6 +18,7 @@ const {
   addOneOrder,
   deleteOneOrder,
   updateOneOrder,
+  getCartOrder,
 } = require('../controllers/ordersController');
 
 const {
@@ -59,6 +60,9 @@ router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, bo
 
 //GET all orders
 router.get('/orders', userValidation, getAllOrders);
+
+//GET cart order
+router.get('/orders/cart', userValidation, getCartOrder);
 
 //GET one order
 router.get('/orders/:id', idValidation, userValidation, getOneOrder);
