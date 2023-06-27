@@ -73,7 +73,7 @@ router.delete('/orders/:id', idValidation, userValidation, userOrderValidation, 
 router.patch('/orders/:id', idValidation, userValidation, userOrderValidation, updateOneOrder);
 
 //GET all users with ADMIN account
-router.get('/users', idValidation, userValidation, userAdminValidation, getAllUsers);
+router.get('/users', userValidation, userAdminValidation, getAllUsers);
 
 //GET one user
 router.get('/users/:id', idValidation, userValidation, getOneUser);

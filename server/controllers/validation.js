@@ -28,7 +28,7 @@ const userValidation = async (req, res, next) => {
 
 const bookAdminValidation = async (req, res, next) => {
   const user = req.user;
-  const role = await Role.findById({_id: user.role});
+  const role = await Role.findById(user.role);
   console.log(role);
   if (!role.canModifyItems) {
     return res.status(401).json({error: 'You have no right to access'});
@@ -38,7 +38,8 @@ const bookAdminValidation = async (req, res, next) => {
 
 const userAdminValidation = async (req, res, next) => {
   const user = req.user;
-  const role = await Role.findOne({name: user.role});
+  const role = await Role.findById(user.role);
+  console.log(role);
   if (!role.canViewAllUsers) {
     return res.status(401).json({error: 'You have no right to access'});
   }
