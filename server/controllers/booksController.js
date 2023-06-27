@@ -62,8 +62,9 @@ const deleteOneBook = async (req, res) => {
 const updateOneBook = async (req, res) => {
   const { id } = req.params;
   try {
-    const book = await Book.findById(id);
-    const updatedBook = await book.save();
+    const book = await Book.findOneAndUpdate({_id: id}, {
+      ...req.body,
+    }, {returnDocument: "after"});
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
