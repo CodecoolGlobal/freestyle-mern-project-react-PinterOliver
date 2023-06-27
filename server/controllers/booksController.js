@@ -10,6 +10,7 @@ const getAllBooks = async (req, res) => {
     const fullBooks = await Promise.all(books.map(async (book) => {
       const amount = await StoredItem.find({item: book._id});
       book.amount = amount;
+      return book;
     }));
     res.status(200).json({books: fullBooks});
   } catch (error) {
