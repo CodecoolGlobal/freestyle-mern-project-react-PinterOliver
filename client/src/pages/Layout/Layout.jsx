@@ -10,7 +10,7 @@ function Layout() {
           <li>
             <img src="/logo.png" alt="main logo"></img>
           </li>
-          <li>Books</li>
+          <li className="grow">Books</li>
           <li>Cart</li>
         </ul>
       </nav>

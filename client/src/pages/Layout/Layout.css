@@ -24,3 +24,11 @@
   height: 100px;
   width: 100px;
 }
+
+.Layout li {
+  margin: 0px 10px;
+}
+
+.grow {
+  flex: 1;
+}
