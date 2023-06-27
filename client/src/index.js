@@ -4,11 +4,16 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Layout from './pages/Layout';
+import BookPage from './pages/BookPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    children: [{
+      path: 'books',
+      element: <BookPage />,
+    }],
   },
 ]);
 
