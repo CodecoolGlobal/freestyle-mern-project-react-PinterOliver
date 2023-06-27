@@ -58,15 +58,15 @@ const orderProcessing = async (orderItems, order, newState) => {
     }));
   }
   const newOrderItems = await Promise.all(orderItems.map(async (item) => {
+    const storedItem = await StoredItem.findOne({item: item.book._id});
     if (newState !== 'cart') {
-      const storedItem = await StoredItem.findOne({item: item.book._id});
       if (storedItem.amount < item.amount) {
         item.amount = storedItem.amount;
         console.log('Not enough books');
       }
       storedItem.amount -= item.amount;
-      storedItem.save();
     }
+    storedItem.save();
     const isExist = oldItems.find((oldItem) => oldItem.item === item.book._id);
     if (canPriceChange || !isExist || item.amount > isExist.amount) {
       item.bookPrice = item.book.price;
@@ -114,7 +114,8 @@ const updateOneOrder = async (req, res) => {
   try {
     const orderItems = req.body.items;
     const order = req.order;
-    const newState = req.body.newState;
+    let newState = req.body.newState;
+    if (!newState) newState = order.state;
     const {newOrderItems, total} =
       await orderProcessing(orderItems, order, newState);
     if (newState) order.state = newState;
