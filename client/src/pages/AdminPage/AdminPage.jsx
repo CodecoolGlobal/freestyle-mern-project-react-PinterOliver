@@ -11,7 +11,9 @@ function AdminPage() {
             <li>
               <Link to="books">Books</Link>
             </li>
-            <li>Orders</li>
+            <li>
+              <Link to="orders">Orders</Link>
+            </li>
             <li>
               <Link to="users">Users</Link>
             </li>

@@ -1,3 +1,3 @@
-import AdminBookList from './AdminBookList';
+import AdminOrderList from './AdminOrderList';
 
-export default AdminBookList;
+export default AdminOrderList;

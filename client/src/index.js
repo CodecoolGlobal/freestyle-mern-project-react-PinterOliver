@@ -12,6 +12,7 @@ import AdminBookList from './pages/AdminBookList';
 import AdminUserList from './pages/AdminUserList';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import AdminOrderList from './pages/AdminOrderList';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
           {
             path: 'users',
             element: <AdminUserList />,
+          },
+          {
+            path: 'orders',
+            element: <AdminOrderList />,
           },
         ],
       },

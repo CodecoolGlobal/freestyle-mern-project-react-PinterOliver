@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AdminOrderList.css';
-import OrdersTable from '../../components/OrdersTable';
 import Loading from '../../components/Loading';
+import OrdersTable from '../../components/OrdersTable';
 
 function AdminOrderList() {
   const [loading, setLoading] = useState(true);
@@ -9,9 +9,11 @@ function AdminOrderList() {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch('/api/orders');
+      const response = await fetch('/api/orders', {headers: {
+        token: localStorage.getItem('token')
+      }});
       const jsonData = await response.json();
-      setOrderList(jsonData.orders);
+      setOrderList(jsonData.users ?? []);
       setLoading(false);
     };
     fetchOrders();
