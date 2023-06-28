@@ -1,0 +1,13 @@
+.sidebarContainer {
+  left: 0;
+  border-right: 5px solid black;
+  width: 10%;
+  box-sizing: border-box;
+}
+
+.pageContent {
+  left: 10%;
+  width: 90%;
+  box-sizing: border-box;
+  overflow: scroll;
+}
