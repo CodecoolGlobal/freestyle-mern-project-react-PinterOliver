@@ -4,11 +4,17 @@ const Book = require('../model/Book.js');
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
 const StoredItem = require('../model/StoredItem.js');
+const { arraySearch } = require('./filterAndSort.js');
 
 // GET all orders
 const getAllOrders = async (req, res) => {
   try {
-    const search = req.search;
+    const { state } = req.query;
+    let search = req.search;
+    if (state) {
+      const stateArray = state.split(',');
+      search = arraySearch(search, 'state', stateArray);
+    }  
     const orders = await OrderHeader.find(search).sort({createdAt: -1});
     const orderItems = await OrderItem.find({});
     await Promise.all(orders.map(async (order) => {
