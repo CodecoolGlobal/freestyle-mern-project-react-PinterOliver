@@ -6,6 +6,9 @@ const numberSearch = (search, key, number, type) => {
 }
 
 const stringSearch = (search, key, string) => {
+    search[key] = {};
+    search[key]["$regex"] = string;
+    search[key]["$options"] = "i";
     console.log(search);
     return search
 }
