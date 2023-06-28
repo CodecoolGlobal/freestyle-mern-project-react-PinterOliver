@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import Layout from './pages/Layout';
 import AdminPage from './pages/AdminPage';
+import AdminBookList from './pages/AdminBookList';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,12 @@ const router = createBrowserRouter([
       {
         path: 'admin',
         element: <AdminPage />,
+        children: [
+          {
+            path: 'books',
+            element: <AdminBookList />,
+          },
+        ],
       },
     ],
   },

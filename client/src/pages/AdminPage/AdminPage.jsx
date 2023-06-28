@@ -1,6 +1,6 @@
 import React from 'react';
 import './AdminPage.css';
-import { Outlet } from 'react-router';
+import { Outlet, Link } from 'react-router-dom';
 
 function AdminPage() {
   return (
@@ -8,7 +8,9 @@ function AdminPage() {
       <div className="sidebarContainer">
         <nav className="side-menu">
           <ul>
-            <li>Books</li>
+            <li>
+              <Link to="books">Books</Link>
+            </li>
             <li>Orders</li>
             <li>Users</li>
           </ul>

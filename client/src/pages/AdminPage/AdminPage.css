@@ -10,7 +10,6 @@
 .pageContent {
   position: relative;
   left: 10%;
-  border: 5px solid yellowgreen;
   width: 90%;
   box-sizing: border-box;
 }
