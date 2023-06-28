@@ -14,6 +14,13 @@ const {
 } = require('../controllers/booksController');
 
 const {
+  getAllStoredItems,
+  getOneStoredItem,
+  deleteOneStoredItem,
+  updateOneStoredItem,
+} = require('../controllers/storedItemsController');
+
+const {
   getAllOrderHeaders,
   getOneOrderHeader,
   addOneOrderHeader,
@@ -53,12 +60,14 @@ const {
   idValidation,
   userValidation,
   bookAdminValidation,
+  storedItemAdminValidation,
   orderAdminValidation,
   userAdminValidation,
   roleAdminValidation,
   orderHeaderValidation,
   orderItemValidation,
   bookValidation,
+  storedItemValidation,
   userDataValidation,
   userIdValidation,
   roleDataValidation,
@@ -74,6 +83,14 @@ router.route('/books/:id')
   .get(idValidation, getOneBook)
   .delete(idValidation, userValidation, bookAdminValidation, deleteOneBook)
   .patch(idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
+
+router.route('/storeditems')
+  .get(getAllStoredItems);
+
+router.route('/storeditems/books/:id')
+  .get(idValidation, getOneStoredItem)
+  .delete(idValidation, userValidation, storedItemAdminValidation, deleteOneStoredItem)
+  .patch(idValidation, userValidation, storedItemAdminValidation, storedItemValidation, updateOneStoredItem);
 
 router.route('/orderheaders')
   .get(userValidation, orderAdminValidation, getAllOrderHeaders)
