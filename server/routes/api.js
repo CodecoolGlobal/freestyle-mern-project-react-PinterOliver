@@ -88,8 +88,8 @@ router.route('/storeditems')
   .get(getAllStoredItems);
 
 router.route('/storeditems/books/:id')
-  .get(idValidation, getOneStoredItem)
-  .delete(idValidation, userValidation, storedItemAdminValidation, deleteOneStoredItem)
+  .get(idValidation, storedItemValidation, getOneStoredItem)
+  .delete(idValidation, userValidation, storedItemAdminValidation, storedItemValidation, deleteOneStoredItem)
   .patch(idValidation, userValidation, storedItemAdminValidation, storedItemValidation, updateOneStoredItem);
 
 router.route('/orderheaders')

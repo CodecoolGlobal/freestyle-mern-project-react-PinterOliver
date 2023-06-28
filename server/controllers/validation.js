@@ -6,6 +6,7 @@ const User = require('../model/User.js');
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
 const Book = require('../model/Book');
+const StoredItem = require('../model/StoredItem.js');
 
 // Mongoose validation
 
@@ -116,20 +117,32 @@ const orderItemValidation = async (req, res, next) => {
 };
 
 const bookValidation = async (req, res, next) => {
-  const isExist = await Book.findOne({title: req.body.title});
-  if (isExist && req.method === 'POST') {
-    return res.status(405).json({
-      error: 'There is already a book with this title',
-      rightMethod: 'PATCH',
-    });
+  if (req.body.title) {
+    const isExist = await Book.findOne({title: req.body.title});
+    if (isExist && req.method === 'POST') {
+      return res.status(405).json({
+        error: 'There is already a book with this title',
+        rightMethod: 'PATCH',
+      });
+    }
+    if (!isExist && req.method === 'PATCH') {
+      return res.status(405).json({
+        error: 'There is no book with this title',
+        rightMethod: 'POST',
+      });
+    }
+    req.book = isExist;
   }
-  if (!isExist && req.method === 'PATCH') {
-    return res.status(405).json({
-      error: 'There is no book with this title',
-      rightMethod: 'POST',
-    });
+  next();
+};
+
+const storedItemValidation = async (req, res, next) => {
+  const book = await Book.findOne({title: req.body.title}).populate('item');
+  if (!book) {
+    return res.status(404).json({error: 'There is no book with this title'});
   }
-  req.book = isExist;
+  const storedItem = await StoredItem.findOne({item: book._id}).populate('item');
+  req.storedItem = storedItem;
   next();
 };
 
@@ -169,12 +182,14 @@ module.exports = {
   idValidation,
   userValidation,
   bookAdminValidation,
+  storedItemAdminValidation,
   orderAdminValidation,
   userAdminValidation,
   roleAdminValidation,
   orderHeaderValidation,
   orderItemValidation,
   bookValidation,
+  storedItemValidation,
   userDataValidation,
   userIdValidation,
   roleDataValidation,
