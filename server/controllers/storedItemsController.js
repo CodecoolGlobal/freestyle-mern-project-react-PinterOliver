@@ -56,15 +56,21 @@ const getOneStoredItem = (req, res) => {
 
 //UPDATE one stored item
 const updateOneStoredItem = async (req, res) => {
-  const { id } = req.params;
   try {
-    const book = await Book.findOneAndUpdate({_id: id}, {
-      ...req.body,
-    }, {returnDocument: 'after'});
-    if (!book) {
-      return res.status(404).json({error: 'No such book'});
+    const storedItem = req.storedItem;
+    const { amount } = req.body;
+    if (typeof amount !== 'number') {
+      return res.status(400).json({error: 'Amount is not defined'});
     }
-    res.status(202).json({storeditem: book});
+    if (amount < 0) {
+      return res.status(405).json({
+        error: 'Amount cannot be less than zero',
+        rightMethod: 'DELETE',
+      });
+    }
+    storedItem.amount = amount;
+    const savedItem = await storedItem.save();
+    res.status(202).json({storeditem: savedItem});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

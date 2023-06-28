@@ -118,8 +118,11 @@ const updateOneOrderItem = async (req, res) => {
     if (typeof amount !== 'number') {
       return res.status(400).json({error: 'Amount is not defined'});
     }
-    if (!amount) {
-      return res.status(405).json({error: 'Amount cannot be zero', rightMethod: 'DELETE'});
+    if (amount <= 0) {
+      return res.status(405).json({
+        error: 'Amount cannot be less than or equal to zero',
+        rightMethod: 'DELETE',
+      });
     }
     let problem = 'No problem.';
     if (order.order.state !== 'cart') {
