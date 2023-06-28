@@ -34,6 +34,7 @@ const {
   getAllRoles,
   getOneRole,
   addOneRole,
+  deleteOneRole,
   updateOneRole,
 } = require('../controllers/rolesController');
 
@@ -91,7 +92,7 @@ router.route('/roles')
 
 router.route('/roles/:id')
   .get(idValidation, userValidation, roleAdminValidation, getOneRole)
-//   .delete(idValidation, userValidation, roleAdminValidation, deleteOneUser)
+  .delete(idValidation, userValidation, roleAdminValidation, deleteOneRole)
   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, updateOneRole);
 
 module.exports = router;

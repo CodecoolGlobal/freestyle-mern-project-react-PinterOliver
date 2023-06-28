@@ -32,18 +32,18 @@ const addOneRole = async (req, res) => {
     }
 };
 
-// //DELETE one ole
-// const deleteOneRole = async (req, res) => {
-//     try {
-//       const { id } = req.params;
-//       const user = await User.findByIdAndDelete(id);
-//       res.status(202).json({user: user});
-//     } catch (error) {
-//       res.status(400).json({error: error.message});
-//     }
-//   };
+//DELETE one role
+const deleteOneRole = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const role = await Role.findByIdAndDelete(id);
+      res.status(202).json({role: role});
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  };
 
-//UPDATE one user
+//UPDATE one role
 const updateOneRole = async (req, res) => {
     const { id } = req.params;
     try {
@@ -60,5 +60,6 @@ module.exports = {
   getAllRoles,
   getOneRole,
   addOneRole,
+  deleteOneRole,
   updateOneRole,
 };
