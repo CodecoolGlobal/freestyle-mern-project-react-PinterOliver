@@ -14,13 +14,22 @@ const {
 } = require('../controllers/booksController');
 
 const {
-  getAllOrders,
-  getOneOrder,
-  addOneOrder,
-  deleteOneOrder,
-  updateOneOrder,
-  getCartOrder,
-} = require('../controllers/ordersController');
+  getAllOrderHeaders,
+  getOneOrderHeader,
+  addOneOrderHeader,
+  deleteOneOrderHeader,
+  updateOneOrderHeader,
+  getCartOrderHeader,
+} = require('../controllers/orderHeadersController');
+
+const {
+  getAllOrderItems,
+  getOneOrderItem,
+  addOneOrderItem,
+  deleteOneOrderItem,
+  updateOneOrderItem,
+  getCartOrderItem,
+} = require('../controllers/orderItemsController');
 
 const {
   getAllUsers,
@@ -55,17 +64,29 @@ router.route('/books/:id')
   .delete(idValidation, userValidation, bookAdminValidation, deleteOneBook)
   .patch(idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
 
-router.route('/orders')
-  .get(userValidation, orderAdminValidation, getAllOrders)
-  .post(userValidation, orderAdminValidation, addOneOrder);
+router.route('/orderheaders')
+  .get(userValidation, orderAdminValidation, getAllOrderHeaders)
+  .post(userValidation, orderAdminValidation, addOneOrderHeader);
 
-router.route('/orders/cart')
-  .get(userValidation, orderAdminValidation, getCartOrder);
+router.route('/orderheaders/cart')
+  .get(userValidation, orderAdminValidation, getCartOrderHeader);
 
-router.route('/orders/:id')
-  .get(idValidation, userValidation, orderAdminValidation, getOneOrder)
-  .delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrder)
-  .patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrder);
+router.route('/orderheaders/:id')
+  .get(idValidation, userValidation, orderAdminValidation, getOneOrderHeader)
+  .delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrderHeader)
+  .patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrderHeader);
+
+router.route('/orderitems')
+  .get(userValidation, orderAdminValidation, getAllOrderItems)
+  .post(userValidation, orderAdminValidation, addOneOrderItem);
+
+router.route('/orderitems/cart')
+  .get(userValidation, orderAdminValidation, getCartOrderItem);
+
+router.route('/orderitems/:id')
+  .get(idValidation, userValidation, orderAdminValidation, getOneOrderItem)
+  .delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrderItem)
+  .patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrderItem);
 
 router.route('/users')
   .get(userValidation, userAdminValidation, getAllUsers)

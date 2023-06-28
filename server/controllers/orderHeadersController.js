@@ -7,14 +7,14 @@ const StoredItem = require('../model/StoredItem.js');
 const { arraySearch } = require('./filterAndSort.js');
 
 // GET all orders
-const getAllOrders = async (req, res) => {
+const getAllOrderHeaders = async (req, res) => {
   try {
     const { state } = req.query;
     let search = req.search;
     if (state) {
       const stateArray = state.split(',');
       search = arraySearch(search, 'state', stateArray);
-    }  
+    }
     const orders = await OrderHeader.find(search).sort({createdAt: -1});
     const orderItems = await OrderItem.find({});
     await Promise.all(orders.map(async (order) => {
@@ -32,7 +32,7 @@ const getAllOrders = async (req, res) => {
 };
 
 // GET one order
-const getOneOrder = async (req, res) => {
+const getOneOrderHeader = async (req, res) => {
   try {
     const search = req.search;
     const { id } = req.params;
@@ -104,7 +104,7 @@ const orderProcessing = async (orderItems, order, newState) => {
 };
 
 //CREATE a new order
-const addOneOrder = async (req, res) => {
+const addOneOrderHeader = async (req, res) => {
   try {
     const orderItems = req.body.items;
     const order = {};
@@ -124,7 +124,7 @@ const addOneOrder = async (req, res) => {
 };
 
 //UPDATE a new order
-const updateOneOrder = async (req, res) => {
+const updateOneOrderHeader = async (req, res) => {
   try {
     const orderItems = req.body.items;
     const order = req.order;
@@ -152,7 +152,7 @@ const updateOneOrder = async (req, res) => {
 };
 
 // DELETE an order
-const deleteOneOrder = async (req, res) => {
+const deleteOneOrderHeader = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
@@ -164,7 +164,7 @@ const deleteOneOrder = async (req, res) => {
   }
 };
 
-const getCartOrder = async (req, res) => {
+const getCartOrderHeader = async (req, res) => {
   try {
     const user = req.user;
     const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
@@ -184,10 +184,10 @@ const getCartOrder = async (req, res) => {
 };
 
 module.exports = {
-  getAllOrders,
-  getOneOrder,
-  addOneOrder,
-  deleteOneOrder,
-  updateOneOrder,
-  getCartOrder,
+  getAllOrderHeaders,
+  getOneOrderHeader,
+  addOneOrderHeader,
+  deleteOneOrderHeader,
+  updateOneOrderHeader,
+  getCartOrderHeader,
 };
