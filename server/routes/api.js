@@ -32,6 +32,7 @@ const {
 
 const {
   getAllRoles,
+  getOneRole
 } = require('../controllers/rolesController');
 
 const router = express.Router();
@@ -83,11 +84,11 @@ router.route('/users/:id')
 
 router.route('/roles')
   .get(userValidation, roleAdminValidation, getAllRoles)
-  .post(userDataValidation, addOneRole);
+  // .post(userDataValidation, addOneRole);
 
 router.route('/roles/:id')
-  .get(idValidation, userValidation, roleAdminValidation, userUserValidation, getOneUser)
-  .delete(idValidation, userValidation, roleAdminValidation, userUserValidation, deleteOneUser)
-  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
+  .get(idValidation, userValidation, roleAdminValidation, getOneRole)
+//   .delete(idValidation, userValidation, roleAdminValidation, deleteOneUser)
+//   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, updateOneUser);
 
 module.exports = router;
