@@ -80,7 +80,7 @@ router.route('/orderheaders')
   .post(userValidation, orderAdminValidation, addOneOrderHeader);
 
 router.route('/orderheaders/cart')
-  .get(userValidation, orderAdminValidation, getCartOrderHeader);
+  .get(userValidation, getCartOrderHeader);
 
 router.route('/orderheaders/:id')
   .get(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, getOneOrderHeader)

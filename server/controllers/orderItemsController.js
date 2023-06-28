@@ -44,7 +44,7 @@ const getOneOrderItem = (req, res) => {
 };
 
 // Calculate totalcost of order
-const restate = async (orderHeader) => {
+const updateHeader = async (orderHeader) => {
   const items = await OrderItem.find({order: orderHeader._id});
   const totalPrice = items.reduce((total, item) => total + item.price, 0);
   orderHeader.totalPrice = totalPrice;
@@ -102,7 +102,7 @@ const addOneOrderItem = async (req, res) => {
     } else order.amount = amount;
     order.price = order.amount * order.bookPrice;
     const newOrder = await OrderItem.create(order);
-    restate(orderHeader);
+    updateHeader(orderHeader);
     res.status(201).json({orderitem: newOrder, message: problem});
   } catch (error) {
     res.status(400).json({error: error.message});
@@ -142,7 +142,7 @@ const updateOneOrderItem = async (req, res) => {
     }
     order.amount = amount;
     const savedOrder = await order.save();
-    restate(order.order);
+    updateHeader(order.order);
     res.status(202).json({orderitem: savedOrder, message: problem});
   } catch (error) {
     res.status(400).json({error: error.message});
@@ -161,7 +161,7 @@ const deleteOneOrderItem = async (req, res) => {
       }
     }
     const deletedOrder = await OrderItem.findByIdAndDelete(id);
-    restate(order.order);
+    updateHeader(order.order);
     res.status(202).json({orderitem: deletedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});

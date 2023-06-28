@@ -98,25 +98,26 @@ const addOneOrderHeader = async (req, res) => {
 //UPDATE an orderHeader
 const updateOneOrderHeader = async (req, res) => {
   try {
-    const orderItems = req.body.items;
     const order = req.order;
-    let newState = req.body.newState;
-    if (!newState) newState = order.state;
-    let newOrderItems;
-    let deletedOrderItems;
-    if (orderItems) {
-      const responseItem =
-        await orderProcessing(orderItems, order, newState);
-      order.totalPrice = responseItem.total;
-      newOrderItems = responseItem.newOrderItems;
-      deletedOrderItems = responseItem.deletedOrderItems;
+    const newState = req.body.newstate;
+    if (!newState) {
+      return res.status(400).json({error: 'New state is not defined'});
     }
-    if (newState) order.state = newState;
+    const states = [
+      'cart',
+      'placed',
+      'order_confirmed',
+      'transferred_to_shipping',
+      'order_completed',
+    ];
+    if (!states.includes(newState)) {
+      return res.status(400).json({error: 'Invalid state'});
+    }
+    if ([order.state, newState].includes('cart')) {
+      await updateItems(order._id);
+    }
+    order.state = newState;
     const savedOrder = await order.save();
-    if (orderItems) {
-      savedOrder.items = newOrderItems;
-    }
-    savedOrder.deletedOrderItems = deletedOrderItems;
     res.status(202).json({orderheader: savedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
