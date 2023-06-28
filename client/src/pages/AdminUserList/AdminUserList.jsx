@@ -11,7 +11,7 @@ function AdminUserList() {
     const fetchUsers = async () => {
       const response = await fetch('/api/users');
       const jsonData = await response.json();
-      setUserList(jsonData.users);
+      setUserList(jsonData.users ?? []);
       setLoading(false);
     };
     fetchUsers();
