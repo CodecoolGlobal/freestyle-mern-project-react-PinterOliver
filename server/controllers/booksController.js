@@ -64,7 +64,11 @@ const getOneBook = async (req, res) => {
 const addOneBook = async (req, res) => {
   try {
     const newBook = await Book.create(req.body);
-    res.status(201).json({book: newBook});
+    const newStoredItem = await StoredItem.create({
+      item: newBook._id,
+      amount: 0,
+    });
+    res.status(201).json({book: newBook, storeditem: newStoredItem});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
