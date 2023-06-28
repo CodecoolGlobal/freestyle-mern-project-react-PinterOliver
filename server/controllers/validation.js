@@ -84,7 +84,10 @@ const orderItemValidation = async (req, res, next) => {
   const search = req.search;
   const id = req.params.id;
   search._id = id;
-  const order = await OrderItem.findOne(search).populate({path: 'order', model: OrderHeader});
+  const order = await OrderItem
+    .findOne(search)
+    .populate({path: 'order', model: OrderHeader})
+    .populate({path: 'item', model: Book});
   if (!order || !order.order) {
     switch (req.method) {
     case 'PATCH':

@@ -78,7 +78,7 @@ router.route('/orderheaders/:id')
   .patch(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, updateOneOrderHeader);
 
 router.route('/orderitems/orderheaders/:id')
-  .get(idValidation, userValidation, orderAdminValidation, getOneOrdersItems);
+  .get(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, getOneOrdersItems);
 
 router.route('/orderitems')
   .get(userValidation, orderAdminValidation, getAllOrderItems)

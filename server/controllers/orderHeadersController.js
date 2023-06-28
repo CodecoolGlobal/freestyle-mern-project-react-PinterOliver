@@ -22,15 +22,9 @@ const getAllOrderHeaders = async (req, res) => {
 };
 
 // GET one orderHeader
-const getOneOrderHeader = async (req, res) => {
+const getOneOrderHeader = (req, res) => {
   try {
-    const search = req.search;
-    const { id } = req.params;
-    search._id = id;
-    const order = await OrderHeader.findOne(search);
-    if (!order) {
-      return res.status(404).json({error: 'You don\'t have such order'});
-    }
+    const order = req.order;
     res.status(200).json({orderheader: order});
   } catch (error) {
     res.status(400).json({error: error.message});

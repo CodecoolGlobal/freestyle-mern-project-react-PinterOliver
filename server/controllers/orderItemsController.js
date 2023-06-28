@@ -38,17 +38,9 @@ const getOneOrdersItems = async (req, res) => {
 };
 
 // GET one orderItem
-const getOneOrderItem = async (req, res) => {
+const getOneOrderItem = (req, res) => {
   try {
-    const search = req.search;
-    const { id } = req.params;
-    search._id = id;
-    const order = await OrderItem.findOne(search);
-    if (!order) {
-      return res.status(404).json({error: 'You don\'t have such orderitem'});
-    }
-    const book = await Book.findById(order.item);
-    order.book = book;
+    const order = req.order;
     res.status(200).json({orderitem: order});
   } catch (error) {
     res.status(400).json({error: error.message});
