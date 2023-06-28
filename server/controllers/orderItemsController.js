@@ -43,56 +43,15 @@ const getOneOrderItem = (req, res) => {
   }
 };
 
-// Help to process orders
+// Calculate totalcost of order
 const restate = async (orderHeader) => {
-  let total = 0;
-  let canPriceChange = false;
-  if (order.state === 'cart') canPriceChange = true;
-  let oldItems = [];
-  if (order.state !== 'cart') {
-    const oldOrderItems = await OrderItem.find({order: order._id});
-    oldItems = await Promise.all(oldOrderItems.map(async (oldOrder) => {
-      const storedItem = await StoredItem.findOne({item: oldOrder.item});
-      storedItem.amount += oldOrder.amount;
-      return await storedItem.save();
-    }));
-  }
-  const newOrderItems = await Promise.all(orderItems.map(async (item) => {
-    const storedItem = await StoredItem.findOne({item: item.book._id});
-    if (newState !== 'cart') {
-      if (storedItem.amount < item.amount) {
-        item.amount = storedItem.amount;
-        console.log('Not enough books');
-      }
-      storedItem.amount -= item.amount;
-    }
-    await storedItem.save();
-    const isExist = oldItems.find((oldItem) => oldItem.item === item.book._id);
-    if (canPriceChange || !isExist || item.amount > isExist.amount) {
-      item.bookPrice = item.book.price;
-    }
-    item.price = item.amount * item.bookPrice;
-    total += item.price;
-    item.order = order._id;
-    item.item = item.book._id;
-    const orderedItem = await OrderItem.findOne({order: order._id, item: item.book._id});
-    let orderItem;
-    if (orderedItem) {
-      orderedItem.amount = item.amount;
-      orderedItem.price = item.price;
-      orderItem = await orderedItem.save();
-    } else {
-      orderItem = await OrderItem.create(item);
-    }
-    return orderItem;
-  }));
-  const deletedOrderItems = await Promise.all(
-    newOrderItems.filter((newOrder) => !newOrder.amount).map(async (item) => {
-      return await OrderItem.findByIdAndDelete(item._id);
-    }));
-  return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
+  const items = await OrderItem.find({order: orderHeader._id});
+  const totalPrice = items.reduce((total, item) => total + item.price, 0);
+  orderHeader.totalPrice = totalPrice;
+  await orderHeader.save();
 };
 
+// Put back books to shelves
 const putBack = async (bookid, amount) => {
   const item = await StoredItem.findOne({item: bookid});
   if (!item) {
@@ -103,6 +62,7 @@ const putBack = async (bookid, amount) => {
   return {success: true};
 };
 
+// Pull books from shelves
 const pullFrom = async (bookid, amount) => {
   const item = await StoredItem.findOne({item: bookid});
   if (!item) {
@@ -182,8 +142,7 @@ const updateOneOrderItem = async (req, res) => {
     }
     order.amount = amount;
     const savedOrder = await order.save();
-    const orderHeader = order.order;
-    restate(orderHeader);
+    restate(order.order);
     res.status(202).json({orderitem: savedOrder, message: problem});
   } catch (error) {
     res.status(400).json({error: error.message});
