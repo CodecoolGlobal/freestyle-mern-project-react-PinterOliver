@@ -59,6 +59,7 @@ const userAdminValidation = async (req, res, next) => {
 const roleAdminValidation = async (req, res, next) => {
   const user = req.user;
   const role = await Role.findById(user.role);
+  req.roleData = role;
   if (role.canModifyRoles) {
     req.search = {};
     req.isAdmin = true;

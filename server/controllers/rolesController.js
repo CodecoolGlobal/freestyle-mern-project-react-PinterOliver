@@ -13,15 +13,17 @@ const getAllRoles = async (req, res) => {
 };
 
 //GET one role
-// const getOneRole = (req, res) => {
-//     try {
-//       const role = req.userData;
-//       res.status(200).json({user: user});
-//     } catch (error) {
-//       res.status(400).json({error: error.message});
-//     }
-//   };
+const getOneRole = (req, res) => {
+    try {
+      const role = req.roleData;
+      res.status(200).json(role);
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+};
+
 
 module.exports = {
-    getAllRoles
+    getAllRoles,
+    getOneRole
   };
