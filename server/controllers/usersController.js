@@ -38,7 +38,12 @@ const getOneUser = (req, res) => {
 //CREATE a new user (registration)
 const addOneUser = async (req, res) => {
   try {
-    const newUser = await User.create(req.body);
+    const user = req.body;
+    if (!user.role) {
+      const role = await Role.findOne({name: 'User'});
+      user.role = role._id;
+    }
+    const newUser = await User.create(user);
     res.status(201).json({user: newUser});
   } catch (error) {
     res.status(400).json({error: error.message});

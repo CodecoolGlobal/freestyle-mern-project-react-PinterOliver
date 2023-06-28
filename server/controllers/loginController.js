@@ -10,7 +10,7 @@ const login = async (req, res) => {
       account.token = account._id.toString();
       const isSaved = await account.save();
       if (!isSaved) {
-        return res.status(500).json({ error: "Can't create token" });
+        return res.status(500).json({ error: 'Can\'t create token' });
       }
       res.status(202).json({ token: account.token });
     } else {
