@@ -1,8 +1,12 @@
 import React from 'react';
 import './Layout.css';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 function Layout() {
+  if (!Boolean(localStorage.getItem('token'))) {
+    return <Navigate to={'/login'} />;
+  }
+
   return (
     <div className="Layout">
       <div className="main-navbar">

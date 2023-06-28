@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,6 +21,7 @@ function LoginPage() {
 
     if (jsonData.token) {
       localStorage.setItem('token', jsonData.token);
+      navigate('/');
     } else {
       console.log(jsonData.error);
     }
