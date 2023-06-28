@@ -33,12 +33,12 @@ const getAllBooks = async (req, res) => {
       sortBy = toSort(sortBy, type, ascend);
     }
     const books = await Book.find(search).sort(sortBy);
-    const fullBooks = await Promise.all(books.map(async (book) => {
+    /* const fullBooks = await Promise.all(books.map(async (book) => {
       const amount = await StoredItem.find({item: book._id});
       book.amount = amount;
       return book;
-    }));
-    res.status(200).json({books: fullBooks});
+    })); */
+    res.status(200).json({books: books});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
