@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-import apiRouter from './routes/api';
+const apiRouter = require('./routes/api');
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 

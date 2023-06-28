@@ -18,6 +18,7 @@ const {
   addOneOrder,
   deleteOneOrder,
   updateOneOrder,
+  getCartOrder,
 } = require('../controllers/ordersController');
 
 const {
@@ -34,11 +35,13 @@ const {
   idValidation,
   userValidation,
   bookAdminValidation,
+  orderAdminValidation,
   userAdminValidation,
-  userOrderValidation,
+  orderValidation,
   bookValidation,
+  userDataValidation,
+  userUserValidation,
 } = require('../controllers/validation');
-
 
 //LOGIN page
 router.post('/login', login);
@@ -60,6 +63,41 @@ router.delete('/books/:id', idValidation, userValidation, bookAdminValidation, d
 router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
 
 //GET all orders
-router.get('/orders', userValidation, getAllOrders);
+router.get('/orders', userValidation, orderAdminValidation, getAllOrders);
 
-export default router;
+//GET cart order
+router.get('/orders/cart', userValidation, orderAdminValidation, getCartOrder);
+
+//GET one order
+router.get('/orders/:id', idValidation, userValidation, orderAdminValidation, getOneOrder);
+
+//CREATE a new order
+router.post('/orders', userValidation, orderAdminValidation, addOneOrder);
+
+//DELETE one order
+// eslint-disable-next-line max-len
+router.delete('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrder);
+
+//UPDATE one order
+// eslint-disable-next-line max-len
+router.patch('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrder);
+
+//GET all users with ADMIN account
+router.get('/users', userValidation, userAdminValidation, getAllUsers);
+
+//GET one user
+// eslint-disable-next-line max-len
+router.get('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser);
+
+//CREATE a new user (registration)
+router.post('/users', userDataValidation, addOneUser);
+
+//DELETE one user
+// eslint-disable-next-line max-len
+router.delete('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser);
+
+//UPDATE one user
+// eslint-disable-next-line max-len
+router.patch('/users/:id', idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
+
+module.exports = router;

@@ -14,7 +14,7 @@ const getAllBooks = async (req, res) => {
     }));
     res.status(200).json({books: fullBooks});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -28,9 +28,9 @@ const getOneBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(book);
+    res.status(200).json({book: book});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -38,9 +38,9 @@ const getOneBook = async (req, res) => {
 const addOneBook = async (req, res) => {
   try {
     const newBook = await Book.create(req.body);
-    res.status(201).json(newBook);
+    res.status(201).json({book: newBook});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -52,9 +52,9 @@ const deleteOneBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(book);
+    res.status(202).json({book: book});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -62,17 +62,17 @@ const deleteOneBook = async (req, res) => {
 const updateOneBook = async (req, res) => {
   const { id } = req.params;
   try {
-    const book = await Book.findById(id);
-    const updatedBook = await book.save();
+    const book = await Book.findOneAndUpdate({_id: id}, {
+      ...req.body,
+    }, {returnDocument: 'after'});
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(200).json(updatedBook);
+    res.status(202).json({book: book});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
-
 
 module.exports = {
   getAllBooks,
