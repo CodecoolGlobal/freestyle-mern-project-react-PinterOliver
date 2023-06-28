@@ -73,7 +73,7 @@ const orderHeaderValidation = async (req, res, next) => {
     }
   }
   const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
-  if (forbiddenStates.includes(order.state)) {
+  if (req.method !== 'GET' && forbiddenStates.includes(order.state)) {
     return res.status(403).json({error: 'You can\'t access this order anymore'});
   }
   req.order = order;

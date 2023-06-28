@@ -24,13 +24,9 @@ const getOneOrdersItems = async (req, res) => {
     search._id = id;
     const orderHeader = await OrderHeader.findOne(search);
     if (!orderHeader) {
-      return res.status(404).json({error: 'You don\'t have such order'});
+      return res.status(404).json({error: 'No such order exits'});
     }
-    const orderItems = await OrderItem.find({order: id});
-    orderItems.forEach(async (item) => {
-      const book = await Book.findById(item.item);
-      item.book = book;
-    });
+    const orderItems = await OrderItem.find({order: id}).populate({path: 'item', model: Book});
     res.status(200).json({orderitems: orderItems});
   } catch (error) {
     res.status(400).json({error: error.message});
