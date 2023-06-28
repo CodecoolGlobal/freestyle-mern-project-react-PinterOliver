@@ -26,8 +26,8 @@ const getAllBooks = async (req, res) => {
       search = arraySearch(search, 'genres', genresArray);
     }
     let sortBy = {
-      "title": 1
-    }
+      'title': 1,
+    };
     if (sort) {
       const [type, ascend] = sort.split(',');
       sortBy = toSort(sortBy, type, ascend);
