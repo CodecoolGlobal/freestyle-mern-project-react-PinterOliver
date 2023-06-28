@@ -78,11 +78,11 @@ router.route('/orderheaders/:id')
   .patch(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, updateOneOrderHeader);
 
 router.route('/orderitems/orderheaders/:id')
-  .get(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, getOneOrdersItems);
+  .get(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, getOneOrdersItems)
+  .post(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, addOneOrderItem);
 
 router.route('/orderitems')
-  .get(userValidation, orderAdminValidation, getAllOrderItems)
-  .post(userValidation, orderAdminValidation, addOneOrderItem);
+  .get(userValidation, orderAdminValidation, getAllOrderItems);
 
 router.route('/orderitems/:id')
   .get(idValidation, userValidation, orderAdminValidation, orderItemValidation, getOneOrderItem)

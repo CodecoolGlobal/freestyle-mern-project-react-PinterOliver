@@ -96,17 +96,17 @@ const orderProcessing = async (orderItems, order, newState) => {
 //CREATE a new orderItem
 const addOneOrderItem = async (req, res) => {
   try {
-    const orderItems = req.body.items;
+    const orderHeader = req.order;
+    const {bookid, amount} = req.body;
+    const book = await Book.findById(bookid);
     const order = {};
-    order.user = req.user._id;
-    order.state = 'cart';
-    order.totalPrice = 0;
-    let newOrder = await OrderHeader.create(order);
-    const {newOrderItems, total} =
-      await orderProcessing(orderItems, newOrder, order.state);
-    newOrder.totalPrice = total;
-    newOrder = await newOrder.save();
-    newOrder.items = newOrderItems;
+    order.order = orderHeader._id;
+    order.item = book._id;
+    order.bookPrice = book.price;
+    order.amount = amount;
+    order.price = order.amount * order.bookPrice;
+    const newOrder = await OrderItem.create(order);
+    restate(orderHeader);
     res.status(201).json({orderitem: newOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
