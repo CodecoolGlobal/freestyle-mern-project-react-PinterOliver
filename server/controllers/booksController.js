@@ -15,15 +15,15 @@ const getAllBooks = async (req, res) => {
   try {
     const { title, author, maxprice, genres, sort } = req.query;
     let search = {};
-    if (title) search = stringSearch(search, title);
-    if (author) search = stringSearch(search, author);
+    if (title) search = stringSearch(search, 'title', title);
+    if (author) search = stringSearch(search, 'author', author);
     if (maxprice) {
       const numberMaxprice = Number(maxprice);
-      search = numberSearch(search, numberMaxprice, 'lte');
+      search = numberSearch(search, 'price', numberMaxprice, 'lte');
     }
     if (genres) {
       const genresArray = genres.split(',');
-      search = arraySearch(search, genresArray);
+      search = arraySearch(search, 'genres', genresArray);
     }
     if (sort) {
       const [type, ascend] = sort.split(',');
