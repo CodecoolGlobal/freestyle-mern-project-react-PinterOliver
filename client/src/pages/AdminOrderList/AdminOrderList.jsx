@@ -19,10 +19,18 @@ function AdminOrderList() {
     fetchOrders();
   }, []);
 
+  function getLastPart(url) {
+    const parts = url.split('/');
+    return parts.at(-1);
+  }
+
   const handleDelete = async (id) => {
-    const response = await fetch(`/api/oders/${id}`, {
-      method: 'DELETE',
-    });
+    // const response = await fetch(`/api/oders/${id}`, {
+    //   method: 'DELETE',
+    // });
+    const response = await fetch(`/api/oders/${id}`)
+    const orderHeaderId = getLastPart(response.url)
+    console.log(orderHeaderId)
     console.log(await response.json());
     setOrderList(orderList.filter((order) => order._id !== id));
   };
