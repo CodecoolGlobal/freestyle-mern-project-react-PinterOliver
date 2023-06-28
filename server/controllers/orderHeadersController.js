@@ -2,8 +2,9 @@
 /* eslint-disable consistent-return */
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
-const StoredItem = require('../model/StoredItem.js');
 const { arraySearch } = require('./filterAndSort.js');
+const Book = require('../model/Book.js');
+const { putBack, pullFrom, updateHeader } = require('./orderItemsController');
 
 // GET all orderHeaders
 const getAllOrderHeaders = async (req, res) => {
@@ -31,56 +32,6 @@ const getOneOrderHeader = (req, res) => {
   }
 };
 
-// Help to process CREATE and UPDATE orders
-const orderProcessing = async (orderItems, order, newState) => {
-  let total = 0;
-  let canPriceChange = false;
-  if (order.state === 'cart') canPriceChange = true;
-  let oldItems = [];
-  if (order.state !== 'cart') {
-    const oldOrderItems = await OrderItem.find({order: order._id});
-    oldItems = await Promise.all(oldOrderItems.map(async (oldOrder) => {
-      const storedItem = await StoredItem.findOne({item: oldOrder.item});
-      storedItem.amount += oldOrder.amount;
-      return await storedItem.save();
-    }));
-  }
-  const newOrderItems = await Promise.all(orderItems.map(async (item) => {
-    const storedItem = await StoredItem.findOne({item: item.book._id});
-    if (newState !== 'cart') {
-      if (storedItem.amount < item.amount) {
-        item.amount = storedItem.amount;
-        console.log('Not enough books');
-      }
-      storedItem.amount -= item.amount;
-    }
-    await storedItem.save();
-    const isExist = oldItems.find((oldItem) => oldItem.item === item.book._id);
-    if (canPriceChange || !isExist || item.amount > isExist.amount) {
-      item.bookPrice = item.book.price;
-    }
-    item.price = item.amount * item.bookPrice;
-    total += item.price;
-    item.order = order._id;
-    item.item = item.book._id;
-    const orderedItem = await OrderItem.findOne({order: order._id, item: item.book._id});
-    let orderItem;
-    if (orderedItem) {
-      orderedItem.amount = item.amount;
-      orderedItem.price = item.price;
-      orderItem = await orderedItem.save();
-    } else {
-      orderItem = await OrderItem.create(item);
-    }
-    return orderItem;
-  }));
-  const deletedOrderItems = await Promise.all(
-    newOrderItems.filter((newOrder) => !newOrder.amount).map(async (item) => {
-      return await OrderItem.findByIdAndDelete(item._id);
-    }));
-  return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
-};
-
 //CREATE a new orderHeader
 const addOneOrderHeader = async (req, res) => {
   try {
@@ -93,6 +44,28 @@ const addOneOrderHeader = async (req, res) => {
   } catch (error) {
     res.status(400).json({error: error.message});
   }
+};
+
+// Update orderitems and storeditems
+const updateItems = async (orderid, type) => {
+  const items = await OrderItem.find({order: orderid}).populate({path: 'item', model: Book});
+  const allData = await Promise.all(items.map(async (order) => {
+    let resData = {};
+    switch (type) {
+    case 'put':
+      resData = await putBack(order.item._id, order.amount);
+      break;
+    case 'pull':
+      resData = await pullFrom(order.item._id, order.amount);
+      break;
+    }
+    return resData;
+  }));
+  const answer = {success: allData.reduce((total, data) => total && data.success, true)};
+  if (!answer.success) {
+    answer.problem = allData.reduce((total, data) => `${total}\n-${data.problem}`, 'Problems:');
+  }
+  return answer;
 };
 
 //UPDATE an orderHeader
@@ -113,12 +86,22 @@ const updateOneOrderHeader = async (req, res) => {
     if (!states.includes(newState)) {
       return res.status(400).json({error: 'Invalid state'});
     }
-    if ([order.state, newState].includes('cart')) {
-      await updateItems(order._id);
+    if (order.state === 'cart' && newState !== 'cart') {
+      const resData = await updateItems(order._id, 'put');
+      if (!resData.success) {
+        return res.status(404).json({error: resData.problem});
+      }
+    }
+    if (order.state !== 'cart' && newState === 'cart') {
+      const resData = await updateItems(order._id, 'pull');
+      if (!resData.success) {
+        return res.status(404).json({error: resData.problem});
+      }
     }
     order.state = newState;
     const savedOrder = await order.save();
-    res.status(202).json({orderheader: savedOrder});
+    const updatedOrder = updateHeader(savedOrder);
+    res.status(202).json({orderheader: updatedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

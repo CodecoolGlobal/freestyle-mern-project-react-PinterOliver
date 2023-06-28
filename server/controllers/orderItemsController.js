@@ -48,7 +48,8 @@ const updateHeader = async (orderHeader) => {
   const items = await OrderItem.find({order: orderHeader._id});
   const totalPrice = items.reduce((total, item) => total + item.price, 0);
   orderHeader.totalPrice = totalPrice;
-  await orderHeader.save();
+  const newHeader = await orderHeader.save();
+  return newHeader;
 };
 
 // Put back books to shelves
@@ -102,8 +103,8 @@ const addOneOrderItem = async (req, res) => {
     } else order.amount = amount;
     order.price = order.amount * order.bookPrice;
     const newOrder = await OrderItem.create(order);
-    updateHeader(orderHeader);
-    res.status(201).json({orderitem: newOrder, message: problem});
+    const newHeader = await updateHeader(orderHeader);
+    res.status(201).json({orderitem: newOrder, message: problem, orderheader: newHeader});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -142,8 +143,8 @@ const updateOneOrderItem = async (req, res) => {
     }
     order.amount = amount;
     const savedOrder = await order.save();
-    updateHeader(order.order);
-    res.status(202).json({orderitem: savedOrder, message: problem});
+    const newHeader = updateHeader(order.order);
+    res.status(202).json({orderitem: savedOrder, message: problem, orderheader: newHeader});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -161,8 +162,8 @@ const deleteOneOrderItem = async (req, res) => {
       }
     }
     const deletedOrder = await OrderItem.findByIdAndDelete(id);
-    updateHeader(order.order);
-    res.status(202).json({orderitem: deletedOrder});
+    const newHeader = updateHeader(order.order);
+    res.status(202).json({orderitem: deletedOrder, orderheader: newHeader});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -175,4 +176,7 @@ module.exports = {
   addOneOrderItem,
   deleteOneOrderItem,
   updateOneOrderItem,
+  putBack,
+  pullFrom,
+  updateHeader,
 };
