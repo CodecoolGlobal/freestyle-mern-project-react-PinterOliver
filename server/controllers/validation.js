@@ -30,7 +30,15 @@ const userValidation = async (req, res, next) => {
 
 const bookAdminValidation = (req, res, next) => {
   const role = req.user.role;
-  if (!role.canModifyItems && !role.canAccessStorage) {
+  if (!role.canModifyItems) {
+    return res.status(401).json({error: 'You have no right to access'});
+  }
+  next();
+};
+
+const storedItemAdminValidation = (req, res, next) => {
+  const role = req.user.role;
+  if (!role.canAccessStorage) {
     return res.status(401).json({error: 'You have no right to access'});
   }
   next();
