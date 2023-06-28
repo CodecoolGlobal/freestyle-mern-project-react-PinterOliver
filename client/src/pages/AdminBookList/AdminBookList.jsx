@@ -20,6 +20,9 @@ function AdminBookList() {
   const handleDelete = async (id) => {
     const response = await fetch(`/api/books/${id}`, {
       method: 'DELETE',
+      headers: {
+        token: localStorage.getItem('token'),
+      },
     });
     console.log(await response.json());
     setBookList(bookList.filter((book) => book._id !== id));
