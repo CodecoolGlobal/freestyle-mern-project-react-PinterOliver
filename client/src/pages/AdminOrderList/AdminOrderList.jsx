@@ -30,7 +30,11 @@ function AdminOrderList() {
     // });
     const response = await fetch(`/api/oders/${id}`)
     const orderHeaderId = getLastPart(response.url)
-    console.log(orderHeaderId)
+
+    const orderItemsResponse = await fetch(`/api/oders/${orderHeaderId}`) ///////////////////////////////////////////////////
+
+    
+    // console.log(orderHeaderId)
     console.log(await response.json());
     setOrderList(orderList.filter((order) => order._id !== id));
   };
