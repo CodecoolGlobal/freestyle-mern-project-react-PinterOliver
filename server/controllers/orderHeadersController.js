@@ -95,7 +95,7 @@ const addOneOrderHeader = async (req, res) => {
   }
 };
 
-//UPDATE a new orderHeader
+//UPDATE an orderHeader
 const updateOneOrderHeader = async (req, res) => {
   try {
     const orderItems = req.body.items;

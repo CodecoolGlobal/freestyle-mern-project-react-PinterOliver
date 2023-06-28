@@ -113,28 +113,21 @@ const addOneOrderItem = async (req, res) => {
   }
 };
 
-//UPDATE a new orderItem
+//UPDATE an orderItem
 const updateOneOrderItem = async (req, res) => {
   try {
-    const orderItems = req.body.items;
     const order = req.order;
-    let newState = req.body.newState;
-    if (!newState) newState = order.state;
-    let newOrderItems;
-    let deletedOrderItems;
-    if (orderItems) {
-      const responseItem =
-        await orderProcessing(orderItems, order, newState);
-      order.totalPrice = responseItem.total;
-      newOrderItems = responseItem.newOrderItems;
-      deletedOrderItems = responseItem.deletedOrderItems;
+    const amount = req.body.amount;
+    if (typeof amount !== 'number') {
+      return res.status(400).json({error: 'Amount is not defined'});
     }
-    if (newState) order.state = newState;
+    if (!amount) {
+      return res.status(405).json({error: 'Amount cannot be zero', rightMethod: 'DELETE'});
+    }
+    order.amount = amount;
     const savedOrder = await order.save();
-    if (orderItems) {
-      savedOrder.items = newOrderItems;
-    }
-    savedOrder.deletedOrderItems = deletedOrderItems;
+    const orderHeader = order.order;
+    restate(orderHeader);
     res.status(202).json({orderitem: savedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
