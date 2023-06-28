@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
 const User = require('../model/User');
 const Role = require('../model/Role');
-const { 
-  arraySearch, 
-  stringInArraySearch } = require('./filterAndSort');
+const {
+  arraySearch,
+} = require('./filterAndSort');
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -13,13 +13,10 @@ const getAllUsers = async (req, res) => {
     if (roles) {
       const roleArray = roles.split(',');
       const roleData = await Promise.all(roleArray.map(async (role) => {
-        const finalRole = await Role.findOne({name: role})
-        console.log(finalRole._id);
-        return finalRole._id
-      }))
-      search = stringInArraySearch(search, 'role', roleData);
-      console.log(search)
-      console.log(roleData)
+        const finalRole = await Role.findOne({name: role});
+        return finalRole._id;
+      }));
+      search = arraySearch(search, 'role', roleData);
     }
     const users = await User.find(search).sort({userName: -1});
     res.status(200).json({users: users});

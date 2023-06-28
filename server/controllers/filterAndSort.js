@@ -9,14 +9,12 @@ const stringSearch = (search, key, string) => {
   search[key] = {};
   search[key]['$regex'] = string;
   search[key]['$options'] = 'i';
-  console.log(search);
   return search;
 };
 
 const arraySearch = (search, key, array) => {
   search[key] = {};
   search[key]['$in'] = array;
-  console.log(search);
   return search;
 };
 
@@ -30,24 +28,12 @@ const toSort = (sortBy, key, ascend) => {
     sortBy = {};
     sortBy[key] = -1;
   }
-  console.log(sortBy);
   return sortBy;
 };
-
-const stringInArraySearch = (search, key, array) => {
-    search[key] = {};
-    const joinedArray = array.join('|')
-    search[key] = {};
-    search[key]['$regex'] = new RegExp(joinedArray)
-    search[key]['$options'] = 'i';
-    console.log(search);
-    return search;
-  };
 
 module.exports = {
   stringSearch,
   numberSearch,
   arraySearch,
   toSort,
-  stringInArraySearch
 };
