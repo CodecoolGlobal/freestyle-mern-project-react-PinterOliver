@@ -25,12 +25,14 @@ const getAllBooks = async (req, res) => {
       const genresArray = genres.split(',');
       search = arraySearch(search, 'genres', genresArray);
     }
+    let sortBy = {
+      "title": 1
+    }
     if (sort) {
       const [type, ascend] = sort.split(',');
-      const isAscend = (ascend === 'ascend');
-      search = toSort(search, type, isAscend);
+      sortBy = toSort(sortBy, type, ascend);
     }
-    const books = await Book.find(search);
+    const books = await Book.find(search).sort(sortBy);
     const fullBooks = await Promise.all(books.map(async (book) => {
       const amount = await StoredItem.find({item: book._id});
       book.amount = amount;

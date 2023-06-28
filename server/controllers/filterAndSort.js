@@ -20,9 +20,18 @@ const arraySearch = (search, key, array) => {
     return search
 }
 
-const toSort = (search, key, isAscend) => {
-    console.log(search);
-    return search
+const toSort = (sortBy, key, ascend) => {
+    switch (ascend) {
+        case "ascend":
+            sortBy = {};
+            sortBy[key] = 1;
+            break;
+        case "descend":
+            sortBy = {};
+            sortBy[key] = -1;
+    };
+    console.log(sortBy);
+    return sortBy
 }
 
 module.exports = {
