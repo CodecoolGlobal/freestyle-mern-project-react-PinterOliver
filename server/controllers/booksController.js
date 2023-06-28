@@ -40,7 +40,7 @@ const getAllBooks = async (req, res) => {
     }));
     res.status(200).json({books: fullBooks});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -56,7 +56,7 @@ const getOneBook = async (req, res) => {
     }
     res.status(200).json({book: book});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -66,7 +66,7 @@ const addOneBook = async (req, res) => {
     const newBook = await Book.create(req.body);
     res.status(201).json({book: newBook});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -80,7 +80,7 @@ const deleteOneBook = async (req, res) => {
     }
     res.status(202).json({book: book});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -96,7 +96,7 @@ const updateOneBook = async (req, res) => {
     }
     res.status(202).json({book: book});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 

@@ -1,0 +1,29 @@
+.bookThumbnail{
+width: 80px;
+height: auto;
+}
+.bookTitle{
+  font-size: 20px;
+  margin-bottom: 0;
+  margin: 0;
+}
+.bookPrice{
+  margin: 0;
+  font-size: 20px;
+}
+.bookContainer{
+  width: 150px;
+  height: 250px;
+  background-color: bisque;
+  text-align: center;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: black 1px solid;
+  display: inline-block;
+}
+.itemsContainer{
+  display: inline-block;
+  position: relative;
+  left: 20vw
+}
