@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const itemSchema = new Schema({
-  item: mongoose.Types.ObjectId,
-  order: mongoose.Types.ObjectId,
+  item: { type: mongoose.Types.ObjectId, ref: 'Book' },
+  order: { type: mongoose.Types.ObjectId, ref: 'OrderHeader' },
   amount: Number,
   bookPrice: Number,
   price: Number,
