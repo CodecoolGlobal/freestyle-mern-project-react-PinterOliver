@@ -5,10 +5,10 @@ import { Outlet, Link } from 'react-router-dom';
 function Layout() {
   return (
     <div className="Layout">
-      <nav>
+      <nav className="main-navbar">
         <ul>
           <li>
-            <img src="/logo.png" alt="main logo"></img>
+            <img className="main-logo" src="/logo.png" alt="main logo"></img>
           </li>
           <li className="grow">Books</li>
           <li>
@@ -17,7 +17,9 @@ function Layout() {
           <li>Cart</li>
         </ul>
       </nav>
-      <Outlet />
+      <div>
+        <Outlet />
+      </div>
     </div>
   );
 }

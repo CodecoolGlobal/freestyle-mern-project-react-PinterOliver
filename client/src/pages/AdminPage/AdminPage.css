@@ -1,0 +1,16 @@
+.sidebarContainer {
+  position: absolute;
+  left: 0;
+  border-right: 5px solid black;
+  width: 10%;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.pageContent {
+  position: relative;
+  left: 10%;
+  border: 5px solid yellowgreen;
+  width: 90%;
+  box-sizing: border-box;
+}
