@@ -88,18 +88,14 @@ const orderItemValidation = async (req, res, next) => {
     .findOne(search)
     .populate({path: 'order', model: OrderHeader})
     .populate({path: 'item', model: Book});
-  if (!order || !order.order) {
+  if (!order) {
     switch (req.method) {
     case 'PATCH':
-      return res.status(405).json({
-        order: order,
-        error: 'No such order exists to update',
-        rightMethod: 'POST',
-      });
+      return res.status(405).json({error: 'No such order exists to update', rightMethod: 'POST'});
     case 'GET':
-      return res.status(404).json({order: order, error: 'No such order exists'});
+      return res.status(404).json({error: 'No such order exists'});
     case 'DELETE':
-      return res.status(404).json({order: order, error: 'No such order exists to delete'});
+      return res.status(404).json({error: 'No such order exists to delete'});
     }
   }
   req.order = order;
