@@ -19,7 +19,7 @@ const idValidation = (req, res, next) => {
 
 const userValidation = async (req, res, next) => {
   const token = req.headers.token;
-  const user = await User.findOne({token: token});
+  const user = await User.findOne({token: token}).populate('role');
   if (!user) {
     return res.status(404).json({error: 'No such user'});
   }
@@ -27,26 +27,25 @@ const userValidation = async (req, res, next) => {
   next();
 };
 
-const bookAdminValidation = async (req, res, next) => {
-  const user = req.user;
-  const role = await Role.findById(user.role);
+const bookAdminValidation = (req, res, next) => {
+  const role = req.user.role;
   if (!role.canModifyItems) {
     return res.status(401).json({error: 'You have no right to access'});
   }
   next();
 };
 
-const orderAdminValidation = async (req, res, next) => {
+const orderAdminValidation = (req, res, next) => {
   const user = req.user;
-  const role = await Role.findById(user.role);
+  const role = user.role;
   if (role.canViewAllOrders) req.search = {};
   else req.search = {user: user._id};
   next();
 };
 
-const userAdminValidation = async (req, res, next) => {
+const userAdminValidation = (req, res, next) => {
   const user = req.user;
-  const role = await Role.findById(user.role);
+  const role = user.role;
   if (role.canViewAllUsers) {
     req.search = {};
     req.isAdmin = true;
@@ -57,9 +56,8 @@ const userAdminValidation = async (req, res, next) => {
   next();
 };
 
-const roleAdminValidation = async (req, res, next) => {
-  const user = req.user;
-  const role = await Role.findById(user.role);
+const roleAdminValidation = (req, res, next) => {
+  const role = req.user.role;
   if (!role.canModifyItems) {
     return res.status(401).json({error: 'You have no right to access'});
   }
@@ -93,10 +91,7 @@ const orderItemValidation = async (req, res, next) => {
   const search = req.search;
   const id = req.params.id;
   search._id = id;
-  const order = await OrderItem
-    .findOne(search)
-    .populate({path: 'order', model: OrderHeader})
-    .populate({path: 'item', model: Book});
+  const order = await OrderItem.findOne(search).populate('order').populate('item');
   if (!order) {
     switch (req.method) {
     case 'PATCH':

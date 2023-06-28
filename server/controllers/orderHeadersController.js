@@ -48,7 +48,7 @@ const addOneOrderHeader = async (req, res) => {
 
 // Update orderitems and storeditems
 const updateItems = async (orderid, type) => {
-  const items = await OrderItem.find({order: orderid}).populate({path: 'item', model: Book});
+  const items = await OrderItem.find({order: orderid}).populate('item');
   const allData = await Promise.all(items.map(async (order) => {
     let resData = {};
     switch (type) {

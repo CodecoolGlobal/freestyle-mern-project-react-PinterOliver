@@ -26,7 +26,7 @@ const getOneOrdersItems = async (req, res) => {
     if (!orderHeader) {
       return res.status(404).json({error: 'No such order exits'});
     }
-    const orderItems = await OrderItem.find({order: id}).populate({path: 'item', model: Book});
+    const orderItems = await OrderItem.find({order: id}).populate('item');
     res.status(200).json({orderitems: orderItems});
   } catch (error) {
     res.status(400).json({error: error.message});
