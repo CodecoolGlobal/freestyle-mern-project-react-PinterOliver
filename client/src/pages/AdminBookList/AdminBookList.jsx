@@ -17,9 +17,17 @@ function AdminBookList() {
     fetchBooks();
   }, []);
 
+  const handleDelete = async (id) => {
+    const response = await fetch(`/api/books/${id}`, {
+      method: 'DELETE',
+    });
+    console.log(await response.json());
+    setBookList(bookList.filter((book) => book._id !== id));
+  };
+
   if (loading) return <Loading />;
 
-  return <BooksTable bookList={bookList} />;
+  return <BooksTable bookList={bookList} onDelete={handleDelete} />;
 }
 
 export default AdminBookList;
