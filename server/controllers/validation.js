@@ -107,7 +107,7 @@ const userDataValidation = async (req, res, next) => {
   next();
 };
 
-const userUserValidation = async (req, res, next) => {
+const userIdValidation = async (req, res, next) => {
   const { id } = req.params;
   const token = req.headers.token;
   const isAdmin = req.isAdmin;
@@ -128,5 +128,5 @@ module.exports = {
   orderValidation,
   bookValidation,
   userDataValidation,
-  userUserValidation,
+  userIdValidation,
 };

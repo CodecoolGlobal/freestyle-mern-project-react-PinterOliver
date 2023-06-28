@@ -6,7 +6,7 @@ const OrderItem = require('../model/OrderItem.js');
 const StoredItem = require('../model/StoredItem.js');
 const { arraySearch } = require('./filterAndSort.js');
 
-// GET all orders
+// GET all ordersItem
 const getAllOrderItems = async (req, res) => {
   try {
     const { state } = req.query;
@@ -31,7 +31,7 @@ const getAllOrderItems = async (req, res) => {
   }
 };
 
-// GET one order
+// GET one orderItem
 const getOneOrderItem = async (req, res) => {
   try {
     const search = req.search;
@@ -103,7 +103,7 @@ const orderProcessing = async (orderItems, order, newState) => {
   return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
 };
 
-//CREATE a new order
+//CREATE a new orderItem
 const addOneOrderItem = async (req, res) => {
   try {
     const orderItems = req.body.items;
@@ -123,7 +123,7 @@ const addOneOrderItem = async (req, res) => {
   }
 };
 
-//UPDATE a new order
+//UPDATE a new orderItem
 const updateOneOrderItem = async (req, res) => {
   try {
     const orderItems = req.body.items;
@@ -151,7 +151,7 @@ const updateOneOrderItem = async (req, res) => {
   }
 };
 
-// DELETE an order
+// DELETE an orderItem
 const deleteOneOrderItem = async (req, res) => {
   try {
     const { id } = req.params;
@@ -164,6 +164,7 @@ const deleteOneOrderItem = async (req, res) => {
   }
 };
 
+// GET Cart orderItem
 const getCartOrderItem = async (req, res) => {
   try {
     const user = req.user;

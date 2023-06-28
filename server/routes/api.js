@@ -50,7 +50,7 @@ const {
   orderValidation,
   bookValidation,
   userDataValidation,
-  userUserValidation,
+  userIdValidation,
 } = require('../controllers/validation');
 
 router.route('/login').post(login);
@@ -93,8 +93,8 @@ router.route('/users')
   .post(userDataValidation, addOneUser);
 
 router.route('/users/:id')
-  .get(idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser)
-  .delete(idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser)
-  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
+  .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
+  .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
+  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
 
 module.exports = router;

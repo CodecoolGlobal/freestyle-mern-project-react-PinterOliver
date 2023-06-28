@@ -6,7 +6,7 @@ const OrderItem = require('../model/OrderItem.js');
 const StoredItem = require('../model/StoredItem.js');
 const { arraySearch } = require('./filterAndSort.js');
 
-// GET all orders
+// GET all orderHeaders
 const getAllOrderHeaders = async (req, res) => {
   try {
     const { state } = req.query;
@@ -16,22 +16,13 @@ const getAllOrderHeaders = async (req, res) => {
       search = arraySearch(search, 'state', stateArray);
     }
     const orders = await OrderHeader.find(search).sort({createdAt: -1});
-    const orderItems = await OrderItem.find({});
-    await Promise.all(orders.map(async (order) => {
-      order.items = orderItems.filter((item) => item.order === order._id);
-      return await Promise.all(order.items.map(async (item) => {
-        const book = await Book.findById(item.item);
-        item.book = book;
-        return book;
-      }));
-    }));
     res.status(200).json({orders: orders});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 };
 
-// GET one order
+// GET one orderHeader
 const getOneOrderHeader = async (req, res) => {
   try {
     const search = req.search;
@@ -103,7 +94,7 @@ const orderProcessing = async (orderItems, order, newState) => {
   return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
 };
 
-//CREATE a new order
+//CREATE a new orderHeader
 const addOneOrderHeader = async (req, res) => {
   try {
     const orderItems = req.body.items;
@@ -123,7 +114,7 @@ const addOneOrderHeader = async (req, res) => {
   }
 };
 
-//UPDATE a new order
+//UPDATE a new orderHeader
 const updateOneOrderHeader = async (req, res) => {
   try {
     const orderItems = req.body.items;
@@ -151,7 +142,7 @@ const updateOneOrderHeader = async (req, res) => {
   }
 };
 
-// DELETE an order
+// DELETE an orderHeader
 const deleteOneOrderHeader = async (req, res) => {
   try {
     const { id } = req.params;
@@ -164,6 +155,7 @@ const deleteOneOrderHeader = async (req, res) => {
   }
 };
 
+// GET Cart orderHeader
 const getCartOrderHeader = async (req, res) => {
   try {
     const user = req.user;
