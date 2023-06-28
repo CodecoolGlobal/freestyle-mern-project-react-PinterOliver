@@ -24,37 +24,37 @@ const getOneRole = async (req, res) => {
 
 //CREATE a new role
 const addOneRole = async (req, res) => {
-    try {
-        const newRole = await Role.create(req.body);
-        res.status(201).json({role: newRole});
-    } catch (error) {
-        res.status(400).json({error: error.message});
-    }
+  try {
+    const newRole = await Role.create(req.body);
+    res.status(201).json({role: newRole});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
 };
 
 //DELETE one role
 const deleteOneRole = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const role = await Role.findByIdAndDelete(id);
-      res.status(202).json({role: role});
-    } catch (error) {
-      res.status(400).json({error: error.message});
-    }
-  };
+  try {
+    const { id } = req.params;
+    const role = await Role.findByIdAndDelete(id);
+    res.status(202).json({role: role});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+};
 
 //UPDATE one role
 const updateOneRole = async (req, res) => {
-    const { id } = req.params;
-    try {
-      const role = await Role.findByIdAndUpdate(id, {
-        ...req.body,
-      }, {returnDocument: 'after'});
-      res.status(202).json({role: role});
-    } catch (error) {
-      res.status(400).json({error: error.message});
-    }
-  };
+  const { id } = req.params;
+  try {
+    const role = await Role.findByIdAndUpdate(id, {
+      ...req.body,
+    }, {returnDocument: 'after'});
+    res.status(202).json({role: role});
+  } catch (error) {
+    res.status(400).json({error: error.message});
+  }
+};
 
 module.exports = {
   getAllRoles,
