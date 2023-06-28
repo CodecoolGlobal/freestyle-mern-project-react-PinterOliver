@@ -11,6 +11,7 @@ import AdminPage from './pages/AdminPage';
 import AdminBookList from './pages/AdminBookList';
 import AdminUserList from './pages/AdminUserList';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
     path: 'login',
     element: <LoginPage />,
   },
+  {
+    path: 'Register',
+    element: <RegisterPage />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
