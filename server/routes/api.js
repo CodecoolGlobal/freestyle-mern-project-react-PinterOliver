@@ -30,6 +30,14 @@ const {
   updateOneUser,
 } = require('../controllers/usersController');
 
+const {
+  getAllRoles,
+  getOneRole,
+  addOneRole,
+  deleteOneRole,
+  updateOneRole,
+} = require('../controllers/rolesController');
+
 const router = express.Router();
 
 const {
@@ -38,10 +46,12 @@ const {
   bookAdminValidation,
   orderAdminValidation,
   userAdminValidation,
+  roleAdminValidation,
   orderValidation,
   bookValidation,
   userDataValidation,
-  userUserValidation,
+  userIdValidation,
+  roleDataValidation,
 } = require('../controllers/validation');
 
 router.route('/login').post(login);
@@ -72,8 +82,17 @@ router.route('/users')
   .post(userDataValidation, addOneUser);
 
 router.route('/users/:id')
-  .get(idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser)
-  .delete(idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser)
-  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
+  .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
+  .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
+  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
+
+router.route('/roles')
+  .get(userValidation, roleAdminValidation, getAllRoles)
+  .post(roleDataValidation, addOneRole);
+
+router.route('/roles/:id')
+  .get(idValidation, userValidation, roleAdminValidation, getOneRole)
+  .delete(idValidation, userValidation, roleAdminValidation, deleteOneRole)
+  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, updateOneRole);
 
 module.exports = router;
