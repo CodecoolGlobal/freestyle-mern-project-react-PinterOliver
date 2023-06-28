@@ -43,8 +43,8 @@ const getOneOrderItem = (req, res) => {
   }
 };
 
-// Help to process CREATE and UPDATE orders
-const orderProcessing = async (orderItems, order, newState) => {
+// Help to process orders
+const restate = async (orderHeader) => {
   let total = 0;
   let canPriceChange = false;
   if (order.state === 'cart') canPriceChange = true;
@@ -93,6 +93,10 @@ const orderProcessing = async (orderItems, order, newState) => {
   return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
 };
 
+const putBack = async (order) => {
+  
+};
+
 //CREATE a new orderItem
 const addOneOrderItem = async (req, res) => {
   try {
@@ -103,6 +107,9 @@ const addOneOrderItem = async (req, res) => {
     order.order = orderHeader._id;
     order.item = book._id;
     order.bookPrice = book.price;
+    if (orderHeader.state !== 'cart') {
+      pullFrom(bookid, amount);
+    }
     order.amount = amount;
     order.price = order.amount * order.bookPrice;
     const newOrder = await OrderItem.create(order);
