@@ -1,0 +1,15 @@
+.item{
+/*   margin-left: 20vw;
+  margin-right: 20vw; */
+  background-color: #846e3b;
+  padding: 3%;
+  position: relative;
+}
+.bookCover{
+  height: 40vh;
+  width: auto;
+}
+.description{
+  width: 40vw;
+  margin-bottom: 2vh;
+}
