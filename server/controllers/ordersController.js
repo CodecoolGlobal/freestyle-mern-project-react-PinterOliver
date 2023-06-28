@@ -8,28 +8,32 @@ const StoredItem = require('../model/StoredItem.js');
 // GET all orders
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await OrderHeader.find({}).sort({createdAt: -1});
+    const search = req.search;
+    const orders = await OrderHeader.find(search).sort({createdAt: -1});
     const orderItems = await OrderItem.find({});
-    orders.forEach((order) => {
+    await Promise.all(orders.map(async (order) => {
       order.items = orderItems.filter((item) => item.order === order._id);
-      order.items.forEach(async (item) => {
+      return await Promise.all(order.items.map(async (item) => {
         const book = await Book.findById(item.item);
         item.book = book;
-      });
-    });
-    res.status(200).json(orders);
+        return book;
+      }));
+    }));
+    res.status(200).json({orders: orders});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
 // GET one order
 const getOneOrder = async (req, res) => {
-  const { id } = req.params;
   try {
-    const order = await OrderHeader.findById(id);
+    const search = req.search;
+    const { id } = req.params;
+    search._id = id;
+    const order = await OrderHeader.findOne(search);
     if (!order) {
-      return res.status(404).json({error: 'No such order'});
+      return res.status(404).json({error: 'You don\'t have such order'});
     }
     const orderItems = await OrderItem.find({order: id});
     order.items = orderItems;
@@ -37,9 +41,9 @@ const getOneOrder = async (req, res) => {
       const book = await Book.findById(item.item);
       item.book = book;
     });
-    res.status(200).json(order);
+    res.status(200).json({order: order});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -51,22 +55,22 @@ const orderProcessing = async (orderItems, order, newState) => {
   let oldItems = [];
   if (order.state !== 'cart') {
     const oldOrderItems = await OrderItem.find({order: order._id});
-    oldItems = await Promise.all(oldOrderItems.map(async (item) => {
-      const storedItem = await StoredItem.findOne({item: item.book._id});
-      storedItem.amount += item.amount;
+    oldItems = await Promise.all(oldOrderItems.map(async (oldOrder) => {
+      const storedItem = await StoredItem.findOne({item: oldOrder.item});
+      storedItem.amount += oldOrder.amount;
       return await storedItem.save();
     }));
   }
   const newOrderItems = await Promise.all(orderItems.map(async (item) => {
+    const storedItem = await StoredItem.findOne({item: item.book._id});
     if (newState !== 'cart') {
-      const storedItem = await StoredItem.findOne({item: item.book._id});
       if (storedItem.amount < item.amount) {
         item.amount = storedItem.amount;
         console.log('Not enough books');
       }
       storedItem.amount -= item.amount;
-      storedItem.save();
     }
+    await storedItem.save();
     const isExist = oldItems.find((oldItem) => oldItem.item === item.book._id);
     if (canPriceChange || !isExist || item.amount > isExist.amount) {
       item.bookPrice = item.book.price;
@@ -86,7 +90,11 @@ const orderProcessing = async (orderItems, order, newState) => {
     }
     return orderItem;
   }));
-  return {newOrderItems: newOrderItems, total: total};
+  const deletedOrderItems = await Promise.all(
+    newOrderItems.filter((newOrder) => !newOrder.amount).map(async (item) => {
+      return await OrderItem.findByIdAndDelete(item._id);
+    }));
+  return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
 };
 
 //CREATE a new order
@@ -103,9 +111,9 @@ const addOneOrder = async (req, res) => {
     newOrder.totalPrice = total;
     newOrder = await newOrder.save();
     newOrder.items = newOrderItems;
-    res.status(201).json(newOrder);
+    res.status(201).json({order: newOrder});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -114,16 +122,26 @@ const updateOneOrder = async (req, res) => {
   try {
     const orderItems = req.body.items;
     const order = req.order;
-    const newState = req.body.newState;
-    const {newOrderItems, total} =
-      await orderProcessing(orderItems, order, newState);
+    let newState = req.body.newState;
+    if (!newState) newState = order.state;
+    let newOrderItems;
+    let deletedOrderItems;
+    if (orderItems) {
+      const responseItem =
+        await orderProcessing(orderItems, order, newState);
+      order.totalPrice = responseItem.total;
+      newOrderItems = responseItem.newOrderItems;
+      deletedOrderItems = responseItem.deletedOrderItems;
+    }
     if (newState) order.state = newState;
-    order.totalPrice = total;
     const savedOrder = await order.save();
-    savedOrder.items = newOrderItems;
-    res.status(202).json(savedOrder);
+    if (orderItems) {
+      savedOrder.items = newOrderItems;
+    }
+    savedOrder.deletedOrderItems = deletedOrderItems;
+    res.status(202).json({order: savedOrder});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
   }
 };
 
@@ -134,9 +152,28 @@ const deleteOneOrder = async (req, res) => {
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
     const deletedItems = await OrderItem.deleteMany({order: id});
     deletedOrder.items = deletedItems;
-    res.status(202).json(deletedOrder);
+    res.status(202).json({order: deletedOrder});
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({error: error});
+  }
+};
+
+const getCartOrder = async (req, res) => {
+  try {
+    const user = req.user;
+    const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
+    if (!order) {
+      return res.status(204).json({message: 'Cart is empty'});
+    }
+    const orderItems = await OrderItem.find({order: user._id});
+    order.items = orderItems;
+    order.items.forEach(async (item) => {
+      const book = await Book.findById(item.item);
+      item.book = book;
+    });
+    res.status(200).json({message: 'User has a cart', order: order});
+  } catch (error) {
+    res.status(400).json({error: error});
   }
 };
 
@@ -146,4 +183,5 @@ module.exports = {
   addOneOrder,
   deleteOneOrder,
   updateOneOrder,
+  getCartOrder,
 };

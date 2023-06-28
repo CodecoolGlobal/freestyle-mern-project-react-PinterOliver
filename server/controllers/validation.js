@@ -28,62 +28,46 @@ const userValidation = async (req, res, next) => {
 
 const bookAdminValidation = async (req, res, next) => {
   const user = req.user;
-  const role = await Role.findById({_id: user.role});
-  console.log(role);
+  const role = await Role.findById(user.role);
   if (!role.canModifyItems) {
     return res.status(401).json({error: 'You have no right to access'});
   }
   next();
 };
 
+const orderAdminValidation = async (req, res, next) => {
+  const user = req.user;
+  const role = await Role.findById(user.role);
+  if (role.canViewAllOrders) req.search = {};
+  else req.search = {user: user._id};
+  next();
+};
+
 const userAdminValidation = async (req, res, next) => {
   const user = req.user;
-  const role = await Role.findOne({name: user.role});
-  if (!role.canViewAllUsers) {
-    return res.status(401).json({error: 'You have no right to access'});
+  const role = await Role.findById(user.role);
+  if (role.canViewAllUsers) {
+    req.search = {};
+    req.isAdmin = true;
+  } else {
+    req.search = {_id: user._id};
+    req.isAdmin = false;
   }
   next();
 };
 
 const orderValidation = async (req, res, next) => {
-  const user = req.user;
-  const isExist = await OrderHeader.findOne({user: user._id});
-  if (isExist && req.headers.method === 'POST') {
-    return res.status(405).json({success: false, rightMethod: 'PATCH'});
-  }
-  if (!isExist && req.headers.method === 'PATCH') {
-    return res.status(405).json({success: false, rightMethod: 'POST'});
-  }
-  req.order = isExist;
-  next();
-};
-
-const bookValidation = async (req, res, next) => {
-  const isExist = await Book.findOne({title: req.body.title});
-  if (isExist && req.headers.method === 'POST') {
-    return res.status(405).json({
-      error: 'There is already a book with this title',
-      success: false,
-      rightMethod: 'PATCH',
-    });
-  }
-  if (!isExist && req.headers.method === 'PATCH') {
-    return res.status(405).json({
-      error: 'There is no book with this title',
-      success: false,
-      rightMethod: 'POST',
-    });
-  }
-  req.book = isExist;
-  next();
-};
-
-const userOrderValidation = async (req, res, next) => {
+  const search = req.search;
   const id = req.params.id;
-  const user = req.user;
-  const order = await OrderHeader.findById(id);
-  if (order.user !== user._id) {
-    return res.status(401).json({error: 'You have no right to access'});
+  search._id = id;
+  const order = await OrderHeader.findOne(search);
+  if (!order) {
+    switch (req.method) {
+    case 'PATCH':
+      return res.status(405).json({rightMethod: 'POST'});
+    case 'DELETE':
+      return res.status(404).json({error: 'No such order exists to delete'});
+    }
   }
   const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
   if (forbiddenStates.includes(order.state)) {
@@ -93,12 +77,56 @@ const userOrderValidation = async (req, res, next) => {
   next();
 };
 
+const bookValidation = async (req, res, next) => {
+  const isExist = await Book.findOne({title: req.body.title});
+  if (isExist && req.method === 'POST') {
+    return res.status(405).json({
+      error: 'There is already a book with this title',
+      rightMethod: 'PATCH',
+    });
+  }
+  if (!isExist && req.method === 'PATCH') {
+    return res.status(405).json({
+      error: 'There is no book with this title',
+      rightMethod: 'POST',
+    });
+  }
+  req.book = isExist;
+  next();
+};
+
+const userDataValidation = async (req, res, next) => {
+  const userName = await User.findOne({userName: req.body.userName});
+  if (userName) {
+    return res.status(403).json({error: 'There is already a User with this Username'});
+  }
+  const userEmail = await User.findOne({email: req.body.email});
+  if (userEmail) {
+    return res.status(403).json({error: 'This email address is already used'});
+  }
+  next();
+};
+
+const userUserValidation = async (req, res, next) => {
+  const { id } = req.params;
+  const token = req.headers.token;
+  const isAdmin = req.isAdmin;
+  const user = await User.findById(id);
+  if (!user || (!isAdmin && user.token !== token)) {
+    return res.status(400).json({error: 'Wrong ID'});
+  }
+  req.userData = user;
+  next();
+};
+
 module.exports = {
   idValidation,
   userValidation,
   bookAdminValidation,
+  orderAdminValidation,
   userAdminValidation,
   orderValidation,
-  userOrderValidation,
   bookValidation,
+  userDataValidation,
+  userUserValidation,
 };
