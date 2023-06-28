@@ -1,7 +1,7 @@
 import React from 'react';
 import './OrdersTable.css';
 
-function BooksTable({ orderList, onDelete }) {
+function OrdersTable({ orderList, onDelete }) {
   return (
     <table>
       <thead>
@@ -29,4 +29,4 @@ function BooksTable({ orderList, onDelete }) {
   );
 }
 
-export default BooksTable;
+export default OrdersTable;
