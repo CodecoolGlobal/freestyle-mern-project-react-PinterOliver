@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './AdminOrderList.css';
-//import BooksTable from '../../components/BooksTable';
+import OrdersTable from '../../components/OrdersTable';
 import Loading from '../../components/Loading';
 
 function AdminOrderList() {
