@@ -3,19 +3,34 @@
 const Book = require('../model/Book');
 const StoredItem = require('../model/StoredItem');
 
+const {
+  stringSearch,
+  numberSearch,
+  arraySearch,
+  toSort,
+} = require('./filterAndSort');
+
 // GET all books
 const getAllBooks = async (req, res) => {
   try {
     const { title, author, maxprice, genres, sort } = req.query;
-    console.log(genres.split(','));
-    console.log(title);
-    console.log(Number(maxprice));
-    if (title) stringSearch(title);
-    if (author) stringSearch(author);
-    if (maxprice) numberSearch(maxprice, 'lte');
-    if (genres) arraySearch(genres);
-    if (sort) bookSort(sort);
-    const books = await Book.find({price: {$gte: 2500}}).sort({title: -1});
+    let search = {};
+    if (title) search = stringSearch(search, title);
+    if (author) search = stringSearch(search, author);
+    if (maxprice) {
+      const numberMaxprice = Number(maxprice);
+      search = numberSearch(search, numberMaxprice, 'lte');
+    }
+    if (genres) {
+      const genresArray = genres.split(',');
+      search = arraySearch(search, genresArray);
+    }
+    if (sort) {
+      const [type, ascend] = sort.split(',');
+      const isAscend = (ascend === 'ascend');
+      search = toSort(search, type, isAscend);
+    }
+    const books = await Book.find(search);
     const fullBooks = await Promise.all(books.map(async (book) => {
       const amount = await StoredItem.find({item: book._id});
       book.amount = amount;
