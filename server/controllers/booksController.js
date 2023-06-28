@@ -78,11 +78,15 @@ const addOneBook = async (req, res) => {
 const deleteOneBook = async (req, res) => {
   try {
     const { id } = req.params;
-    const book = await Book.findOneAndDelete({_id: id});
+    const storedItem = await StoredItem.findOneAndDelete({item: id});
+    if (!storedItem) {
+      return res.status(404).json({error: 'No such stored item'});
+    }
+    const book = await Book.findByIdAndDelete(id);
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(202).json({book: book});
+    res.status(202).json({book: book, storeditem: storedItem});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
