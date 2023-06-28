@@ -5,22 +5,22 @@ const Role = require('../model/Role');
 const getAllRoles = async (req, res) => {
   try {
     const roles = await Role.find({}).sort({name: 1});
-    res.status(200).json(roles);
+    res.status(200).json({roles: roles});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 };
 
 //GET one role
-const getOneRole = (req, res) => {
+const getOneRole = async (req, res) => {
   try {
-    const role = req.roleData;
-    res.status(200).json(role);
+    const { id } = req.params;
+    const role = await Role.findById(id);
+    res.status(200).json({role: role});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 };
-
 
 module.exports = {
   getAllRoles,
