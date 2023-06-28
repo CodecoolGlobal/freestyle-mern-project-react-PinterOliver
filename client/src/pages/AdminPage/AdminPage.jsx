@@ -12,7 +12,9 @@ function AdminPage() {
               <Link to="books">Books</Link>
             </li>
             <li>Orders</li>
-            <li>Users</li>
+            <li>
+              <Link to="users">Users</Link>
+            </li>
           </ul>
         </nav>
       </div>
