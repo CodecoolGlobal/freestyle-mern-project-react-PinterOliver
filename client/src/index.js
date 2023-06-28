@@ -1,24 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 
-import Layout from './pages/Layout';
-import AdminPage from './pages/AdminPage';
-import AdminBookList from './pages/AdminBookList';
+import Layout from "./pages/Layout";
+import BookPage from "./pages/BookPage/BookPage";
+import ItemPage from "./pages/ItemPage/ItemPage";
+import AdminPage from "./pages/AdminPage";
+import AdminBookList from "./pages/AdminBookList";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Layout />,
     children: [
       {
-        path: 'admin',
+        path: "books",
+        element: <BookPage />,
+      },
+      {
+        path: "books/:id",
+        element: <ItemPage />,
+      },
+      {
+        path: "admin",
         element: <AdminPage />,
         children: [
           {
-            path: 'books',
+            path: "books",
             element: <AdminBookList />,
           },
         ],
@@ -27,7 +37,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
