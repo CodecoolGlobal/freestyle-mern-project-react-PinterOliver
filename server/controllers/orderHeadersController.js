@@ -163,12 +163,6 @@ const getCartOrderHeader = async (req, res) => {
     if (!order) {
       return res.status(204).json({message: 'Cart is empty'});
     }
-    const orderItems = await OrderItem.find({order: user._id});
-    order.items = orderItems;
-    order.items.forEach(async (item) => {
-      const book = await Book.findById(item.item);
-      item.book = book;
-    });
     res.status(200).json({message: 'User has a cart', orderheader: order});
   } catch (error) {
     res.status(400).json({error: error.message});
