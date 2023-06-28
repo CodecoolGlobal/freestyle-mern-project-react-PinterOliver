@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Role = require('../model/Role.js');
 const User = require('../model/User.js');
 const OrderHeader = require('../model/OrderHeader.js');
+const OrderItem = require('../model/OrderItem.js');
 const Book = require('../model/Book');
 
 // Mongoose validation
@@ -56,7 +57,7 @@ const userAdminValidation = async (req, res, next) => {
   next();
 };
 
-const orderValidation = async (req, res, next) => {
+const orderHeaderValidation = async (req, res, next) => {
   const search = req.search;
   const id = req.params.id;
   search._id = id;
@@ -64,7 +65,9 @@ const orderValidation = async (req, res, next) => {
   if (!order) {
     switch (req.method) {
     case 'PATCH':
-      return res.status(405).json({rightMethod: 'POST'});
+      return res.status(405).json({error: 'No such order exists to update', rightMethod: 'POST'});
+    case 'GET':
+      return res.status(404).json({error: 'No such order exists'});
     case 'DELETE':
       return res.status(404).json({error: 'No such order exists to delete'});
     }
@@ -72,6 +75,29 @@ const orderValidation = async (req, res, next) => {
   const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
   if (forbiddenStates.includes(order.state)) {
     return res.status(403).json({error: 'You can\'t access this order anymore'});
+  }
+  req.order = order;
+  next();
+};
+
+const orderItemValidation = async (req, res, next) => {
+  const search = req.search;
+  const id = req.params.id;
+  search._id = id;
+  const order = await OrderItem.findOne(search).populate({path: 'order', model: OrderHeader});
+  if (!order || !order.order) {
+    switch (req.method) {
+    case 'PATCH':
+      return res.status(405).json({
+        order: order,
+        error: 'No such order exists to update',
+        rightMethod: 'POST',
+      });
+    case 'GET':
+      return res.status(404).json({order: order, error: 'No such order exists'});
+    case 'DELETE':
+      return res.status(404).json({order: order, error: 'No such order exists to delete'});
+    }
   }
   req.order = order;
   next();
@@ -125,7 +151,8 @@ module.exports = {
   bookAdminValidation,
   orderAdminValidation,
   userAdminValidation,
-  orderValidation,
+  orderHeaderValidation,
+  orderItemValidation,
   bookValidation,
   userDataValidation,
   userIdValidation,

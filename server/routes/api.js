@@ -47,7 +47,8 @@ const {
   bookAdminValidation,
   orderAdminValidation,
   userAdminValidation,
-  orderValidation,
+  orderHeaderValidation,
+  orderItemValidation,
   bookValidation,
   userDataValidation,
   userIdValidation,
@@ -72,9 +73,9 @@ router.route('/orderheaders/cart')
   .get(userValidation, orderAdminValidation, getCartOrderHeader);
 
 router.route('/orderheaders/:id')
-  .get(idValidation, userValidation, orderAdminValidation, getOneOrderHeader)
-  .delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrderHeader)
-  .patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrderHeader);
+  .get(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, getOneOrderHeader)
+  .delete(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, deleteOneOrderHeader)
+  .patch(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, updateOneOrderHeader);
 
 router.route('/orderitems/orderheaders/:id')
   .get(idValidation, userValidation, orderAdminValidation, getOneOrdersItems);
@@ -84,9 +85,9 @@ router.route('/orderitems')
   .post(userValidation, orderAdminValidation, addOneOrderItem);
 
 router.route('/orderitems/:id')
-  .get(idValidation, userValidation, orderAdminValidation, getOneOrderItem)
-  .delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrderItem)
-  .patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrderItem);
+  .get(idValidation, userValidation, orderAdminValidation, orderItemValidation, getOneOrderItem)
+  .delete(idValidation, userValidation, orderAdminValidation, orderItemValidation, deleteOneOrderItem)
+  .patch(idValidation, userValidation, orderAdminValidation, orderItemValidation, updateOneOrderItem);
 
 router.route('/users')
   .get(userValidation, userAdminValidation, getAllUsers)
