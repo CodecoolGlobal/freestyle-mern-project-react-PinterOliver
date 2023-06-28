@@ -10,6 +10,7 @@ import ItemPage from './pages/ItemPage/ItemPage';
 import AdminPage from './pages/AdminPage';
 import AdminBookList from './pages/AdminBookList';
 import AdminUserList from './pages/AdminUserList';
+import LoginPage from './pages/LoginPage';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: 'login',
+    element: <LoginPage />,
   },
 ]);
 
