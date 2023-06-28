@@ -43,6 +43,8 @@ const {
   userUserValidation,
 } = require('../controllers/validation');
 
+router.route('/login').post(login);
+
 //LOGIN page
 router.post('/login', login);
 
