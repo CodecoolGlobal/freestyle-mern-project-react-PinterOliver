@@ -57,7 +57,9 @@ function LoginPage() {
           </button>
         </form>
         <button className="button">Forgot Password</button>
+        <a href='/register'>
         <button className="button">Register</button>
+        </a>
         <button className="button">Continue as a guest</button>
       </div>
     </div>
