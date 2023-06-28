@@ -17,7 +17,7 @@ const login = async (req, res) => {
       res.status(401).json({ error: 'Wrong password' });
     }
   } catch (error) {
-    res.status(400).json({ error: error });
+    res.status(400).json({error: error.message});
   }
 };
 
