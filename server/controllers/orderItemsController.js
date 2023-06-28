@@ -149,31 +149,10 @@ const deleteOneOrderItem = async (req, res) => {
   }
 };
 
-// GET Cart orderItem
-const getCartOrderItem = async (req, res) => {
-  try {
-    const user = req.user;
-    const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
-    if (!order) {
-      return res.status(204).json({message: 'Cart is empty'});
-    }
-    const orderItems = await OrderItem.find({order: user._id});
-    order.items = orderItems;
-    order.items.forEach(async (item) => {
-      const book = await Book.findById(item.item);
-      item.book = book;
-    });
-    res.status(200).json({message: 'User has a cart', orderitem: order});
-  } catch (error) {
-    res.status(400).json({error: error.message});
-  }
-};
-
 module.exports = {
   getAllOrderItems,
   getOneOrderItem,
   addOneOrderItem,
   deleteOneOrderItem,
   updateOneOrderItem,
-  getCartOrderItem,
 };

@@ -28,7 +28,6 @@ const {
   addOneOrderItem,
   deleteOneOrderItem,
   updateOneOrderItem,
-  getCartOrderItem,
 } = require('../controllers/orderItemsController');
 
 const {
@@ -79,9 +78,6 @@ router.route('/orderheaders/:id')
 router.route('/orderitems')
   .get(userValidation, orderAdminValidation, getAllOrderItems)
   .post(userValidation, orderAdminValidation, addOneOrderItem);
-
-router.route('/orderitems/cart')
-  .get(userValidation, orderAdminValidation, getCartOrderItem);
 
 router.route('/orderitems/:id')
   .get(idValidation, userValidation, orderAdminValidation, getOneOrderItem)
