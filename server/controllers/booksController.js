@@ -3,12 +3,7 @@
 const Book = require('../model/Book');
 const StoredItem = require('../model/StoredItem');
 
-const {
-  stringSearch,
-  numberSearch,
-  arraySearch,
-  toSort,
-} = require('./filterAndSort');
+const { stringSearch, numberSearch, arraySearch, toSort } = require('./filterAndSort');
 
 // GET all books
 const getAllBooks = async (req, res) => {
@@ -26,21 +21,23 @@ const getAllBooks = async (req, res) => {
       search = arraySearch(search, 'genres', genresArray);
     }
     let sortBy = {
-      'title': 1,
+      title: 1,
     };
     if (sort) {
       const [type, ascend] = sort.split(',');
       sortBy = toSort(sortBy, type, ascend);
     }
     const books = await Book.find(search).sort(sortBy);
-    /* const fullBooks = await Promise.all(books.map(async (book) => {
-      const amount = await StoredItem.find({item: book._id});
-      book.amount = amount;
-      return book;
-    })); */
-    res.status(200).json({books: books});
+    /* const fullBooks = await Promise.all(
+      books.map(async (book) => {
+        const amount = await StoredItem.find({ item: book._id });
+        book.amount = amount;
+        return book;
+      }),
+    ); */
+    res.status(200).json({ books: books });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -49,14 +46,14 @@ const getOneBook = async (req, res) => {
   const { id } = req.params;
   try {
     const book = await Book.findById(id);
-    /* const amount = await StoredItem.find({item: book._id});
+    /* const amount = await StoredItem.find({ item: book._id });
     book.amount = amount; */
     if (!book) {
-      return res.status(404).json({error: 'No such book'});
+      return res.status(404).json({ error: 'No such book' });
     }
-    res.status(200).json({book: book});
+    res.status(200).json({ book: book });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -68,9 +65,9 @@ const addOneBook = async (req, res) => {
       item: newBook._id,
       amount: 0,
     });
-    res.status(201).json({book: newBook, storeditem: newStoredItem});
+    res.status(201).json({ book: newBook, storeditem: newStoredItem });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -84,27 +81,28 @@ const deleteOneBook = async (req, res) => {
     }
     const book = await Book.findByIdAndDelete(id);
     if (!book) {
-      return res.status(404).json({error: 'No such book'});
+      return res.status(404).json({ error: 'No such book' });
     }
-    res.status(202).json({book: book, storeditem: storedItem});
+    res.status(202).json({ book: book, storeditem: storedItem });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
 //UPDATE one book
 const updateOneBook = async (req, res) => {
   const { id } = req.params;
+  console.log(req.body);
   try {
     const book = await Book.findByIdAndUpdate(id, {
       ...req.body,
-    }, {returnDocument: 'after'});
+    }, { returnDocument: 'after' });
     if (!book) {
-      return res.status(404).json({error: 'No such book'});
+      return res.status(404).json({ error: 'No such book' });
     }
-    res.status(202).json({book: book});
+    res.status(202).json({ book: book });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 

@@ -11,6 +11,8 @@ import AdminPage from './pages/AdminPage';
 import AdminBookList from './pages/AdminBookList';
 import AdminUserList from './pages/AdminUserList';
 import LoginPage from './pages/LoginPage';
+import AdminBookUpdater from './pages/AdminBookUpdater';
+import AdminBookCreator from './pages/AdminBookCreator';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 const router = createBrowserRouter([
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
           {
             path: 'books',
             element: <AdminBookList />,
+          },
+          {
+            path: 'books/create',
+            element: <AdminBookCreator />,
+          },
+          {
+            path: 'books/update/:id',
+            element: <AdminBookUpdater />,
           },
           {
             path: 'users',
