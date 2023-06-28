@@ -97,6 +97,22 @@ const putBack = async (order) => {
   
 };
 
+const pullFrom = async (bookid, amount) => {
+  const item = await StoredItem.findOne({item: bookid});
+  if (!item) {
+    return {success: false, problem: 'StoredItem not found'};
+  }
+  const response = {success: true};
+  if (item.amount < amount) {
+    response.problem = 'Not enough books';
+    amount = item.amount;
+  }
+  item.amount -= amount;
+  await item.save();
+  response.amount = amount;
+  return response;
+};
+
 //CREATE a new orderItem
 const addOneOrderItem = async (req, res) => {
   try {
@@ -107,14 +123,21 @@ const addOneOrderItem = async (req, res) => {
     order.order = orderHeader._id;
     order.item = book._id;
     order.bookPrice = book.price;
+    let problem = 'No problem.';
     if (orderHeader.state !== 'cart') {
-      pullFrom(bookid, amount);
-    }
-    order.amount = amount;
+      const resData = await pullFrom(bookid, amount);
+      if (!resData.success) {
+        return res.status(404).json({error: resData.problem});
+      }
+      if (resData.problem) {
+        problem = resData.problem;
+      }
+      order.amount = resData.amount;
+    } else order.amount = amount;
     order.price = order.amount * order.bookPrice;
     const newOrder = await OrderItem.create(order);
     restate(orderHeader);
-    res.status(201).json({orderitem: newOrder});
+    res.status(201).json({orderitem: newOrder, message: problem});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

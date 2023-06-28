@@ -107,6 +107,15 @@ const orderItemValidation = async (req, res, next) => {
       return res.status(404).json({error: 'No such order exists to delete'});
     }
   }
+  if (!order.order && req.method !== 'DELETE') {
+    return res
+      .status(405)
+      .json({orderitem: order, error: 'Orderhead is not valid', rightMethod: 'DELETE'});
+  }
+  const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
+  if (order.order && req.method !== 'GET' && forbiddenStates.includes(order.order.state)) {
+    return res.status(403).json({error: 'You can\'t access this order anymore'});
+  }
   req.order = order;
   next();
 };
