@@ -32,7 +32,8 @@ const {
 
 const {
   getAllRoles,
-  getOneRole
+  getOneRole,
+  addOneRole,
 } = require('../controllers/rolesController');
 
 const router = express.Router();
