@@ -45,61 +45,89 @@ const {
 
 router.route('/login').post(login);
 
+
+router.route('/books')
+.get(getAllBooks)
+.post(userValidation, bookAdminValidation, bookValidation, addOneBook);
+
+router.route('/books/:id')
+.get(idValidation, getOneBook)
+.delete(idValidation, userValidation, bookAdminValidation, deleteOneBook)
+.patch(idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
+
+router.route('/orders')
+.get(userValidation, orderAdminValidation, getAllOrders)
+.post(userValidation, orderAdminValidation, addOneOrder);
+
+router.route('/orders/cart')
+.get(userValidation, orderAdminValidation, getCartOrder);
+
+router.route('/orders/:id')
+.get(idValidation, userValidation, orderAdminValidation, getOneOrder)
+.delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrder)
+.patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrder);
+
+router.route('/users')
+.get(userValidation, userAdminValidation, getAllUsers)
+.post(userDataValidation, addOneUser);
+
+router.route('/users/:id')
+.get(idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser)
+.delete(idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser)
+.patch(idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
+
+module.exports = router;
+
+
 //LOGIN page
-router.post('/login', login);
+//router.post('/login', login);
 
-//GET all books
-router.get('/books', getAllBooks);
-
-//GET one book
-router.get('/books/:id', idValidation, getOneBook);
 
 //Add new BOOK with ADMIN account
-router.post('/books', userValidation, bookAdminValidation, bookValidation, addOneBook);
+//router.post('/books', userValidation, bookAdminValidation, bookValidation, addOneBook);
+//router.get('/books', getAllBooks);
 
 //DELETE a book with ADMIN account
-router.delete('/books/:id', idValidation, userValidation, bookAdminValidation, deleteOneBook);
+//router.delete('/books/:id', idValidation, userValidation, bookAdminValidation, deleteOneBook);
 
 //UPDATE a book with ADMIN account
 // eslint-disable-next-line max-len
-router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
+//router.patch('/books/:id', idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
 
 //GET all orders
-router.get('/orders', userValidation, orderAdminValidation, getAllOrders);
+//router.get('/orders', userValidation, orderAdminValidation, getAllOrders);
 
 //GET cart order
-router.get('/orders/cart', userValidation, orderAdminValidation, getCartOrder);
 
 //GET one order
-router.get('/orders/:id', idValidation, userValidation, orderAdminValidation, getOneOrder);
+//router.get('/orders/:id', idValidation, userValidation, orderAdminValidation, getOneOrder);
 
 //CREATE a new order
-router.post('/orders', userValidation, orderAdminValidation, addOneOrder);
+//router.post('/orders', userValidation, orderAdminValidation, addOneOrder);
 
 //DELETE one order
 // eslint-disable-next-line max-len
-router.delete('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrder);
+//router.delete('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrder);
 
 //UPDATE one order
 // eslint-disable-next-line max-len
-router.patch('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrder);
+//router.patch('/orders/:id', idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrder);
+
 
 //GET all users with ADMIN account
-router.get('/users', userValidation, userAdminValidation, getAllUsers);
+//router.get('/users', userValidation, userAdminValidation, getAllUsers);
 
 //GET one user
 // eslint-disable-next-line max-len
-router.get('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser);
+//router.get('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser);
 
 //CREATE a new user (registration)
-router.post('/users', userDataValidation, addOneUser);
+//router.post('/users', userDataValidation, addOneUser);
 
 //DELETE one user
 // eslint-disable-next-line max-len
-router.delete('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser);
+//router.delete('/users/:id', idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser);
 
 //UPDATE one user
 // eslint-disable-next-line max-len
-router.patch('/users/:id', idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
-
-module.exports = router;
+//router.patch('/users/:id', idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
