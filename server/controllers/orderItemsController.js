@@ -145,9 +145,9 @@ const updateOneOrderItem = async (req, res) => {
 const deleteOneOrderItem = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedOrder = await OrderHeader.findByIdAndDelete(id);
-    const deletedItems = await OrderItem.deleteMany({order: id});
-    deletedOrder.items = deletedItems;
+    const orderHeader = req.order.order;
+    const deletedOrder = await OrderItem.findByIdAndDelete(id);
+    restate(orderHeader);
     res.status(202).json({orderitem: deletedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
