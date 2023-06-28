@@ -1,7 +1,10 @@
 import React from 'react';
 import './BooksTable.css';
+import { useNavigate } from 'react-router';
 
 function BooksTable({ bookList, onDelete }) {
+  const navigate = useNavigate();
+
   return (
     <table>
       <thead>
@@ -19,7 +22,7 @@ function BooksTable({ bookList, onDelete }) {
             <td>{book.author}</td>
             <td>{book.price}</td>
             <td>
-              <button>Update</button>
+              <button onClick={() => navigate(`update/${book._id}`)}>Update</button>
               <button onClick={() => onDelete(book._id)}>Delete</button>
             </td>
           </tr>
