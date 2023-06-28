@@ -93,8 +93,14 @@ const restate = async (orderHeader) => {
   return {newOrderItems: newOrderItems, total: total, deletedOrderItems: deletedOrderItems};
 };
 
-const putBack = async (order) => {
-  
+const putBack = async (bookid, amount) => {
+  const item = await StoredItem.findOne({item: bookid});
+  if (!item) {
+    return {success: false, problem: 'StoredItem not found'};
+  }
+  item.amount += amount;
+  await item.save();
+  return {success: true};
 };
 
 const pullFrom = async (bookid, amount) => {
@@ -147,18 +153,38 @@ const addOneOrderItem = async (req, res) => {
 const updateOneOrderItem = async (req, res) => {
   try {
     const order = req.order;
-    const amount = req.body.amount;
+    let amount = req.body.amount;
     if (typeof amount !== 'number') {
       return res.status(400).json({error: 'Amount is not defined'});
     }
     if (!amount) {
       return res.status(405).json({error: 'Amount cannot be zero', rightMethod: 'DELETE'});
     }
+    let problem = 'No problem.';
+    if (order.order.state !== 'cart') {
+      const resData = await putBack(order.item._id, order.amount);
+      if (!resData.success) {
+        return res.status(404).json({error: resData.problem});
+      }
+    }
+    if (order.order.state !== 'cart') {
+      const resData = await pullFrom(order.item._id, amount);
+      if (!resData.success) {
+        return res.status(404).json({error: resData.problem});
+      }
+      if (resData.problem) {
+        problem = resData.problem;
+      }
+      amount = resData.amount;
+    }
+    if (order.order.state === 'cart' || amount > order.amount) {
+      order.bookPrice = order.book.price;
+    }
     order.amount = amount;
     const savedOrder = await order.save();
     const orderHeader = order.order;
     restate(orderHeader);
-    res.status(202).json({orderitem: savedOrder});
+    res.status(202).json({orderitem: savedOrder, message: problem});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -168,9 +194,15 @@ const updateOneOrderItem = async (req, res) => {
 const deleteOneOrderItem = async (req, res) => {
   try {
     const { id } = req.params;
-    const orderHeader = req.order.order;
+    const order = req.order;
+    if (order.order.state !== 'cart') {
+      const resData = await putBack(order.item._id, order.amount);
+      if (!resData.success) {
+        return res.status(404).json({error: resData.problem});
+      }
+    }
     const deletedOrder = await OrderItem.findByIdAndDelete(id);
-    restate(orderHeader);
+    restate(order.order);
     res.status(202).json({orderitem: deletedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
