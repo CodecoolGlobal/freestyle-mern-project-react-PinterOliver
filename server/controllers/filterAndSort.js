@@ -34,9 +34,20 @@ const toSort = (sortBy, key, ascend) => {
   return sortBy;
 };
 
+const stringInArraySearch = (search, key, array) => {
+    search[key] = {};
+    const joinedArray = array.join('|')
+    search[key] = {};
+    search[key]['$regex'] = new RegExp(joinedArray)
+    search[key]['$options'] = 'i';
+    console.log(search);
+    return search;
+  };
+
 module.exports = {
   stringSearch,
   numberSearch,
   arraySearch,
   toSort,
+  stringInArraySearch
 };
