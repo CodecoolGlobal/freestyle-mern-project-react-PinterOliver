@@ -32,12 +32,6 @@ const getOneOrderHeader = async (req, res) => {
     if (!order) {
       return res.status(404).json({error: 'You don\'t have such order'});
     }
-    const orderItems = await OrderItem.find({order: id});
-    order.items = orderItems;
-    order.items.forEach(async (item) => {
-      const book = await Book.findById(item.item);
-      item.book = book;
-    });
     res.status(200).json({orderheader: order});
   } catch (error) {
     res.status(400).json({error: error.message});
