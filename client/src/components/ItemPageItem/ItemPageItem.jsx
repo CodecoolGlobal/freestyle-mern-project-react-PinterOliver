@@ -1,8 +1,7 @@
 import { useState } from "react";
-import "./BookItem.css";
+import "./ItemPageItem.css";
 
-const BookItem = (props) => {
-
+const ItemPageItem = (props) => {
   function checkLocalStorageCart() {
     const cart = localStorage.getItem('cart');
     const hasCart = cart !== null && cart !== undefined;
@@ -51,24 +50,17 @@ const BookItem = (props) => {
     return null;
   }
 
-  const maxLength = 20;
-  const limitedTitle =
-    props.book.title.length > maxLength
-      ? `${props.book.title.substring(0, maxLength)}...`
-      : props.book.title;
-
   return (
-    <div className="itemsContainer" key={props.book._id}>
-      <div className="bookContainer">
-        <img className="bookThumbnail" src={props.book?.image_url} />
-        <a href={`http://localhost:3000/books/${props.book._id}`}>
-          <h2 className="bookTitle">{limitedTitle}</h2>
-        </a>
-        <p className="bookPrice">{props.book.price}€</p>
-        <button onClick={() => checkLocalStorageCart()}>Add to cart</button>
-      </div>
+    <div className="item">
+      <img src={props.book.image_url} className="bookCover"></img>
+      <h2>{props.book.title}</h2>
+      <h3>Author: {props.book.author}</h3>
+      <h3> Description</h3>
+      <div className="description">{props.book.description}</div>
+      <div>Price: {props.book.price}€</div>
+      <button onClick={() => checkLocalStorageCart()}>Add to cart</button>
     </div>
   );
 };
 
-export default BookItem;
+export default ItemPageItem;
