@@ -1,8 +1,21 @@
 import React from 'react';
 import './Layout.css';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 
 function Layout() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (window.confirm('Are you sure you want to log out?')) {
+      localStorage.removeItem('token');
+      navigate('/');
+    }
+  };
+
+  if (!Boolean(localStorage.getItem('token'))) {
+    return <Navigate to={'/login'} />;
+  }
+
   return (
     <div className="Layout">
       <div className="main-navbar">
@@ -16,6 +29,7 @@ function Layout() {
         <a href="/cart">
           <button>Cart</button>
         </a>
+        <button onClick={() => handleLogout()}>Logout</button>
       </div>
       <div className="main-content">
         <Outlet />
