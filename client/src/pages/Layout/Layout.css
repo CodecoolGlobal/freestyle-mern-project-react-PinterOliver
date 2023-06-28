@@ -3,10 +3,17 @@
   height: 100%;
 }
 
-.main-navbar ul {
+.main-content {
+  height: 85%;
+  overflow: scroll;
+  display: flex;
+}
+
+.main-navbar {
+  height: 15%;
+  width: 100%;
   margin: 0;
-  padding: 0;
-  list-style-type: none;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   padding: 0.5rem;
@@ -16,11 +23,11 @@
   font-weight: bold;
 }
 .main-logo {
-  height: 100px;
-  width: 100px;
+  height: 100%;
+  width: auto;
 }
 
-.main-navbar li {
+.main-navbar button {
   margin: 0px 10px;
 }
 
