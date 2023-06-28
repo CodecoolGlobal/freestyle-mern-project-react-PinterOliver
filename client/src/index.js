@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Layout from './pages/Layout';
-import BookPage from './pages/BookPage';
+import BookPage from './pages/BookPage/BookPage';
 
 const router = createBrowserRouter([
   {

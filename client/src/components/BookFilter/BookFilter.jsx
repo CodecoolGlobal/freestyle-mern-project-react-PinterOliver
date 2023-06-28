@@ -28,6 +28,7 @@ const BookFilter = () => {
           style={sliderStyles}
         />
       </div>
+      <button>Filter</button>
     </div>
   );
 };
