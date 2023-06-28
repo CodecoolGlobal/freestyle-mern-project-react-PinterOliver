@@ -1,6 +1,5 @@
 /* eslint-disable require-atomic-updates */
 /* eslint-disable consistent-return */
-const Book = require('../model/Book.js');
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
 const StoredItem = require('../model/StoredItem.js');

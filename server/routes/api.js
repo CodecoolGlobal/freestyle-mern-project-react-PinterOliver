@@ -24,6 +24,7 @@ const {
 
 const {
   getAllOrderItems,
+  getOneOrdersItems,
   getOneOrderItem,
   addOneOrderItem,
   deleteOneOrderItem,
@@ -74,6 +75,9 @@ router.route('/orderheaders/:id')
   .get(idValidation, userValidation, orderAdminValidation, getOneOrderHeader)
   .delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrderHeader)
   .patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrderHeader);
+
+router.route('/orderitems/orderheaders/:id')
+  .get(idValidation, userValidation, orderAdminValidation, getOneOrdersItems);
 
 router.route('/orderitems')
   .get(userValidation, orderAdminValidation, getAllOrderItems)
