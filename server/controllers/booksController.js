@@ -7,9 +7,9 @@ const StoredItem = require('../model/StoredItem');
 const getAllBooks = async (req, res) => {
   try {
     const { genres, title, maxprice } = req.query;
-    console.log(genres.split(','));
-    console.log(title);
-    console.log(Number(maxprice));
+    // console.log(genres.split(','));
+    // console.log(title);
+    // console.log(Number(maxprice));
     const books = await Book.find({}).sort({title: -1});
     const fullBooks = await Promise.all(books.map(async (book) => {
       const amount = await StoredItem.find({item: book._id});
