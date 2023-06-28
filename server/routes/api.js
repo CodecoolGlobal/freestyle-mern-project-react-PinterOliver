@@ -48,6 +48,7 @@ const {
   bookValidation,
   userDataValidation,
   userIdValidation,
+  roleDataValidation,
 } = require('../controllers/validation');
 
 router.route('/login').post(login);
@@ -84,7 +85,7 @@ router.route('/users/:id')
 
 router.route('/roles')
   .get(userValidation, roleAdminValidation, getAllRoles)
-  // .post(userDataValidation, addOneRole);
+  .post(roleDataValidation, addOneRole);
 
 router.route('/roles/:id')
   .get(idValidation, userValidation, roleAdminValidation, getOneRole)

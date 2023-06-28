@@ -22,6 +22,16 @@ const getOneRole = async (req, res) => {
   }
 };
 
+//CREATE a new role
+const addOneRole = async (req, res) => {
+    try {
+        const newEmployee = await Role.create(req.body);
+        res.status(201).json({})
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
   getAllRoles,
   getOneRole,

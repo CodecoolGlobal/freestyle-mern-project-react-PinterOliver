@@ -105,13 +105,21 @@ const bookValidation = async (req, res, next) => {
 };
 
 const userDataValidation = async (req, res, next) => {
-  const userName = await User.findOne({userName: req.body.userName});
+  const userName = await User.findOne({userName: req.body.username});
   if (userName) {
     return res.status(403).json({error: 'There is already a User with this Username'});
   }
   const userEmail = await User.findOne({email: req.body.email});
   if (userEmail) {
     return res.status(403).json({error: 'This email address is already used'});
+  }
+  next();
+};
+
+const roleDataValidation = async (req, res, next) => {
+  const name = await Role.findOne({name: req.body.name});
+  if (name) {
+    return res.status(403).json({error: 'There is already a Role with this name'});
   }
   next();
 };
@@ -139,4 +147,5 @@ module.exports = {
   bookValidation,
   userDataValidation,
   userIdValidation,
+  roleDataValidation,
 };
