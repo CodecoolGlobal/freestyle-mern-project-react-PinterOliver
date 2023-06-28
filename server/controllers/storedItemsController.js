@@ -38,23 +38,17 @@ const getAllStoredItems = async (req, res) => {
       book.amount = amount;
       return book;
     }));
-    res.status(200).json({books: fullBooks});
+    res.status(200).json({storeditems: fullBooks});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
 };
 
 // GET one stored item
-const getOneStoredItem = async (req, res) => {
+const getOneStoredItem = (req, res) => {
   try {
-    storedItem = req.storedItem;
-    const book = await Book.findById(id);
-    const amount = await StoredItem.find({item: book._id});
-    book.amount = amount;
-    if (!book) {
-      return res.status(404).json({error: 'No such book'});
-    }
-    res.status(200).json({book: book});
+    const storedItem = req.storedItem;
+    res.status(200).json({storeditem: storedItem});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -70,7 +64,7 @@ const updateOneStoredItem = async (req, res) => {
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
-    res.status(202).json({book: book});
+    res.status(202).json({storeditem: book});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
