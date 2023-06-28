@@ -7,9 +7,9 @@ function OrdersTable({ orderList, onDelete }) {
     <table>
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Price</th>
+          <th>Total price of the order</th>
+          <th>State of the order</th>
+          <th>Date of the order</th>
           <th></th>
         </tr>
       </thead>
