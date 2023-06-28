@@ -59,12 +59,8 @@ const userAdminValidation = async (req, res, next) => {
 const roleAdminValidation = async (req, res, next) => {
   const user = req.user;
   const role = await Role.findById(user.role);
-  if (role.canModifyRoles) {
-    req.search = {};
-    req.isAdmin = true;
-  } else {
-    req.search = {_id: user._id};
-    req.isAdmin = false;
+  if (!role.canModifyItems) {
+    return res.status(401).json({error: 'You have no right to access'});
   }
   next();
 };
