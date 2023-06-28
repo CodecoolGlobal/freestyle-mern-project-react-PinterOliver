@@ -49,8 +49,8 @@ const getOneBook = async (req, res) => {
   const { id } = req.params;
   try {
     const book = await Book.findById(id);
-    const amount = await StoredItem.find({item: book._id});
-    book.amount = amount;
+    /* const amount = await StoredItem.find({item: book._id});
+    book.amount = amount; */
     if (!book) {
       return res.status(404).json({error: 'No such book'});
     }
