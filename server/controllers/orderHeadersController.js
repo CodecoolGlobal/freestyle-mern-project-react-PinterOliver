@@ -16,7 +16,7 @@ const getAllOrderHeaders = async (req, res) => {
       search = arraySearch(search, 'state', stateArray);
     }
     const orders = await OrderHeader.find(search).sort({createdAt: -1});
-    res.status(200).json({orders: orders});
+    res.status(200).json({orderheaders: orders});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -38,7 +38,7 @@ const getOneOrderHeader = async (req, res) => {
       const book = await Book.findById(item.item);
       item.book = book;
     });
-    res.status(200).json({order: order});
+    res.status(200).json({orderheader: order});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -108,7 +108,7 @@ const addOneOrderHeader = async (req, res) => {
     newOrder.totalPrice = total;
     newOrder = await newOrder.save();
     newOrder.items = newOrderItems;
-    res.status(201).json({order: newOrder});
+    res.status(201).json({orderheader: newOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -136,7 +136,7 @@ const updateOneOrderHeader = async (req, res) => {
       savedOrder.items = newOrderItems;
     }
     savedOrder.deletedOrderItems = deletedOrderItems;
-    res.status(202).json({order: savedOrder});
+    res.status(202).json({orderheader: savedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -149,7 +149,7 @@ const deleteOneOrderHeader = async (req, res) => {
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
     const deletedItems = await OrderItem.deleteMany({order: id});
     deletedOrder.items = deletedItems;
-    res.status(202).json({order: deletedOrder});
+    res.status(202).json({orderheader: deletedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -169,7 +169,7 @@ const getCartOrderHeader = async (req, res) => {
       const book = await Book.findById(item.item);
       item.book = book;
     });
-    res.status(200).json({message: 'User has a cart', order: order});
+    res.status(200).json({message: 'User has a cart', orderheader: order});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

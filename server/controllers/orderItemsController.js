@@ -4,28 +4,13 @@ const Book = require('../model/Book.js');
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
 const StoredItem = require('../model/StoredItem.js');
-const { arraySearch } = require('./filterAndSort.js');
 
 // GET all ordersItem
 const getAllOrderItems = async (req, res) => {
   try {
-    const { state } = req.query;
-    let search = req.search;
-    if (state) {
-      const stateArray = state.split(',');
-      search = arraySearch(search, 'state', stateArray);
-    }
-    const orders = await OrderHeader.find(search).sort({createdAt: -1});
-    const orderItems = await OrderItem.find({});
-    await Promise.all(orders.map(async (order) => {
-      order.items = orderItems.filter((item) => item.order === order._id);
-      return await Promise.all(order.items.map(async (item) => {
-        const book = await Book.findById(item.item);
-        item.book = book;
-        return book;
-      }));
-    }));
-    res.status(200).json({orders: orders});
+    const search = req.search;
+    const orders = await OrderItem.find(search).sort({createdAt: -1});
+    res.status(200).json({orderitems: orders});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -47,7 +32,7 @@ const getOneOrderItem = async (req, res) => {
       const book = await Book.findById(item.item);
       item.book = book;
     });
-    res.status(200).json({order: order});
+    res.status(200).json({orderitem: order});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -117,7 +102,7 @@ const addOneOrderItem = async (req, res) => {
     newOrder.totalPrice = total;
     newOrder = await newOrder.save();
     newOrder.items = newOrderItems;
-    res.status(201).json({order: newOrder});
+    res.status(201).json({orderitem: newOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -145,7 +130,7 @@ const updateOneOrderItem = async (req, res) => {
       savedOrder.items = newOrderItems;
     }
     savedOrder.deletedOrderItems = deletedOrderItems;
-    res.status(202).json({order: savedOrder});
+    res.status(202).json({orderitem: savedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -158,7 +143,7 @@ const deleteOneOrderItem = async (req, res) => {
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
     const deletedItems = await OrderItem.deleteMany({order: id});
     deletedOrder.items = deletedItems;
-    res.status(202).json({order: deletedOrder});
+    res.status(202).json({orderitem: deletedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -178,7 +163,7 @@ const getCartOrderItem = async (req, res) => {
       const book = await Book.findById(item.item);
       item.book = book;
     });
-    res.status(200).json({message: 'User has a cart', order: order});
+    res.status(200).json({message: 'User has a cart', orderitem: order});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
