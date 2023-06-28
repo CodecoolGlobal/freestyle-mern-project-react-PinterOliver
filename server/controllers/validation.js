@@ -145,11 +145,11 @@ const bookValidation = async (req, res, next) => {
 };
 
 const storedItemValidation = async (req, res, next) => {
-  const book = await Book.findOne({title: req.body.title}).populate('item');
-  if (!book) {
-    return res.status(404).json({error: 'There is no book with this title'});
+  const { id } = req.params;
+  const storedItem = await StoredItem.findOne({item: id}).populate('item');
+  if (!storedItem) {
+    return res.status(404).json({error: 'There is no storedItem'});
   }
-  const storedItem = await StoredItem.findOne({item: book._id}).populate('item');
   req.storedItem = storedItem;
   next();
 };

@@ -16,7 +16,6 @@ const {
 const {
   getAllStoredItems,
   getOneStoredItem,
-  deleteOneStoredItem,
   updateOneStoredItem,
 } = require('../controllers/storedItemsController');
 
