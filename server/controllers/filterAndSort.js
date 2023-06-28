@@ -14,6 +14,8 @@ const stringSearch = (search, key, string) => {
 }
 
 const arraySearch = (search, key, array) => {
+    search[key] = {};
+    search[key]["$in"] = array;
     console.log(search);
     return search
 }
