@@ -34,6 +34,7 @@ const {
   getAllRoles,
   getOneRole,
   addOneRole,
+  updateOneRole,
 } = require('../controllers/rolesController');
 
 const router = express.Router();
@@ -91,6 +92,6 @@ router.route('/roles')
 router.route('/roles/:id')
   .get(idValidation, userValidation, roleAdminValidation, getOneRole)
 //   .delete(idValidation, userValidation, roleAdminValidation, deleteOneUser)
-//   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, updateOneUser);
+  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, updateOneRole);
 
 module.exports = router;

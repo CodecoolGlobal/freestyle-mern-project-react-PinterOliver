@@ -32,8 +32,33 @@ const addOneRole = async (req, res) => {
     }
 };
 
+// //DELETE one ole
+// const deleteOneRole = async (req, res) => {
+//     try {
+//       const { id } = req.params;
+//       const user = await User.findByIdAndDelete(id);
+//       res.status(202).json({user: user});
+//     } catch (error) {
+//       res.status(400).json({error: error.message});
+//     }
+//   };
+
+//UPDATE one user
+const updateOneRole = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const role = await Role.findByIdAndUpdate(id, {
+        ...req.body,
+      }, {returnDocument: 'after'});
+      res.status(202).json({role: role});
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  };
+
 module.exports = {
   getAllRoles,
   getOneRole,
   addOneRole,
+  updateOneRole,
 };
