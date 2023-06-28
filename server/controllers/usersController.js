@@ -8,7 +8,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.find(search).sort({userName: -1});
     res.status(200).json({users: users});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -18,7 +18,7 @@ const getOneUser = (req, res) => {
     const user = req.userData;
     res.status(200).json({user: user});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -28,7 +28,7 @@ const addOneUser = async (req, res) => {
     const newUser = await User.create(req.body);
     res.status(201).json({user: newUser});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -39,7 +39,7 @@ const deleteOneUser = async (req, res) => {
     const user = await User.findByIdAndDelete(id);
     res.status(202).json({user: user});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
@@ -52,7 +52,7 @@ const updateOneUser = async (req, res) => {
     }, {returnDocument: 'after'});
     res.status(202).json({user: user});
   } catch (error) {
-    res.status(400).json({error: error});
+    res.status(400).json({error: error.message});
   }
 };
 
