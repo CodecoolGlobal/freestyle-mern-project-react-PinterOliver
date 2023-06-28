@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./ItemPage.css";
+import ItemPageItem from "../../components/ItemPageItem";
 
 const ItemPage = (props) => {
   const path = window.location.pathname;
@@ -21,10 +22,11 @@ const ItemPage = (props) => {
       <a href={`http://localhost:3000/books`}>
         <button>Back</button>
       </a>
+      <div className="itemContainer">
       {book && book ? 
-      (<div>{book.title}</div>,
-      <img src={book.image_url}></img>)
+      <ItemPageItem book={book} />
        : null}
+       </div>
     </div>
   );
 };

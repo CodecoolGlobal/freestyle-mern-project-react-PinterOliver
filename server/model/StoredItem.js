@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const storageSchema = new Schema({
-  item: mongoose.Types.ObjectId,
+  item: { type: mongoose.Types.ObjectId, ref: 'Book' },
   amount: Number,
   createdAt: {
     type: Date,

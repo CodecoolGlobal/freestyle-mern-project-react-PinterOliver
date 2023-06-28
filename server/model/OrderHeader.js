@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const headerSchema = new Schema({
-  user: mongoose.Types.ObjectId,
+  user: { type: mongoose.Types.ObjectId, ref: 'User' },
   totalPrice: Number,
   state: String,
   completedAt: Date,

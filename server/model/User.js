@@ -11,7 +11,7 @@ const userSchema = new Schema({
   },
   password: String,
   email: String,
-  role: mongoose.Types.ObjectId,
+  role: { type: mongoose.Types.ObjectId, ref: 'Role' },
   delivery: {
     country: String,
     city: String,

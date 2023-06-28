@@ -56,6 +56,15 @@ const userAdminValidation = async (req, res, next) => {
   next();
 };
 
+const roleAdminValidation = async (req, res, next) => {
+  const user = req.user;
+  const role = await Role.findById(user.role);
+  if (!role.canModifyItems) {
+    return res.status(401).json({error: 'You have no right to access'});
+  }
+  next();
+};
+
 const orderValidation = async (req, res, next) => {
   const search = req.search;
   const id = req.params.id;
@@ -96,7 +105,7 @@ const bookValidation = async (req, res, next) => {
 };
 
 const userDataValidation = async (req, res, next) => {
-  const userName = await User.findOne({userName: req.body.userName});
+  const userName = await User.findOne({userName: req.body.username});
   if (userName) {
     return res.status(403).json({error: 'There is already a User with this Username'});
   }
@@ -107,7 +116,15 @@ const userDataValidation = async (req, res, next) => {
   next();
 };
 
-const userUserValidation = async (req, res, next) => {
+const roleDataValidation = async (req, res, next) => {
+  const name = await Role.findOne({name: req.body.name});
+  if (name) {
+    return res.status(403).json({error: 'There is already a Role with this name'});
+  }
+  next();
+};
+
+const userIdValidation = async (req, res, next) => {
   const { id } = req.params;
   const token = req.headers.token;
   const isAdmin = req.isAdmin;
@@ -125,8 +142,10 @@ module.exports = {
   bookAdminValidation,
   orderAdminValidation,
   userAdminValidation,
+  roleAdminValidation,
   orderValidation,
   bookValidation,
   userDataValidation,
-  userUserValidation,
+  userIdValidation,
+  roleDataValidation,
 };
