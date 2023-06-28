@@ -56,6 +56,19 @@ const userAdminValidation = async (req, res, next) => {
   next();
 };
 
+const roleAdminValidation = async (req, res, next) => {
+  const user = req.user;
+  const role = await Role.findById(user.role);
+  if (role.canViewAllUsers) {
+    req.search = {};
+    req.isAdmin = true;
+  } else {
+    req.search = {_id: user._id};
+    req.isAdmin = false;
+  }
+  next();
+};
+
 const orderValidation = async (req, res, next) => {
   const search = req.search;
   const id = req.params.id;
@@ -125,6 +138,7 @@ module.exports = {
   bookAdminValidation,
   orderAdminValidation,
   userAdminValidation,
+  roleAdminValidation,
   orderValidation,
   bookValidation,
   userDataValidation,

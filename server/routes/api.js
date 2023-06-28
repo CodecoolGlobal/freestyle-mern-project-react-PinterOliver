@@ -38,6 +38,7 @@ const {
   bookAdminValidation,
   orderAdminValidation,
   userAdminValidation,
+  roleAdminValidation,
   orderValidation,
   bookValidation,
   userDataValidation,
