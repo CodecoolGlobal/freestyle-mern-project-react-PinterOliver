@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import './LoginPage.css';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -28,9 +29,10 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <img className="logo" src={'logo.png'} alt="logo" />
+    <div className='outerContainer'>
       <div className="loginFormContainer">
+        <img className="logo" src={'logo.png'} alt="logo" />
+        <hr/>
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>
             Username:
@@ -56,10 +58,13 @@ function LoginPage() {
             Login
           </button>
         </form>
+        <hr/>
+        <div>
         <button className="button">Forgot Password</button>
         <a href='/register'>
-        <button className="button">Register</button>
+          <button className="button">Register</button>
         </a>
+        </div>
         <button className="button">Continue as a guest</button>
       </div>
     </div>
