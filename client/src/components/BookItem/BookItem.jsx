@@ -59,8 +59,8 @@ const BookItem = (props) => {
         <a href={`http://localhost:3000/books/${props.book._id}`}>
           <h2 className="bookTitle">{limitedTitle}</h2>
         </a>
-        <p className="bookPrice">{props.book.price}€</p>
-        <button onClick={() => checkLocalStorageCart()}>Add to cart</button>
+        <p className="bookPrice">{props.book.price}HUF</p>
+        <button onClick={() => checkLocalStorageCart()} className='cartButton'>Add to cart</button>
       </div>
     </div>
   );

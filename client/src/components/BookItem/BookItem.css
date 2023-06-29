@@ -27,3 +27,10 @@ height: auto;
   position: relative;
   left: 20vw
 }
+.cartButton{
+width: 60%;
+height: 10%;
+border-radius: 5px;
+background-color: green;
+color: white;
+}

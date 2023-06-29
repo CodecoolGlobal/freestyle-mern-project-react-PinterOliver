@@ -47,7 +47,7 @@
   margin-bottom: 10px;
 }
 .dropbtn {
-  background-color: #04AA6D;
+  background-color: #323232;
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -87,12 +87,12 @@
 .dropdown:hover .dropdown-content {display: block;}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover .dropbtn {background-color: #828282;}
 .filterButton{
 display: block;
 margin-left: 4vw;
 margin-top: 30%;
-background-color: #04AA6D;
+background-color: #323232;
 color: white;
 padding: 16px;
 font-size: 16px;
