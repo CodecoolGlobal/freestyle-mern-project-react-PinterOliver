@@ -1,8 +1,10 @@
 /* eslint-disable consistent-return */
 const User = require('../model/User.js');
+const bcrypt = require('bcrypt');
 
 //Login user if the password is correct
 const login = async (req, res) => {
+  const saltRounds = 10;
   const { username, password } = req.body;
   try {
     const account = await User.findOne({ userName: username }).populate('role');
