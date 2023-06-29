@@ -54,6 +54,9 @@ async function populateBooks() {
     'poetry',
   ];
 
+  let count = 0;
+  const maxCount = genreList.length * 200;
+
   for (const genre of genreList) {
 
     const maxAmount = 200;
@@ -98,9 +101,23 @@ async function populateBooks() {
       });
 
       await BookModel.create(...books);
-      console.log(`Books created (${fetchedAmount + interval}/${maxAmount})`);
+      count += books.length;
+      console.log(`Books created (${count}/${maxCount})`);
     }
   }
+
+  const books = await Book.find({});
+  let counter = 0;
+
+  await Promise.all(books.map(async (book, index, array) => {
+    if (array.slice(0, index).some((item) => item.title === book.title)) {
+      counter++;
+      return await Book.findByIdAndDelete(book._id);
+    }
+    return {};
+  }));
+
+  console.log(`${count - counter} books created alltogether`);
 }
 
 async function populateRoles() {

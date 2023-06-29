@@ -31,7 +31,7 @@ const BookPage = () => {
         OnSort={(value) => setSort(value)}
       />
       {books?.map((book) => (
-        <BookItem key={book} book={book} />
+        <BookItem key={book._id} book={book} />
       ))}
     </div>
   );

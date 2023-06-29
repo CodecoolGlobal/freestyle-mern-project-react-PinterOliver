@@ -17,7 +17,7 @@ function Presentation() {
     <div className='container'>
       <div className='background'></div>
       <div className='presentationContainer' >
-        <img className="logo" src={'logo.png'} alt="logo" />
+        <img className="preslogo" src={'logo.png'} alt="logo" />
         <h2 className='prestitle'>Team members</h2>
         <img className="picture" src={Team}/>
         <div className='listContainer'>

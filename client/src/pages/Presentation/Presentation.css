@@ -13,7 +13,7 @@
   z-index: -99;
 }
 
-.logo {
+.preslogo {
   height: 100vh;
 }
 
@@ -80,7 +80,7 @@
   margin: 80px 0 20px 0;
 }
 
-li {
+.listItem {
   font-size: 40px;
   margin: 5px 0 0 0;
 }
