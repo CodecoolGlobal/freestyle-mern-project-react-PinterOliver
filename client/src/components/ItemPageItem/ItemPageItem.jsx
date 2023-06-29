@@ -1,5 +1,5 @@
-import { useState } from "react";
-import "./ItemPageItem.css";
+import React from 'react';
+import './ItemPageItem.css';
 
 const ItemPageItem = (props) => {
   

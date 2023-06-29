@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './BookItem.css';
 
 const BookItem = (props) => {
@@ -6,8 +6,8 @@ const BookItem = (props) => {
   const [book, setBook] = useState(props.book)
 
   function checkLocalStorageCart() {
-    const cart = localStorage.getItem("cart");
-    const hasCart = cart !== null && cart !== undefined;
+    const cart = localStorage.getItem('cart');
+    const hasCart = cart !== null && typeof cart !== 'undefined';
     if (hasCart) {
       addToCart(book);
     } else {

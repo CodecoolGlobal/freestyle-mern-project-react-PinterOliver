@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import "./ItemPage.css";
-import ItemPageItem from "../../components/ItemPageItem";
+import React, { useState, useEffect } from 'react';
+import './ItemPage.css';
+import ItemPageItem from '../../components/ItemPageItem';
 
-const ItemPage = (props) => {
+const ItemPage = () => {
   const path = window.location.pathname;
-  const id = path.substring(path.lastIndexOf("/") + 1);
+  const id = path.substring(path.lastIndexOf('/') + 1);
 
   const [book, setBook] = useState([]);
 
@@ -19,14 +19,14 @@ const ItemPage = (props) => {
 
   return (
     <div>
-      <a href={`http://localhost:3000/books`}>
+      <a href={'http://localhost:3000/books'}>
         <button>Back</button>
       </a>
       <div className="itemContainer">
-      {book && book ? 
-      <ItemPageItem book={book} />
-       : null}
-       </div>
+        {book && book ?
+          <ItemPageItem book={book} />
+          : null}
+      </div>
     </div>
   );
 };

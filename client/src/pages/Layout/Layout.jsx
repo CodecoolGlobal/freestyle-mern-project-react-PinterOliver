@@ -12,14 +12,14 @@ function Layout() {
     }
   };
 
-  if (!Boolean(localStorage.getItem('token'))) {
+  if (!localStorage.getItem('token')) {
     return <Navigate to={'/login'} />;
   }
 
   return (
     <div className="Layout">
       <div className="main-navbar">
-        <img className="main-logo" src="/logo.png" alt="main logo"></img>
+        <img className="main-logo" src="/icon.png" alt="main logo"></img>
         <a href="/books">
           <button>Books</button>
         </a>
@@ -28,6 +28,9 @@ function Layout() {
         </a>
         <a href="/cart">
           <button>Cart</button>
+        </a>
+        <a href='/presentation'>
+          <button>Presentation</button>
         </a>
         <button onClick={() => handleLogout()}>Logout</button>
       </div>

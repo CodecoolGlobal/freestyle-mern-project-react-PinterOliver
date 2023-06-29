@@ -17,6 +17,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import CartPage from './pages/CartPage';
 import AdminOrderList from './pages/AdminOrderList';
 import AdminOrderUpdater from './pages/AdminOrderUpdater';
+import Presentation from './pages/Presentation/Presentation';
 
 const router = createBrowserRouter([
   {
@@ -74,14 +75,17 @@ const router = createBrowserRouter([
   {
     path: 'Register',
     element: <RegisterPage />,
+  },  {
+    path: 'presentation',
+    element: <Presentation />,
   },
-]);
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 reportWebVitals();
