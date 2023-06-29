@@ -29,9 +29,9 @@ function OrderHeadersTable({ orderList, onLearnMore, onDelete }) {
               <button onClick={() => onDelete(order._id)}>Delete order</button>
             </td>
             <td>
-              <button onClick={() => navigate(`update/${order._id}`)}>Update order</button>
+              <button onClick={() => navigate(`update/${order._id}`)}>Update order state</button>
             </td>
-              {/* <button onClick={() => onDelete(order._id)}>Delete</button> */}
+              <button onClick={() => navigate(`update/${order._id}`)}>Update order details</button>
             </td>
           </tr>
         ))}
