@@ -14,7 +14,9 @@ function AdminPage() {
                 <button>+</button>
               </a>
             </li>
-            <li>Orders</li>
+            <li>
+              <Link to="orders">Orders</Link>
+            </li>
             <li>
               <Link to="users">Users</Link>
             </li>

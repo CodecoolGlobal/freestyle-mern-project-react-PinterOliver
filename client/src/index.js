@@ -15,6 +15,8 @@ import AdminBookUpdater from './pages/AdminBookUpdater';
 import AdminBookCreator from './pages/AdminBookCreator';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import CartPage from './pages/CartPage';
+import AdminOrderList from './pages/AdminOrderList';
+import AdminOrderUpdater from './pages/AdminOrderUpdater';
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,14 @@ const router = createBrowserRouter([
           {
             path: 'users',
             element: <AdminUserList />,
+          },
+          {
+            path: 'orders',
+            element: <AdminOrderList />,
+          },
+          {
+            path: 'orders/update/:id',
+            element: <AdminOrderUpdater />,
           },
         ],
       },
