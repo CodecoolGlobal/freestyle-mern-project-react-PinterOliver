@@ -28,6 +28,18 @@ const login = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  const token = req.headers.token;
+  const user = req.user;
+  user.token = user.token.filter((item) => item !== token);
+  const savedUser = await user.save();
+  if (!savedUser) {
+    res.status(404).json({success: false, error: 'No such user'});
+  }
+  res.status(202).json({success: true, message: 'User session is over'});
+};
+
 module.exports = {
   login,
+  logout,
 };
