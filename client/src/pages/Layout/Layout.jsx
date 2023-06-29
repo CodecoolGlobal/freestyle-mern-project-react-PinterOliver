@@ -24,7 +24,9 @@ function Layout() {
   return (
     <div className="Layout">
       <div className="main-navbar">
-        <img className="main-logo" src="/icon.png" alt="main logo"></img>
+        <a className="main-logo" href="/">
+          <img className="main-logo" src="/icon.png" alt="main logo"></img>
+        </a>
         <a className='topButton' href="/books">
           <NavbarButton text='Books'/>
         </a>
