@@ -28,13 +28,6 @@ const getAllBooks = async (req, res) => {
       sortBy = toSort(sortBy, type, ascend);
     }
     const books = await Book.find(search).sort(sortBy);
-    /* const fullBooks = await Promise.all(
-      books.map(async (book) => {
-        const amount = await StoredItem.find({ item: book._id });
-        book.amount = amount;
-        return book;
-      }),
-    ); */
     res.status(200).json({ books: books });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -46,8 +39,6 @@ const getOneBook = async (req, res) => {
   const { id } = req.params;
   try {
     const book = await Book.findById(id);
-    /* const amount = await StoredItem.find({ item: book._id });
-    book.amount = amount; */
     if (!book) {
       return res.status(404).json({ error: 'No such book' });
     }
