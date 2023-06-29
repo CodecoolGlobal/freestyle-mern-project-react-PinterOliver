@@ -20,7 +20,14 @@ function OrderHeaderForm({ order, onCancel, onSave }) {
     <form onSubmit={onSubmit}>
       <div className="control">
         <label htmlFor="state">State:</label>
-        <input value={state} onChange={(e) => setState(e.target.value)} name="state" id="state" />
+        <select value={state} onChange={(e) => setState(e.target.value)} name="state" id="state">
+          <option value="cart">Cart</option>
+          <option value="placed">Orderd</option>
+          <option value="order_confirmed">Order confirmed</option>
+          <option value="transferred_to_shipping">Transferred to shipping</option>
+          <option value="order_completed">Completed</option>
+        </select>  
+        {/* <input value={state} onChange={(e) => setState(e.target.value)} name="state" id="state" /> */}
       </div>
 
       <div className="buttons">
