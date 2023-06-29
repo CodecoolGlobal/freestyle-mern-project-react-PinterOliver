@@ -14,6 +14,13 @@ const BookFilter = (props) => {
     background: `linear-gradient(to right, #85bb65 0%, #85bb65 ${sliderValue}%, #d3d3d3 ${sliderValue}%, #d3d3d3 100%)`,
   };
 
+  function setTitle(string){
+  const title = string.replace('title,', 'Title, ')
+    const mTitle = title.replace('author,', 'Author, ')
+    const fTitle = mTitle.replace('end', 'ending')
+    return fTitle
+  }
+
   return (
     <div className="filterContainer">
       <div className="slidecontainer">
@@ -31,7 +38,7 @@ const BookFilter = (props) => {
       </div>
       <h2>Sort Items</h2>
       <div className={"dropdown"}>
-        <button className="dropbtn">{sortBy}</button>
+        <button className="dropbtn">{setTitle(sortBy)}</button>
         <div className="dropdown-content">
           <div onClick={() => setSortBy("title,ascend")}>Title, ascending</div>
           <div onClick={() => setSortBy("title,descend")}>
