@@ -14,6 +14,7 @@ import LoginPage from './pages/LoginPage';
 import AdminBookUpdater from './pages/AdminBookUpdater';
 import AdminBookCreator from './pages/AdminBookCreator';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import Presentation from './pages/Presentation/Presentation';
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
   {
     path: 'Register',
     element: <RegisterPage />,
+  },
+  {
+    path: 'presentation',
+    element: <Presentation />,
   }
 ]);
 

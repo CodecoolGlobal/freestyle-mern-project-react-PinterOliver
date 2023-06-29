@@ -82,6 +82,7 @@ async function populateBooks() {
           !book.title ||
           !book.author ||
           !book.image_url ||
+          !book.genres ||
           !book.genres.length ||
           !book.publishedYear ||
           !book.description ||
@@ -90,7 +91,7 @@ async function populateBooks() {
         return true;
       });
 
-      books = books.forEach((book) => {
+      books.forEach((book) => {
         if (!book.price) {
           book.price = (Math.floor(Math.random() * 300) * 10) + 509;
         }

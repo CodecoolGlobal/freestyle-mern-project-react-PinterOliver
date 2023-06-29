@@ -86,6 +86,8 @@ const orderHeaderValidation = async (req, res, next) => {
       return res.status(404).json({error: 'No such order exists'});
     case 'DELETE':
       return res.status(404).json({error: 'No such order exists to delete'});
+    case 'POST':
+      return res.status(404).json({error: 'No such order exists to add item to'});
     }
   }
   const forbiddenStates = ['transferred_to_shipping', 'order_completed'];
