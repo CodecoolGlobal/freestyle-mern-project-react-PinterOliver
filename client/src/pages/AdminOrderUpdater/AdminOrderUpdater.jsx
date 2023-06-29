@@ -12,7 +12,12 @@ function AdminOrderUpdater() {
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
-      const response = await fetch(`/api/orderheaders/${id}`);
+      const response = await fetch(`/api/orderheaders/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
+          token: localStorage.getItem('token'),
+        }});
       const jsonData = await response.json();
       setOrder(jsonData.orderheader);
       setLoading(false);
@@ -28,8 +33,9 @@ function AdminOrderUpdater() {
         'Content-type': 'application/json',
         token: localStorage.getItem('token'),
       },
-      body: JSON.stringify(order),
+      body: JSON.stringify({newstate: order.state}),
     });
+    console.log(order)
     setLoading(false);
     navigate('/admin/orders');
   };
