@@ -9,13 +9,15 @@ function AdminOrderList() {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch('/api/orders', {headers: {
+      const response = await fetch('/api/orderheaders', {headers: {
         token: localStorage.getItem('token')
       }});
       const jsonData = await response.json();
-      setOrderList(jsonData.orders);
+      //console.log(jsonData)
+      setOrderList(jsonData.orderheaders);
       setLoading(false);
     };
+    console.log(orderList);
     fetchOrders();
   }, []);
 
@@ -28,13 +30,16 @@ function AdminOrderList() {
     // const response = await fetch(`/api/oders/${id}`, {
     //   method: 'DELETE',
     // });
-    const response = await fetch(`/api/oders/${id}`)
+    const response = await fetch(`/api/orderheaders/${id}`)
     const orderHeaderId = getLastPart(response.url)
 
-    const orderItemsResponse = await fetch(`/api/oders/${orderHeaderId}`) ///////////////////////////////////////////////////
+    const orderItemsResponse = await fetch(`/api/oderitems/orderheaders/${orderHeaderId}`, {headers: {
+      token: localStorage.getItem('token')
+    }});
+    const jsonData = await orderItemsResponse.json();
+      setOrderList(jsonData.orders);
 
-    
-    // console.log(orderHeaderId)
+    console.log(orderItemsResponse)
     console.log(await response.json());
     setOrderList(orderList.filter((order) => order._id !== id));
   };
