@@ -1,7 +1,6 @@
 const numberSearch = (search, key, number, type) => {
   search[key] = {};
   search[key][`$${type}`] = number;
-  console.log(search);
   return search;
 };
 
