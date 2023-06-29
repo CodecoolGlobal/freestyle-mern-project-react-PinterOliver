@@ -13,7 +13,6 @@ function AdminOrderList() {
         token: localStorage.getItem('token')
       }});
       const jsonData = await response.json();
-      //console.log(jsonData)
       setOrderList(jsonData.orderheaders);
       setLoading(false);
     };
