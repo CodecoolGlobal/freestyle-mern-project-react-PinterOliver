@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 require('dotenv').config();
 const mongoose = require('mongoose');
 const BookModel = require('./model/Book');
@@ -42,7 +43,7 @@ async function populateBooks() {
     const response = await fetch(fetchUrl);
     const jsonData = await response.json();
 
-    const books = jsonData.items.map((book) => {
+    let books = jsonData.items.map((book) => {
       return {
         title: book.volumeInfo.title,
         author: book.volumeInfo.authors ? book.volumeInfo.authors[0] : null,
@@ -52,6 +53,25 @@ async function populateBooks() {
         description: book.volumeInfo.description,
         image_url: book.volumeInfo.imageLinks?.thumbnail ?? '',
       };
+    });
+
+    books = books.filter((book, index, array) => {
+      if (
+        !book.title ||
+        !book.author ||
+        !book.image_url ||
+        !book.genres.length ||
+        !book.publishedYear ||
+        !book.description ||
+        array.slice(0, index).some((item) => item.title === book.title)
+      ) return false;
+      return true;
+    });
+
+    books = books.forEach((book) => {
+      if (!book.price) {
+        book.price = (Math.floor(Math.random() * 300) * 10) + 509;
+      }
     });
 
     await BookModel.create(...books);
