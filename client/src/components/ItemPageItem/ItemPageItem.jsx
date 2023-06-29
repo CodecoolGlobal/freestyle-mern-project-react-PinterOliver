@@ -57,7 +57,7 @@ const ItemPageItem = (props) => {
       <h3>Author: {props.book.author}</h3>
       <h3> Description</h3>
       <div className="description">{props.book.description}</div>
-      <div>Price: {props.book.price}€</div>
+      <div>Price: {props.book.price}HUF</div>
       <button onClick={() => checkLocalStorageCart()}>Add to cart</button>
     </div>
   );
