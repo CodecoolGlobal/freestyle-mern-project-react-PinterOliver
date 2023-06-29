@@ -1,8 +1,8 @@
 import React from 'react';
-import './OrdersTable.css';
+import './OrderItemsTable.css';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-function OrdersTable({ orderList, onDelete }) {
+function OrderItemsTable({ orderList, onDelete }) {
   return (
     <table>
       <thead>
@@ -30,4 +30,4 @@ function OrdersTable({ orderList, onDelete }) {
   );
 }
 
-export default OrdersTable;
+export default OrderItemsTable;

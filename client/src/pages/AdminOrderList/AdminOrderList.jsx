@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AdminOrderList.css';
 import Loading from '../../components/Loading';
-import OrdersTable from '../../components/OrdersTable';
+import OrdersHeadersTable from '../../components/OrdersHeadersTable';
 
 function AdminOrderList() {
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ function AdminOrderList() {
 
   if (loading) return <Loading />;
 
-  return <OrdersTable orderList={orderList} onDelete={handleDelete} />;
+  return <OrdersHeadersTable orderList={orderList} onDelete={handleDelete} />;
 }
 
 export default AdminOrderList;
