@@ -9,6 +9,7 @@ import SnippetA2 from './snippetA2.png';
 import LocalStorage from './localstorage.png';
 import SnippetB1 from './snippetB1.png';
 import SnippetB2 from './snippetB2.png';
+import Funfact from './funfact.gif';
 import Question from './question.gif';
 
 function Presentation() {
@@ -62,8 +63,17 @@ function Presentation() {
           <img className="hugepicture" src={SnippetB1}/>
           <img className="hugepicture" src={SnippetB2}/>
         </div>
+        <h2 className='prestitle'>Fun fact</h2>
+        <img className="tallpicture" src={Funfact}/>
+        <div className='listContainer'>
+          <ul className='listing'>
+            <li className='listItem'>Trello card: 32</li>
+            <li className='listItem'>JS file: 47</li>
+            <li className='listItem'>Git commit: 356</li>
+          </ul>
+        </div>
         <h2 className='prestitle'>Do you have any questions?</h2>
-        <img className="tallpicture" src={Question}/>
+        <img className="tallbigpicture" src={Question}/>
       </div>
     </div>
   );

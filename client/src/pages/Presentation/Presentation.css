@@ -30,15 +30,20 @@
 
 .bigpicture {
   width: 800px;
+  margin-bottom: 100px;
 }
 
 .hugepicture {
   width: 1200px;
 }
 
-.tallpicture {
+.tallbigpicture {
   height: 80vh;
   margin-bottom: 20px;
+}
+
+.tallpicture {
+  height: 50vh;
 }
 
 .snippetgroupa {
@@ -72,7 +77,7 @@
 
 .prestitle {
   font-size: 60px;
-  margin: 60px 0 20px 0;
+  margin: 80px 0 20px 0;
 }
 
 li {
