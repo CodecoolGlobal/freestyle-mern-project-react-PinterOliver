@@ -34,49 +34,68 @@ main().catch((error) => {
 async function populateBooks() {
   await BookModel.deleteMany({});
 
-  const maxAmount = 200;
-  const interval = 40;
+  const genreList = [
+    'fiction',
+    'drama',
+    'fantasy',
+    'history',
+    'children',
+    'horror',
+    'thriller',
+    'biography',
+    'crime',
+    'philosophy',
+    'poetry',
+  ];
 
-  for (let fetchedAmount = 0; fetchedAmount < maxAmount; fetchedAmount += interval) {
-    const fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=subject:fiction&maxResults=${interval}&startIndex=${fetchedAmount}`;
+  for (const genre of genreList) {
 
-    const response = await fetch(fetchUrl);
-    const jsonData = await response.json();
+    const maxAmount = 200;
+    const interval = 40;
 
-    let books = jsonData.items.map((book) => {
-      return {
-        title: book.volumeInfo.title,
-        author: book.volumeInfo.authors ? book.volumeInfo.authors[0] : null,
-        publishedYear: String(book.volumeInfo.publishedDate).substring(0, 4),
-        price: book.saleInfo.listPrice?.amount,
-        genres: book.volumeInfo.categories,
-        description: book.volumeInfo.description,
-        image_url: book.volumeInfo.imageLinks?.thumbnail ?? '',
-      };
-    });
+    for (let fetchedAmount = 0; fetchedAmount < maxAmount; fetchedAmount += interval) {
+      const fetchUrl = `https://www.googleapis.com/books/v1/volumes?q=subject:${genre}&maxResults=${interval}&startIndex=${fetchedAmount}`;
 
-    books = books.filter((book, index, array) => {
-      if (
-        !book.title ||
-        !book.author ||
-        !book.image_url ||
-        !book.genres.length ||
-        !book.publishedYear ||
-        !book.description ||
-        array.slice(0, index).some((item) => item.title === book.title)
-      ) return false;
-      return true;
-    });
+      const response = await fetch(fetchUrl);
+      const jsonData = await response.json();
 
-    books = books.forEach((book) => {
-      if (!book.price) {
-        book.price = (Math.floor(Math.random() * 300) * 10) + 509;
-      }
-    });
+      let books = jsonData.items.map((book) => {
+        return {
+          title: book.volumeInfo.title,
+          author: book.volumeInfo.authors ? book.volumeInfo.authors[0] : null,
+          publishedYear: String(book.volumeInfo.publishedDate).substring(0, 4),
+          price: book.saleInfo.listPrice?.amount,
+          genres: book.volumeInfo.categories,
+          description: book.volumeInfo.description,
+          image_url: book.volumeInfo.imageLinks?.thumbnail ?? '',
+        };
+      });
 
-    await BookModel.create(...books);
-    console.log(`Books created (${fetchedAmount + interval}/${maxAmount})`);
+      books = books.filter((book, index, array) => {
+        if (
+          !book.title ||
+          !book.author ||
+          !book.image_url ||
+          !book.genres.length ||
+          !book.publishedYear ||
+          !book.description ||
+          array.slice(0, index).some((item) => item.title === book.title)
+        ) return false;
+        return true;
+      });
+
+      books = books.forEach((book) => {
+        if (!book.price) {
+          book.price = (Math.floor(Math.random() * 300) * 10) + 509;
+        }
+      });
+
+      await BookModel.create(...books);
+      console.log(`Books created (${fetchedAmount + interval}/${maxAmount})`);
+    }
+
   }
+
 }
 
 async function populateRoles() {
