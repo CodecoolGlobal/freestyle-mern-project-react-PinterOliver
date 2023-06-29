@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 /* eslint-disable camelcase */
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -7,6 +8,8 @@ const StoredItemModel = require('./model/StoredItem');
 const Book = require('./model/Book');
 const OrderHeader = require('./model/OrderHeader');
 const OrderItem = require('./model/OrderItem');
+const User = require('./model/User');
+const Role = require('./model/Role');
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -102,6 +105,8 @@ async function populateBooks() {
 }
 
 async function populateRoles() {
+  const users = await User.find({}).populate('role');
+
   await RoleModel.deleteMany({});
 
   const roles = [
@@ -154,6 +159,18 @@ async function populateRoles() {
 
   await RoleModel.create(...roles);
   console.log('Roles created');
+
+  users.forEach(async (user) => {
+    const userRole = await Role.find({name: user.role.name});
+    if (userRole) {
+      user.role = userRole._id;
+    } else {
+      const defaultRole = await Role.find({name: 'User'});
+      user.role = defaultRole._id;
+    }
+    await user.save();
+  });
+  console.log('Users updated');
 }
 
 async function populateStorage() {
