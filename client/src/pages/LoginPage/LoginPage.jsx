@@ -23,10 +23,21 @@ function LoginPage() {
     if (jsonData.token) {
       localStorage.setItem('token', jsonData.token);
       loadExistingCart(jsonData.token);
-      navigate('/');
+      const resData = await fetch('/api/orderheaders/cart', {
+        headers: {token: jsonData.token},
+      });
+      const jsonDataPlus = await resData.json();
+      if (resData.status === 200) {
+        const id = jsonDataPlus.orderheader._id;
+        localStorage.setItem('cartid', id);
+        navigate('/');
+      } else {
+        console.log(jsonDataPlus);
+      }
     } else {
       console.log(jsonData.error);
     }
+
   };
 
   return (
@@ -61,10 +72,10 @@ function LoginPage() {
         </form>
         <hr/>
         <div>
-        <button className="button">Forgot Password</button>
-        <a href='/register'>
-          <button className="button">Register</button>
-        </a>
+          <button className="button">Forgot Password</button>
+          <a href='/register'>
+            <button className="button">Register</button>
+          </a>
         </div>
         <button className="button">Continue as a guest</button>
       </div>
@@ -110,8 +121,8 @@ async function loadExistingCart(token) {
           amount: order.amount,
           price: order.price,
         };
-      })
-    )
+      }),
+    ),
   );
 }
 

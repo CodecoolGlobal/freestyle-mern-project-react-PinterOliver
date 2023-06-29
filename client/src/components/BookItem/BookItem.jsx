@@ -3,9 +3,9 @@ import './BookItem.css';
 
 const BookItem = (props) => {
 
-  const [book, setBook] = useState(props.book)
+  const [book, setBook] = useState(props.book);
 
-  function checkLocalStorageCart() {
+  async function checkLocalStorageCart() {
     const cart = localStorage.getItem('cart');
     const hasCart = cart !== null && typeof cart !== 'undefined';
     if (hasCart) {
@@ -20,7 +20,12 @@ const BookItem = (props) => {
         },
       ];
       localStorage.setItem('cart', JSON.stringify(newCart));
+      const resData = await fetch('/api/orderheaders');
     }
+    const newCart = localStorage.getItem('cart');
+    const resData = await Promise.all(newCart.map(async (item) => {
+      fetch
+    }));
   }
 
   function addToCart(book) {
