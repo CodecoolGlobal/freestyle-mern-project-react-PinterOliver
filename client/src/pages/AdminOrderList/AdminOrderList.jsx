@@ -52,9 +52,17 @@ function AdminOrderList() {
     },
     method: 'DELETE',
     })
-    // const orderHeaderId = getLastPart(response.url)
     console.log(await response)
-    console.log(await response.json());
+    setOrderList(orderList.filter((order) => order._id !== id));
+  };
+
+  const handleDeleteItem = async (id) => {
+    const response = await fetch(`/api/orderitems/${id}`, {headers: {
+      token: localStorage.getItem('token')
+    },
+    method: 'DELETE',
+    })
+    console.log(await response)
     setOrderList(orderList.filter((order) => order._id !== id));
   };
 
@@ -64,7 +72,7 @@ function AdminOrderList() {
   return (sideType === 'headers') ? (
     <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} onDelete={handleDelete}/>
   ) : (sideType === 'items') ? (
-    <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} />
+    <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} onDelete={handleDeleteItem}/>
   ) : (
     <Loading />
   )

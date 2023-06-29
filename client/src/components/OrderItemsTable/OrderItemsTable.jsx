@@ -1,7 +1,7 @@
 import React from 'react';
 import './OrderItemsTable.css';
 
-function OrderItemsTable({ orderList, onLearnLess }) {
+function OrderItemsTable({ orderList, onLearnLess, onDelete }) {
   return (
     <table>
       <thead>
@@ -28,7 +28,7 @@ function OrderItemsTable({ orderList, onLearnLess }) {
               <button onClick={() => onLearnLess(order._id)}>Learn less</button>
             </td>
             <td>
-              <button onClick={() => onLearnLess(order._id)}>Update order</button>
+              <button onClick={() => onDelete(order._id)}>Delete item</button>
             </td>
             <td>
               <button onClick={() => onLearnLess(order._id)}>Update order</button>
