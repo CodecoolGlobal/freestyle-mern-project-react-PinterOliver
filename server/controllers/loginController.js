@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-const Role = require('../model/Role.js');
 const User = require('../model/User.js');
 
 //Login user if the password is correct
@@ -8,7 +7,7 @@ const login = async (req, res) => {
   try {
     const account = await User.findOne({ userName: username }).populate('role');
     if (account.password === password) {
-      account.token = account._id.toString();
+      account.token.push(account._id.toString());
       const isSaved = await account.save();
       if (!isSaved) {
         return res.status(500).json({ error: 'Can\'t create token' });

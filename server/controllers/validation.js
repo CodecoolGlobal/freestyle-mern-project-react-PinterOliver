@@ -179,7 +179,7 @@ const userIdValidation = async (req, res, next) => {
   const token = req.headers.token;
   const isAdmin = req.isAdmin;
   const user = await User.findById(id);
-  if (!user || (!isAdmin && user.token !== token)) {
+  if (!user || (!isAdmin && !user.token.includes(token))) {
     return res.status(400).json({error: 'Wrong ID'});
   }
   req.userData = user;
