@@ -29,7 +29,7 @@ function LoginPage() {
 
   return (
     <div>
-      <img className="logo" src={'logo.png'} alt="logo" />
+      <img className="logo" src={'icon.png'} alt="logo" />
       <div className="loginFormContainer">
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>

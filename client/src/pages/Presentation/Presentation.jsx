@@ -5,8 +5,15 @@ function Presentation() {
   
 
   return (
-    <div>
-      <img className="logo" src={'logo.png'} alt="logo" />
+    <div className='presentationContainer' style={{
+      display: 'flex',
+      'flex-direction': 'column',
+      'align-items': 'center',
+      }}>
+      <img className="logo" src={'icon.png'} alt="logo" style={{height: '200px'}} />
+      <div>Presentation</div>
+      <div>Presentation</div>
+      <div>Presentation</div>
       <div>Presentation</div>
     </div>
   );

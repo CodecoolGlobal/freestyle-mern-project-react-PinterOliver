@@ -19,7 +19,7 @@ function Layout() {
   return (
     <div className="Layout">
       <div className="main-navbar">
-        <img className="main-logo" src="/logo.png" alt="main logo"></img>
+        <img className="main-logo" src="/icon.png" alt="main logo"></img>
         <a href="/books">
           <button>Books</button>
         </a>
