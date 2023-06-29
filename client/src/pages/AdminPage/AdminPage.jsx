@@ -10,6 +10,9 @@ function AdminPage() {
           <ul>
             <li>
               <Link to="books">Books</Link>
+              <a href="books/create">
+                <button>+</button>
+              </a>
             </li>
             <li>
               <Link to="orders">Orders</Link>

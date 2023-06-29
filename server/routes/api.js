@@ -14,13 +14,28 @@ const {
 } = require('../controllers/booksController');
 
 const {
-  getAllOrders,
-  getOneOrder,
-  addOneOrder,
-  deleteOneOrder,
-  updateOneOrder,
-  getCartOrder,
-} = require('../controllers/ordersController');
+  getAllStoredItems,
+  getOneStoredItem,
+  updateOneStoredItem,
+} = require('../controllers/storedItemsController');
+
+const {
+  getAllOrderHeaders,
+  getOneOrderHeader,
+  addOneOrderHeader,
+  deleteOneOrderHeader,
+  updateOneOrderHeader,
+  getCartOrderHeader,
+} = require('../controllers/orderHeadersController');
+
+const {
+  getAllOrderItems,
+  getOneOrdersItems,
+  getOneOrderItem,
+  addOneOrderItem,
+  deleteOneOrderItem,
+  updateOneOrderItem,
+} = require('../controllers/orderItemsController');
 
 const {
   getAllUsers,
@@ -30,18 +45,31 @@ const {
   updateOneUser,
 } = require('../controllers/usersController');
 
+const {
+  getAllRoles,
+  getOneRole,
+  addOneRole,
+  deleteOneRole,
+  updateOneRole,
+} = require('../controllers/rolesController');
+
 const router = express.Router();
 
 const {
   idValidation,
   userValidation,
   bookAdminValidation,
+  storedItemAdminValidation,
   orderAdminValidation,
   userAdminValidation,
-  orderValidation,
+  roleAdminValidation,
+  orderHeaderValidation,
+  orderItemValidation,
   bookValidation,
+  storedItemValidation,
   userDataValidation,
-  userUserValidation,
+  userIdValidation,
+  roleDataValidation,
 } = require('../controllers/validation');
 
 router.route('/login').post(login);
@@ -55,25 +83,53 @@ router.route('/books/:id')
   .delete(idValidation, userValidation, bookAdminValidation, deleteOneBook)
   .patch(idValidation, userValidation, bookAdminValidation, bookValidation, updateOneBook);
 
-router.route('/orders')
-  .get(userValidation, orderAdminValidation, getAllOrders)
-  .post(userValidation, orderAdminValidation, addOneOrder);
+router.route('/storeditems')
+  .get(getAllStoredItems);
 
-router.route('/orders/cart')
-  .get(userValidation, orderAdminValidation, getCartOrder);
+router.route('/storeditems/books/:id')
+  .get(idValidation, storedItemValidation, getOneStoredItem)
+  .patch(idValidation, userValidation, storedItemAdminValidation, storedItemValidation, updateOneStoredItem);
 
-router.route('/orders/:id')
-  .get(idValidation, userValidation, orderAdminValidation, getOneOrder)
-  .delete(idValidation, userValidation, orderAdminValidation, orderValidation, deleteOneOrder)
-  .patch(idValidation, userValidation, orderAdminValidation, orderValidation, updateOneOrder);
+router.route('/orderheaders')
+  .get(userValidation, orderAdminValidation, getAllOrderHeaders)
+  .post(userValidation, orderAdminValidation, addOneOrderHeader);
+
+router.route('/orderheaders/cart')
+  .get(userValidation, getCartOrderHeader);
+
+router.route('/orderheaders/:id')
+  .get(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, getOneOrderHeader)
+  .delete(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, deleteOneOrderHeader)
+  .patch(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, updateOneOrderHeader);
+
+router.route('/orderitems/orderheaders/:id')
+  .get(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, getOneOrdersItems)
+  .post(idValidation, userValidation, orderAdminValidation, orderHeaderValidation, addOneOrderItem);
+
+router.route('/orderitems')
+  .get(userValidation, orderAdminValidation, getAllOrderItems);
+
+router.route('/orderitems/:id')
+  .get(idValidation, userValidation, orderAdminValidation, orderItemValidation, getOneOrderItem)
+  .delete(idValidation, userValidation, orderAdminValidation, orderItemValidation, deleteOneOrderItem)
+  .patch(idValidation, userValidation, orderAdminValidation, orderItemValidation, updateOneOrderItem);
 
 router.route('/users')
   .get(userValidation, userAdminValidation, getAllUsers)
   .post(userDataValidation, addOneUser);
 
 router.route('/users/:id')
-  .get(idValidation, userValidation, userAdminValidation, userUserValidation, getOneUser)
-  .delete(idValidation, userValidation, userAdminValidation, userUserValidation, deleteOneUser)
-  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userUserValidation, updateOneUser);
+  .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
+  .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
+  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
+
+router.route('/roles')
+  .get(userValidation, roleAdminValidation, getAllRoles)
+  .post(roleDataValidation, addOneRole);
+
+router.route('/roles/:id')
+  .get(idValidation, userValidation, roleAdminValidation, getOneRole)
+  .delete(idValidation, userValidation, roleAdminValidation, deleteOneRole)
+  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, updateOneRole);
 
 module.exports = router;
