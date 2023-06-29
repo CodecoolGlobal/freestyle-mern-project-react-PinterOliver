@@ -15,7 +15,7 @@ function AdminPage() {
               </Link>
             </div>
             <div>
-              <a href="books/create" className='adminSideButton'>
+              <a href="/admin/books/create" className='adminSideButton'>
                 <NavbarButton text='Add a book'/>
               </a>
             </div>

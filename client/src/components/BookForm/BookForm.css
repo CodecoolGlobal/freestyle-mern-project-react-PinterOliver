@@ -1,0 +1,11 @@
+.createForm {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 20px;
+}
+
+.createForm > .control, .buttons > button {
+  margin: 10px;
+}
