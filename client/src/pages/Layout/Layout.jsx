@@ -13,6 +13,7 @@ function Layout() {
         headers: {token: localStorage.getItem('token')},
       });
       localStorage.removeItem('token');
+      localStorage.removeItem('cartid');
       navigate('/');
     }
   };
