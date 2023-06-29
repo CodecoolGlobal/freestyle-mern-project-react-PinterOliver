@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './AdminOrderList.css';
 import Loading from '../../components/Loading';
-import OrdersHeadersTable from '../../components/OrderHeadersTable';
+import OrderHeadersTable from '../../components/OrderHeadersTable';
+import OrderItemsTable from '../../components/OrderItemsTable';
 
 function AdminOrderList() {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,7 @@ function AdminOrderList() {
         token: localStorage.getItem('token')
       }});
       const jsonData = await response.json();
+      jsonData.orderheaders.type = 'headers'
       setOrderList(jsonData.orderheaders);
       setLoading(false);
     };
@@ -32,6 +34,7 @@ function AdminOrderList() {
       token: localStorage.getItem('token')
     }});
     const jsonData = await moreInfoResponse.json();
+    jsonData.orderitems.type = 'items'
     setOrderList(jsonData.orderitems);
   }
 
@@ -55,7 +58,11 @@ function AdminOrderList() {
 
   if (loading) return <Loading />;
 
-  return <OrdersHeadersTable orderList={orderList} onLearnMore={handleLearnMore} />;
+  return (orderList.type === 'headers') ? (
+    <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} />
+  ) : (
+    <OrderItemsTable orderList={orderList} onLearnMore={handleLearnMore} />
+  )
 }
 
 export default AdminOrderList;
