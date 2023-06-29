@@ -14,6 +14,7 @@ import LoginPage from './pages/LoginPage';
 import AdminBookUpdater from './pages/AdminBookUpdater';
 import AdminBookCreator from './pages/AdminBookCreator';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import CartPage from './pages/CartPage';
 import AdminOrderList from './pages/AdminOrderList';
 import AdminOrderUpdater from './pages/AdminOrderUpdater';
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: 'books/:id',
         element: <ItemPage />,
+      },
+      {
+        path: 'cart',
+        element: <CartPage />,
       },
       {
         path: 'admin',
@@ -69,7 +74,7 @@ const router = createBrowserRouter([
   {
     path: 'Register',
     element: <RegisterPage />,
-  }
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

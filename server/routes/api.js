@@ -3,6 +3,7 @@ const express = require('express');
 
 const {
   login,
+  logout,
 } = require('../controllers/loginController');
 
 const {
@@ -72,7 +73,9 @@ const {
   roleDataValidation,
 } = require('../controllers/validation');
 
-router.route('/login').post(login);
+router.route('/login')
+  .post(login)
+  .delete(userValidation, logout);
 
 router.route('/books')
   .get(getAllBooks)
