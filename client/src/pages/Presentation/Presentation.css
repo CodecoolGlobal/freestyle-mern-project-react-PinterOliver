@@ -1,5 +1,11 @@
+body {
+  background-color: rgb(212, 212, 212);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .presentationContainer {
-  padding-top: 100px;
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +16,21 @@
 }
 
 .listContainer {
-  margin-left: 100px;
-  width: 400px;
+  margin-left: 200px;
+  width: 600px;
+}
+
+h1 {
+  font-size: 100px;
+  margin: 20px 0 0 0;
+}
+
+h2 {
+  font-size: 60px;
+  margin: 40px 0 10px 0;
+}
+
+li {
+  font-size: 40px;
+  margin: 5px 0 0 0;
 }

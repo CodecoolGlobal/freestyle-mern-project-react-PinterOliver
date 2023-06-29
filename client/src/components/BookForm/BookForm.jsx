@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
 
 function BookForm({ book, onCancel, onSave }) {

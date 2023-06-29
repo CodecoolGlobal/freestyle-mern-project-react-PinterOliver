@@ -1,10 +1,10 @@
-import { useState } from "react";
-import "./BookItem.css";
+import React from 'react';
+import './BookItem.css';
 
 const BookItem = (props) => {
   function checkLocalStorageCart() {
-    const cart = localStorage.getItem("cart");
-    const hasCart = cart !== null && cart !== undefined;
+    const cart = localStorage.getItem('cart');
+    const hasCart = cart !== null && typeof cart !== 'undefined';
     if (hasCart) {
       addToCart(props.book);
     } else {
@@ -18,20 +18,20 @@ const BookItem = (props) => {
       // Convert the JSON object to a string
       const jsonString = JSON.stringify(myObject);
       // Save the stringified JSON object to local storage
-      localStorage.setItem("cart", jsonString);
+      localStorage.setItem('cart', jsonString);
     }
   }
 
-  const [book, setBook] = useState(props.book);
+  //const [book, setBook] = useState(props.book);
 
   function addToCart(book) {
-    const storedJsonString = localStorage.getItem("cart");
+    const storedJsonString = localStorage.getItem('cart');
     const storedObject = JSON.parse(storedJsonString);
 
     if (storedObject[book._id]) {
       storedObject[book._id].amount++;
       const jsonString = JSON.stringify(storedObject);
-      localStorage.setItem("cart", jsonString);
+      localStorage.setItem('cart', jsonString);
     } else {
       storedObject[book._id] = {
         title: book.title,
@@ -41,7 +41,7 @@ const BookItem = (props) => {
       // Convert the JSON object to a string
       const jsonString = JSON.stringify(storedObject);
       // Save the stringified JSON object to local storage
-      localStorage.setItem("cart", jsonString);
+      localStorage.setItem('cart', jsonString);
     }
 
     return null;

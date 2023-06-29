@@ -12,7 +12,7 @@ function Layout() {
     }
   };
 
-  if (!Boolean(localStorage.getItem('token'))) {
+  if (!localStorage.getItem('token')) {
     return <Navigate to={'/login'} />;
   }
 

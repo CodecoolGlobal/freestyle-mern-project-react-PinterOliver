@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import BookItem from "../../components/BookItem/BookItem";
-import BookFilter from "../../components/BookFilter/BookFilter";
-import "./BookPage.css";
-import Loading from "../../components/Loading";
+import React, { useState, useEffect } from 'react';
+import BookItem from '../../components/BookItem/BookItem';
+import BookFilter from '../../components/BookFilter/BookFilter';
+import './BookPage.css';
+import Loading from '../../components/Loading';
 
 const BookPage = () => {
   const [books, setBooks] = useState([]);
   const [maxPrice, setMaxPrice] = useState(500);
-  const [sort, setSort] = useState("title,ascend");
+  const [sort, setSort] = useState('title,ascend');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const BookPage = () => {
         OnSort={(value) => setSort(value)}
       />
       {books?.map((book) => (
-        <BookItem book={book} />
+        <BookItem key={book} book={book} />
       ))}
     </div>
   );
