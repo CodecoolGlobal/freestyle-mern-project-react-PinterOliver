@@ -99,9 +99,7 @@ async function populateBooks() {
       await BookModel.create(...books);
       console.log(`Books created (${fetchedAmount + interval}/${maxAmount})`);
     }
-
   }
-
 }
 
 async function populateRoles() {
