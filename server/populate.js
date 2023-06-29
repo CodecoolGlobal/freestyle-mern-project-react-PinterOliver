@@ -5,6 +5,8 @@ const BookModel = require('./model/Book');
 const RoleModel = require('./model/Role');
 const StoredItemModel = require('./model/StoredItem');
 const Book = require('./model/Book');
+const OrderHeader = require('./model/OrderHeader');
+const OrderItem = require('./model/OrderItem');
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -21,6 +23,7 @@ const main = async () => {
   await populateBooks();
   await populateRoles();
   await populateStorage();
+  await deleteOrders();
 
   await mongoose.disconnect();
   console.log('Disconnected from DB');
@@ -166,4 +169,9 @@ async function populateStorage() {
 
   await StoredItemModel.create(...storage);
   console.log('Created storage');
+}
+
+async function deleteOrders() {
+  await OrderHeader.deleteMany({});
+  await OrderItem.deleteMany({});
 }
