@@ -3,7 +3,6 @@
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
 const { arraySearch } = require('./filterAndSort.js');
-const Book = require('../model/Book.js');
 const { putBack, pullFrom, updateHeader } = require('./orderItemsController');
 
 // GET all orderHeaders
@@ -35,6 +34,15 @@ const getOneOrderHeader = (req, res) => {
 //CREATE a new orderHeader
 const addOneOrderHeader = async (req, res) => {
   try {
+    const user = req.user;
+    const isExist = await OrderHeader.findOne({user: user._id, state: 'cart'});
+    if (isExist) {
+      return res.status(405).json({
+        orderheader: isExist,
+        message: 'Cart already exists',
+        rightMethod: 'PATCH',
+      });
+    }
     const order = {};
     order.user = req.user._id;
     order.state = 'cart';
