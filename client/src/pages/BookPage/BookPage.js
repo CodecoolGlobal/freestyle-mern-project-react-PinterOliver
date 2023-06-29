@@ -5,18 +5,28 @@ import './BookPage.css';
 
 const BookPage = () => {
   const [books, setBooks] = useState([]);
+  const [maxPrice, setMaxPrice] = useState(50)
+  const [sort, setSort] = useState('title,ascend')
 
-  useEffect(() => {
+/*   useEffect(() => {
     fetch("/api/books")
       .then((res) => res.json())
       .then((data) => {
         setBooks(data.books);
       });
-  }, []);
+  }, []); */
+
+  useEffect(() => {
+    fetch(`/api/books?maxprice=${maxPrice}&sort=${sort}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setBooks(data.books);
+      });
+  }, [maxPrice, sort])
 
   return (
     <div className="items">
-      <BookFilter />
+      <BookFilter OnFilter={(value)=> setMaxPrice(value)} OnSort={(value) => setSort(value)} />
       {books?.map((book) => (
         <BookItem book={book} />
       ))}
