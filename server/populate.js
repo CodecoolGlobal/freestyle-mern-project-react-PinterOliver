@@ -115,6 +115,38 @@ async function populateRoles() {
       canModifyRoles: true,
       canAccessStorage: true,
     },
+    {
+      name: 'Accountant',
+      canViewItems: true,
+      canViewAllOrders: true,
+      canAccessStorage: true,
+    },
+    {
+      name: 'Storekeeper',
+      canViewItems: true,
+      canAccessStorage: true,
+    },
+    {
+      name: 'Customer_service_employee',
+      canViewItems: true,
+      canViewAllUsers: true,
+    },
+    {
+      name: 'HR_manager',
+      canViewItems: true,
+      canViewAllUsers: true,
+      canModifyRoles: true,
+    },
+    {
+      name: 'Purchasing_agent',
+      canViewItems: true,
+      canModifyItems: true,
+    },
+    {
+      name: 'Courier',
+      canViewItems: true,
+      canViewAllOrders: true,
+    },
   ];
 
   await RoleModel.create(...roles);
@@ -128,7 +160,7 @@ async function populateStorage() {
   const storage = books.map((book) => {
     return {
       item: book._id,
-      amount: 10,
+      amount: Math.floor(Math.random() * 40),
     };
   });
 
