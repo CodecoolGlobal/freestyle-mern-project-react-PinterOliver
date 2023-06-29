@@ -37,7 +37,12 @@ const BookFilter = (props) => {
           <div onClick={() => setSortBy("title,descend")}>
             Title, descending
           </div>
-          <div>Link 3</div>
+          <div onClick={() => setSortBy("author,ascend")}>
+            Author, ascending
+          </div>
+          <div onClick={() => setSortBy("author,descend")}>
+            Author, descending
+          </div>
         </div>
       </div>
       <button
