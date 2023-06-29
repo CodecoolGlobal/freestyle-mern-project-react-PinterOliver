@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import './BookItem.css';
 
-const BookItem = ({ book }) => {
+const BookItem = (props) => {
+
+  const [book, setBook] = useState(props.book)
+
   function checkLocalStorageCart() {
-    const cart = localStorage.getItem('cart');
+    const cart = localStorage.getItem("cart");
     const hasCart = cart !== null && cart !== undefined;
     if (hasCart) {
       addToCart(book);
@@ -36,7 +39,6 @@ const BookItem = ({ book }) => {
     }
     localStorage.setItem('cart', JSON.stringify(storedCart));
   }
-
   const maxLength = 20;
   const limitedTitle =
     book.title.length > maxLength ? `${book.title.substring(0, maxLength)}...` : book.title;
@@ -48,8 +50,8 @@ const BookItem = ({ book }) => {
         <a href={`http://localhost:3000/books/${book._id}`}>
           <h2 className="bookTitle">{limitedTitle}</h2>
         </a>
-        <p className="bookPrice">{book.price}€</p>
-        <button onClick={() => checkLocalStorageCart()}>Add to cart</button>
+        <p className="bookPrice">{book.price}HUF</p>
+        <button onClick={() => checkLocalStorageCart()} className='cartButton'>Add to cart</button>
       </div>
     </div>
   );
