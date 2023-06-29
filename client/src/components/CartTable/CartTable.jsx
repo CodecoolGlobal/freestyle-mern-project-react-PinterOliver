@@ -1,6 +1,4 @@
-import React from 'react';
-
-function CartTable({ cart }) {
+function CartTable({ cart, onUpdate }) {
   return (
     <table>
       <thead>
@@ -12,9 +10,18 @@ function CartTable({ cart }) {
       </thead>
       <tbody>
         {cart.map((book) => (
-          <tr>
+          <tr key={book.id}>
             <td>{book.title}</td>
-            <td>{book.amount}</td>
+            <td>
+              <input
+                type="number"
+                value={book.amount}
+                onChange={(e) => {
+                  book.amount = e.target.value;
+                  onUpdate(cart);
+                }}
+              />
+            </td>
             <td>{book.price}</td>
           </tr>
         ))}
