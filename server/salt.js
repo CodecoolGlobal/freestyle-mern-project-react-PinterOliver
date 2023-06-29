@@ -33,11 +33,9 @@ async function hopp() {
 
   const users = await User.find({});
   const newUsers = await Promise.all(users.map(async (user) => {
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
+    const salt = user.salt;
     const hashedPassword = bcrypt.hashSync(user.password, salt);
-    user.salt = salt;
-    user.hashedpassword = hashedPassword;
+    user.password = hashedPassword;
     return await user.save();
   }));
   console.log(newUsers);

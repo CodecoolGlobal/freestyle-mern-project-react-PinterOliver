@@ -48,7 +48,7 @@ const addOneUser = async (req, res) => {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashedPassword = bcrypt.hashSync(user.password, salt);
     user.salt = salt;
-    user.hashedpassword = hashedPassword;
+    user.password = hashedPassword;
     const newUser = await User.create(user);
     res.status(201).json({user: newUser});
   } catch (error) {
