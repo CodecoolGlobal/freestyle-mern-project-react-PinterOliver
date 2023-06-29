@@ -1,6 +1,7 @@
 import React from 'react';
 import './Layout.css';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import NavbarButton from '../../components/NavbarButton/NavbarButton';
 
 function Layout() {
   const navigate = useNavigate();
@@ -25,18 +26,18 @@ function Layout() {
       <div className="main-navbar">
         <img className="main-logo" src="/icon.png" alt="main logo"></img>
         <a className='topButton' href="/books">
-          <button>Books</button>
+          <NavbarButton text='Books'/>
         </a>
         <a className='topButton' href="/admin">
-          <button>Admin</button>
+          <NavbarButton text='Admin'/>
         </a>
         <a className='topButton' href="/cart">
-          <button>Cart</button>
+          <NavbarButton text='Cart'/>
         </a>
         <a className='topButton' href='/presentation'>
-          <button>Presentation</button>
+          <NavbarButton text='Presentation'/>
         </a>
-        <button className='topButton' onClick={() => handleLogout()}>Logout</button>
+        <NavbarButton onClick={() => handleLogout()} text='Logout'/>
       </div>
       <div className="main-content">
         <Outlet />
