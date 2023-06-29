@@ -25,6 +25,18 @@ function AdminOrderList() {
     return parts.at(-1);
   }
 
+  const handleLearnMore = async (id) => {
+    const response = await fetch(`/api/orderheaders/${id}`)
+    const orderHeaderId = getLastPart(response.url)
+
+    const moreInfoResponse = await fetch(`/api/orderitems/orderheaders/${orderHeaderId}`, {headers: {
+      token: localStorage.getItem('token')
+    }});
+    const jsonData = await moreInfoResponse.json();
+    setOrderList(jsonData.orders);
+    console.log(jsonData) 
+  }
+
   const handleDelete = async (id) => {
     // const response = await fetch(`/api/oders/${id}`, {
     //   method: 'DELETE',
@@ -45,7 +57,7 @@ function AdminOrderList() {
 
   if (loading) return <Loading />;
 
-  return <OrdersHeadersTable orderList={orderList} onDelete={handleDelete} />;
+  return <OrdersHeadersTable orderList={orderList} onLearnMore={handleLearnMore} />;
 }
 
 export default AdminOrderList;
