@@ -1,7 +1,7 @@
 import React from 'react';
 import './OrderItemsTable.css';
 
-function OrderItemsTable({ orderList, onLearnLess, onDelete }) {
+function OrderItemsTable({ orderList, onLearnLess, onDelete, onGoBack }) {
   return (
     <table>
       <thead>
@@ -36,6 +36,7 @@ function OrderItemsTable({ orderList, onLearnLess, onDelete }) {
           </tr>
         ))}
       </tbody>
+      <button onClick={() => onGoBack()}>Back</button>
     </table>
   );
 }

@@ -72,7 +72,8 @@ function AdminOrderList() {
   return (sideType === 'headers') ? (
     <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} onDelete={handleDelete}/>
   ) : (sideType === 'items') ? (
-    <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} onDelete={handleDeleteItem}/>
+    <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} 
+    onDelete={handleDeleteItem} onGoBack={handleLearnLess}/>
   ) : (
     <Loading />
   )
