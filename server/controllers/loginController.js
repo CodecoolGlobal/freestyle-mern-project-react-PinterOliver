@@ -41,7 +41,6 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
   const token = req.headers.token;
   const user = req.user;
-  console.log(token);
   user.token = user.token.filter((item) => item !== token);
   const savedUser = await user.save();
   if (!savedUser) {

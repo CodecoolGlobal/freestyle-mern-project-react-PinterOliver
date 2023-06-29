@@ -5,8 +5,12 @@ import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 function Layout() {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (window.confirm('Are you sure you want to log out?')) {
+      await fetch('/api/login', {
+        method: 'DELETE',
+        headers: {token: localStorage.getItem('token')},
+      });
       localStorage.removeItem('token');
       navigate('/');
     }
