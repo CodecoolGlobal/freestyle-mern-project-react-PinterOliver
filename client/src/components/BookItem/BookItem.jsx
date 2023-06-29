@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 import React, { useState } from 'react';
 import './BookItem.css';
 
@@ -7,6 +8,8 @@ const BookItem = (props) => {
 
   async function checkLocalStorageCart() {
     const cart = localStorage.getItem('cart');
+    let cartid = localStorage.getItem('cartid');
+    const token = localStorage.getItem('token');
     const hasCart = cart !== null && typeof cart !== 'undefined';
     if (hasCart) {
       addToCart(book);
@@ -20,12 +23,48 @@ const BookItem = (props) => {
         },
       ];
       localStorage.setItem('cart', JSON.stringify(newCart));
-      const resData = await fetch('/api/orderheaders');
     }
     const newCart = localStorage.getItem('cart');
-    const resData = await Promise.all(newCart.map(async (item) => {
-      fetch
+    if (!cartid) {
+      const resHeader = await fetch(`/api/orderheaders${cartid}`, {
+        method: 'POST',
+        headers: {token: token},
+      });
+      const jsonHeader = await resHeader.json();
+      if (jsonHeader && jsonHeader.orderheader._id) {
+        cartid = jsonHeader.orderheader._id;
+        localStorage.setItem('cartid', cartid);
+      }
+      console.log(jsonHeader.orderheader);
+    }
+    const jsonItems = await Promise.all(newCart.map(async (item) => {
+      const smallData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
+        method: 'POST',
+        headers: {token: token},
+        body: {
+          bookid: item.id,
+          amount: item.amount,
+        },
+      });
+      const smallJSON = await smallData.json();
+      if (smallData.status !== 201) {
+        if (smallJSON.rightmethod) {
+          const otherData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
+            method: smallJSON.rightmethod,
+            headers: {token: token},
+            body: {
+              bookid: item.id,
+              amount: item.amount,
+            },
+          });
+          const otherJSON = await otherData.json();
+          console.log(otherJSON);
+          smallJSON.plus = otherJSON;
+        } else console.log(smallJSON.error);
+      }
+      return smallJSON;
     }));
+    console.log(jsonItems);
   }
 
   function addToCart(book) {
