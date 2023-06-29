@@ -8,16 +8,17 @@ function AdminOrderList() {
   const [loading, setLoading] = useState(true);
   const [orderList, setOrderList] = useState([]);
 
+  const fetchOrders = async () => {
+    const response = await fetch('/api/orderheaders', {headers: {
+      token: localStorage.getItem('token')
+    }});
+    const jsonData = await response.json();
+    jsonData.orderheaders.type = 'headers'
+    setOrderList(jsonData.orderheaders);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      const response = await fetch('/api/orderheaders', {headers: {
-        token: localStorage.getItem('token')
-      }});
-      const jsonData = await response.json();
-      jsonData.orderheaders.type = 'headers'
-      setOrderList(jsonData.orderheaders);
-      setLoading(false);
-    };
     fetchOrders();
   }, []);
 
@@ -35,7 +36,13 @@ function AdminOrderList() {
     }});
     const jsonData = await moreInfoResponse.json();
     jsonData.orderitems.type = 'items'
+    console.log(jsonData.orderitems)
+    console.log(orderHeaderId)
     setOrderList(jsonData.orderitems);
+  }
+
+  const handleLearnLess = async () => {
+    fetchOrders()
   }
 
   // const handleDelete = async (id) => {
@@ -61,7 +68,7 @@ function AdminOrderList() {
   return (orderList.type === 'headers') ? (
     <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} />
   ) : (
-    <OrderItemsTable orderList={orderList} onLearnMore={handleLearnMore} />
+    <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} />
   )
 }
 
