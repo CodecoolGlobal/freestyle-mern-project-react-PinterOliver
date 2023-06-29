@@ -79,7 +79,7 @@ const router = createBrowserRouter([
     path: 'presentation',
     element: <Presentation />,
   },
-);
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
