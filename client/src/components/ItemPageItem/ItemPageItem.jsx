@@ -2,54 +2,43 @@ import { useState } from "react";
 import "./ItemPageItem.css";
 
 const ItemPageItem = (props) => {
+  
+  const book = props.book
+
   function checkLocalStorageCart() {
-    const cart = localStorage.getItem('cart');
+    const cart = localStorage.getItem("cart");
     const hasCart = cart !== null && cart !== undefined;
-    if (hasCart){
-      addToCart(props.book);
-    }
-    else {
-      const myObject =  {
-        [props.book._id]: {
-          title: props.book.title,
-          price: props.book.price,
+    if (hasCart) {
+      addToCart(book);
+    } else {
+      const newCart = [
+        {
+          id: book._id,
+          title: book.title,
+          price: book.price,
           amount: 1,
         },
-      
-      };
-      // Convert the JSON object to a string
-      const jsonString = JSON.stringify(myObject);
-      // Save the stringified JSON object to local storage
-      localStorage.setItem("cart", jsonString);
+      ];
+      localStorage.setItem('cart', JSON.stringify(newCart));
     }
   }
 
-  const [book, setBook] = useState(props.book);
+  function addToCart(book) {
+    const storedCart = JSON.parse(localStorage.getItem('cart'));
+    const foundItem = storedCart.find((item) => item.id === book._id);
 
-  function addToCart( book ) {
-    const storedJsonString = localStorage.getItem("cart");
-    const storedObject = JSON.parse(storedJsonString);
-
-    if (storedObject[book._id]) {
-      storedObject[book._id].amount++;
-      const jsonString = JSON.stringify(storedObject);
-      localStorage.setItem("cart", jsonString);
+    if (foundItem) {
+      foundItem.amount++;
     } else {
-
-      storedObject[book._id] = {
+      storedCart.push({
+        id: book._id,
         title: book.title,
         price: book.price,
         amount: 1,
-      };
-      // Convert the JSON object to a string
-      const jsonString = JSON.stringify(storedObject);
-      // Save the stringified JSON object to local storage
-      localStorage.setItem("cart", jsonString);
+      });
     }
-
-    return null;
+    localStorage.setItem('cart', JSON.stringify(storedCart));
   }
-
   return (
     <div className="item">
       <img src={props.book.image_url} className="bookCover"></img>
