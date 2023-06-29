@@ -20,19 +20,19 @@ function Layout() {
     <div className="Layout">
       <div className="main-navbar">
         <img className="main-logo" src="/icon.png" alt="main logo"></img>
-        <a href="/books">
+        <a className='topButton' href="/books">
           <button>Books</button>
         </a>
-        <a href="/admin">
+        <a className='topButton' href="/admin">
           <button>Admin</button>
         </a>
-        <a href="/cart">
+        <a className='topButton' href="/cart">
           <button>Cart</button>
         </a>
-        <a href='/presentation'>
+        <a className='topButton' href='/presentation'>
           <button>Presentation</button>
         </a>
-        <button onClick={() => handleLogout()}>Logout</button>
+        <button className='topButton' onClick={() => handleLogout()}>Logout</button>
       </div>
       <div className="main-content">
         <Outlet />
