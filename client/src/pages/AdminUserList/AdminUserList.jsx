@@ -10,9 +10,10 @@ function AdminUserList() {
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await fetch('/api/users', {headers: {
-        token: localStorage.getItem('token')
+        token: localStorage.getItem('token'),
       }});
       const jsonData = await response.json();
+      console.log(jsonData);
       setUserList(jsonData.users ?? []);
       setLoading(false);
     };
