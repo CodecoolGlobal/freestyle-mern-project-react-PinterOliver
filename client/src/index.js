@@ -14,6 +14,9 @@ import LoginPage from './pages/LoginPage';
 import AdminBookUpdater from './pages/AdminBookUpdater';
 import AdminBookCreator from './pages/AdminBookCreator';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import CartPage from './pages/CartPage';
+import AdminOrderList from './pages/AdminOrderList';
+import AdminOrderUpdater from './pages/AdminOrderUpdater';
 import Presentation from './pages/Presentation/Presentation';
 
 const router = createBrowserRouter([
@@ -28,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'books/:id',
         element: <ItemPage />,
+      },
+      {
+        path: 'cart',
+        element: <CartPage />,
       },
       {
         path: 'admin',
@@ -49,6 +56,14 @@ const router = createBrowserRouter([
             path: 'users',
             element: <AdminUserList />,
           },
+          {
+            path: 'orders',
+            element: <AdminOrderList />,
+          },
+          {
+            path: 'orders/update/:id',
+            element: <AdminOrderUpdater />,
+          },
         ],
       },
     ],
@@ -60,12 +75,11 @@ const router = createBrowserRouter([
   {
     path: 'Register',
     element: <RegisterPage />,
-  },
-  {
+  },  {
     path: 'presentation',
     element: <Presentation />,
   },
-]);
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
