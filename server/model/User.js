@@ -23,7 +23,7 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  token: String,
+  token: [String],
 });
 
 module.exports = model('User', userSchema);

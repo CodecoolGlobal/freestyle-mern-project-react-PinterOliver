@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-const Role = require('../model/Role.js');
 const User = require('../model/User.js');
 
 //Login user if the password is correct
@@ -8,7 +7,7 @@ const login = async (req, res) => {
   try {
     const account = await User.findOne({ userName: username }).populate('role');
     if (account.password === password) {
-      account.token = account._id.toString();
+      account.token.push(account._id.toString());
       const isSaved = await account.save();
       if (!isSaved) {
         return res.status(500).json({ error: 'Can\'t create token' });
@@ -29,6 +28,18 @@ const login = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  const token = req.headers.token;
+  const user = req.user;
+  user.token = user.token.filter((item) => item !== token);
+  const savedUser = await user.save();
+  if (!savedUser) {
+    res.status(404).json({success: false, error: 'No such user'});
+  }
+  res.status(202).json({success: true, message: 'User session is over'});
+};
+
 module.exports = {
   login,
+  logout,
 };

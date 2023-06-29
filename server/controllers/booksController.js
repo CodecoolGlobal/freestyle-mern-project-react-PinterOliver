@@ -83,7 +83,6 @@ const deleteOneBook = async (req, res) => {
 //UPDATE one book
 const updateOneBook = async (req, res) => {
   const { id } = req.params;
-  console.log(req.body);
   try {
     const book = await Book.findByIdAndUpdate(id, {
       ...req.body,

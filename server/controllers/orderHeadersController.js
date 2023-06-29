@@ -3,7 +3,6 @@
 const OrderHeader = require('../model/OrderHeader.js');
 const OrderItem = require('../model/OrderItem.js');
 const { arraySearch } = require('./filterAndSort.js');
-const Book = require('../model/Book.js');
 const { putBack, pullFrom, updateHeader } = require('./orderItemsController');
 
 // GET all orderHeaders
@@ -35,6 +34,15 @@ const getOneOrderHeader = (req, res) => {
 //CREATE a new orderHeader
 const addOneOrderHeader = async (req, res) => {
   try {
+    const user = req.user;
+    const isExist = await OrderHeader.findOne({user: user._id, state: 'cart'});
+    if (isExist) {
+      return res.status(405).json({
+        orderheader: isExist,
+        message: 'Cart already exists',
+        rightMethod: 'PATCH',
+      });
+    }
     const order = {};
     order.user = req.user._id;
     order.state = 'cart';
@@ -126,7 +134,7 @@ const getCartOrderHeader = async (req, res) => {
     const user = req.user;
     const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
     if (!order) {
-      return res.status(204).json({orderheader: order, message: 'Cart is empty'});
+      return res.status(204);
     }
     res.status(200).json({message: 'User has a cart', orderheader: order});
   } catch (error) {
