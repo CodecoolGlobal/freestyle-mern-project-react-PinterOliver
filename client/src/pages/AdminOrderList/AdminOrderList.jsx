@@ -7,14 +7,15 @@ import OrderItemsTable from '../../components/OrderItemsTable';
 function AdminOrderList() {
   const [loading, setLoading] = useState(true);
   const [orderList, setOrderList] = useState([]);
+  const [sideType, setSideType] = useState('');
 
   const fetchOrders = async () => {
     const response = await fetch('/api/orderheaders', {headers: {
       token: localStorage.getItem('token')
     }});
     const jsonData = await response.json();
-    jsonData.orderheaders.type = 'headers'
     setOrderList(jsonData.orderheaders);
+    setSideType('headers');
     setLoading(false);
   };
 
@@ -35,7 +36,7 @@ function AdminOrderList() {
       token: localStorage.getItem('token')
     }});
     const jsonData = await moreInfoResponse.json();
-    jsonData.orderitems.type = 'items'
+    setSideType('items')
     console.log(jsonData.orderitems)
     console.log(orderHeaderId)
     setOrderList(jsonData.orderitems);
@@ -45,30 +46,27 @@ function AdminOrderList() {
     fetchOrders()
   }
 
-  // const handleDelete = async (id) => {
-  //   // const response = await fetch(`/api/oders/${id}`, {
-  //   //   method: 'DELETE',
-  //   // });
-  //   const response = await fetch(`/api/orderheaders/${id}`)
-  //   const orderHeaderId = getLastPart(response.url)
+  const handleDelete = async (id) => {
+    const response = await fetch(`/api/orderheaders/${id}`, {headers: {
+      token: localStorage.getItem('token')
+    },
+    method: 'DELETE',
+    })
+    // const orderHeaderId = getLastPart(response.url)
+    console.log(await response)
+    console.log(await response.json());
+    setOrderList(orderList.filter((order) => order._id !== id));
+  };
 
-  //   const orderItemsResponse = await fetch(`/api/oderitems/orderheaders/${orderHeaderId}`, {headers: {
-  //     token: localStorage.getItem('token')
-  //   }});
-  //   const jsonData = await orderItemsResponse.json();
-  //     setOrderList(jsonData.orders);
-
-  //   console.log(orderItemsResponse)
-  //   console.log(await response.json());
-  //   setOrderList(orderList.filter((order) => order._id !== id));
-  // };
 
   if (loading) return <Loading />;
 
-  return (orderList.type === 'headers') ? (
-    <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} />
-  ) : (
+  return (sideType === 'headers') ? (
+    <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} onDelete={handleDelete}/>
+  ) : (sideType === 'items') ? (
     <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} />
+  ) : (
+    <Loading />
   )
 }
 

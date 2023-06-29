@@ -2,7 +2,7 @@ import React from 'react';
 import './OrderHeadersTable.css';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-function OrderHeadersTable({ orderList, onLearnMore }) {
+function OrderHeadersTable({ orderList, onLearnMore, onDelete }) {
   console.log(orderList)
   return (
     <table>
@@ -22,6 +22,12 @@ function OrderHeadersTable({ orderList, onLearnMore }) {
             <td>{formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}</td>
             <td>
               <button onClick={() => onLearnMore(order._id)}>Learn more</button>
+              <td>
+              <button onClick={() => onDelete(order._id)}>Delete order</button>
+            </td>
+            {/* <td>
+              <button onClick={() => onLearnLess(order._id)}>Update order</button>
+            </td> */}
               {/* <button onClick={() => onDelete(order._id)}>Delete</button> */}
             </td>
           </tr>

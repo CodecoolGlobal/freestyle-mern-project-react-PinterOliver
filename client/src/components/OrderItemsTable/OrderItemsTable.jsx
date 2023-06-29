@@ -8,7 +8,10 @@ function OrderItemsTable({ orderList, onLearnLess }) {
         <tr>
           <th>Amount of the book</th>
           <th>Price of the book</th>
-          <th>Total price of the order</th>
+          <th>Total price of the book(s)</th>
+          <th>Author of the book</th>
+          <th>Title of the book</th>
+          <th>ID of the book</th>
           <th></th>
         </tr>
       </thead>
@@ -18,8 +21,17 @@ function OrderItemsTable({ orderList, onLearnLess }) {
             <td>{order.amount}</td>
             <td>{order.bookPrice}</td>
             <td>{order.price}</td>
+            <td>{order.item.author}</td>
+            <td>{order.item.title}</td>
+            <td>{order.item._id}</td>
             <td>
               <button onClick={() => onLearnLess(order._id)}>Learn less</button>
+            </td>
+            <td>
+              <button onClick={() => onLearnLess(order._id)}>Update order</button>
+            </td>
+            <td>
+              <button onClick={() => onLearnLess(order._id)}>Update order</button>
             </td>
           </tr>
         ))}
