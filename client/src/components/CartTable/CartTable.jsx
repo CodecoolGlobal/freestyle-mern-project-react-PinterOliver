@@ -5,7 +5,8 @@ function CartTable({ cart, onUpdate }) {
         <tr>
           <th>Title</th>
           <th>Amount</th>
-          <th>Price</th>
+          <th>Unit Price</th>
+          <th>Total Price</th>
         </tr>
       </thead>
       <tbody>
@@ -23,9 +24,18 @@ function CartTable({ cart, onUpdate }) {
               />
             </td>
             <td>{book.price}</td>
+            <td>{book.price * book.amount}</td>
           </tr>
         ))}
       </tbody>
+      <tfoot>
+        <tr>
+          <th>Summary</th>
+          <td>{cart.reduce((acc, cv) => (acc += Number(cv.amount)), 0)}</td>
+          <td>{cart.reduce((acc, cv) => (acc += Number(cv.price)), 0)}</td>
+          <td>{cart.reduce((acc, cv) => (acc += Number(cv.amount) * Number(cv.amount)), 0)}</td>
+        </tr>
+      </tfoot>
     </table>
   );
 }
