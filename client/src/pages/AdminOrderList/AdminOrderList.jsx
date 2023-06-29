@@ -3,14 +3,14 @@ import './AdminOrderList.css';
 import Loading from '../../components/Loading';
 import OrderHeadersTable from '../../components/OrderHeadersTable';
 import OrderItemsTable from '../../components/OrderItemsTable';
-import { useNavigate, useParams } from 'react-router';
+// import { useNavigate, useParams } from 'react-router';
 
 function AdminOrderList() {
   const [loading, setLoading] = useState(true);
   const [orderList, setOrderList] = useState([]);
   const [sideType, setSideType] = useState('');
-  const { id } = useParams();
-  const navigate = useNavigate();
+  // const { id } = useParams();
+  // const navigate = useNavigate();
 
   const fetchOrders = async () => {
     const response = await fetch('/api/orderheaders', {headers: {
@@ -69,26 +69,26 @@ function AdminOrderList() {
     setOrderList(orderList.filter((order) => order._id !== id));
   };
 
-  const handleUpdate = async (orderHeader) => {
-    setLoading(true);
-    await fetch(`/api/orderitems/${id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-type': 'application/json',
-      token: localStorage.getItem('token'),
-    },
-    body: JSON.stringify(orderHeader),
-  });
-  setLoading(false);
-  navigate('/admin/orders');
-  }
+  // const handleUpdate = async (orderHeader) => {
+  //   setLoading(true);
+  //   await fetch(`/api/orderitems/${id}`, {
+  //   method: 'PATCH',
+  //   headers: {
+  //     'Content-type': 'application/json',
+  //     token: localStorage.getItem('token'),
+  //   },
+  //   body: JSON.stringify(orderHeader),
+  // });
+  // setLoading(false);
+  // navigate('/admin/orders');
+  // }
 
 
   if (loading) return <Loading />;
 
   return (sideType === 'headers') ? (
     <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} 
-    onDelete={handleDelete} onUpdate={handleUpdate}/>
+    onDelete={handleDelete}/>
   ) : (sideType === 'items') ? (
     <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} 
     onDelete={handleDeleteItem} onGoBack={handleLearnLess}/>

@@ -1,9 +1,12 @@
 import React from 'react';
 import './OrderHeadersTable.css';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { useNavigate } from 'react-router';
 
-function OrderHeadersTable({ orderList, onLearnMore, onDelete, onUpdate }) {
+function OrderHeadersTable({ orderList, onLearnMore, onDelete }) {
   console.log(orderList)
+  const navigate = useNavigate();
+
   return (
     <table>
       <thead>
@@ -26,7 +29,7 @@ function OrderHeadersTable({ orderList, onLearnMore, onDelete, onUpdate }) {
               <button onClick={() => onDelete(order._id)}>Delete order</button>
             </td>
             <td>
-              <button onClick={() => onUpdate(order._id)}>Update order</button>
+              <button onClick={() => navigate(`update/${order._id}`)}>Update order</button>
             </td>
               {/* <button onClick={() => onDelete(order._id)}>Delete</button> */}
             </td>

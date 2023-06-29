@@ -19,7 +19,7 @@ function OrderHeaderForm({ order, onCancel, onSave }) {
   return (
     <form onSubmit={onSubmit}>
       <div className="control">
-        <label htmlFor="title">State:</label>
+        <label htmlFor="state">State:</label>
         <input value={state} onChange={(e) => setState(e.target.value)} name="state" id="state" />
       </div>
 
