@@ -134,7 +134,7 @@ async function populateRoles() {
       canAccessStorage: true,
     },
     {
-      name: 'Customer_service_employee',
+      name: 'Customer_service_agent',
       canViewItems: true,
       canViewAllUsers: true,
     },
