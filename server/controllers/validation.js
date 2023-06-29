@@ -44,7 +44,7 @@ const storedItemAdminValidation = (req, res, next) => {
   next();
 };
 
-const orderAdminValidation = (req, res, next) => {
+const orderAdminValidation = (req, _res, next) => {
   const user = req.user;
   const role = user.role;
   if (role.canViewAllOrders) req.search = {};

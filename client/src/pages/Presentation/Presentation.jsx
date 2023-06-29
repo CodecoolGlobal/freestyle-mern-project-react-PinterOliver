@@ -4,6 +4,9 @@ import Team from './team.gif';
 import Task from './task.gif';
 import Challenge from './challenge.gif';
 import Tour from './tour.gif';
+import SnippetA1 from './snippetA1.png';
+import SnippetB1 from './snippetB1.png';
+import SnippetB2 from './snippetB2.png';
 
 function Presentation() {
   return (
@@ -47,6 +50,9 @@ function Presentation() {
           <img className="bigpicture" src={Tour}/>
         </a>
         <h2>Code snippets</h2>
+          <img className="hugepicture" src={SnippetA1}/>
+          <img className="hugepicture" src={SnippetB1}/>
+          <img className="hugepicture" src={SnippetB2}/>
       </div>
     </div>
   );
