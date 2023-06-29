@@ -1,8 +1,9 @@
 import React from 'react';
-import './OrdersHeadersTable.css';
+import './OrderHeadersTable.css';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-function OrdersHeadersTable({ orderList, onLearnMore }) {
+function OrderHeadersTable({ orderList, onLearnMore }) {
+  console.log(orderList)
   return (
     <table>
       <thead>
@@ -30,4 +31,4 @@ function OrdersHeadersTable({ orderList, onLearnMore }) {
   );
 }
 
-export default OrdersHeadersTable;
+export default OrderHeadersTable;

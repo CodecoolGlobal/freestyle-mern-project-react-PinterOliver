@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AdminOrderList.css';
 import Loading from '../../components/Loading';
-import OrdersHeadersTable from '../../components/OrdersHeadersTable';
+import OrdersHeadersTable from '../../components/OrderHeadersTable';
 
 function AdminOrderList() {
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,6 @@ function AdminOrderList() {
       setOrderList(jsonData.orderheaders);
       setLoading(false);
     };
-    console.log(orderList);
     fetchOrders();
   }, []);
 
@@ -33,27 +32,26 @@ function AdminOrderList() {
       token: localStorage.getItem('token')
     }});
     const jsonData = await moreInfoResponse.json();
-    setOrderList(jsonData.orders);
-    console.log(jsonData) 
+    setOrderList(jsonData.orderitems);
   }
 
-  const handleDelete = async (id) => {
-    // const response = await fetch(`/api/oders/${id}`, {
-    //   method: 'DELETE',
-    // });
-    const response = await fetch(`/api/orderheaders/${id}`)
-    const orderHeaderId = getLastPart(response.url)
+  // const handleDelete = async (id) => {
+  //   // const response = await fetch(`/api/oders/${id}`, {
+  //   //   method: 'DELETE',
+  //   // });
+  //   const response = await fetch(`/api/orderheaders/${id}`)
+  //   const orderHeaderId = getLastPart(response.url)
 
-    const orderItemsResponse = await fetch(`/api/oderitems/orderheaders/${orderHeaderId}`, {headers: {
-      token: localStorage.getItem('token')
-    }});
-    const jsonData = await orderItemsResponse.json();
-      setOrderList(jsonData.orders);
+  //   const orderItemsResponse = await fetch(`/api/oderitems/orderheaders/${orderHeaderId}`, {headers: {
+  //     token: localStorage.getItem('token')
+  //   }});
+  //   const jsonData = await orderItemsResponse.json();
+  //     setOrderList(jsonData.orders);
 
-    console.log(orderItemsResponse)
-    console.log(await response.json());
-    setOrderList(orderList.filter((order) => order._id !== id));
-  };
+  //   console.log(orderItemsResponse)
+  //   console.log(await response.json());
+  //   setOrderList(orderList.filter((order) => order._id !== id));
+  // };
 
   if (loading) return <Loading />;
 
