@@ -29,6 +29,9 @@ function Layout() {
         <a href="/cart">
           <button>Cart</button>
         </a>
+        <a href='/presentation'>
+          <button>Presentation</button>
+        </a>
         <button onClick={() => handleLogout()}>Logout</button>
       </div>
       <div className="main-content">
