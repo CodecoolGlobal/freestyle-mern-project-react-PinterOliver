@@ -1,13 +1,18 @@
 import React from 'react';
 import './Presentation.css';
+import Team from './team.gif';
+import Task from './task.gif';
+import Challenge from './challenge.gif';
+import Tour from './tour.gif';
 
 function Presentation() {
   return (
-    <div>
+    <div className='container'>
+      <div className='background'></div>
       <div className='presentationContainer' >
         <img className="logo" src={'logo.png'} alt="logo" />
-        <h1>Presentation</h1>
         <h2>Team members</h2>
+        <img className="picture" src={Team}/>
         <div className='listContainer'>
           <ul className='listing'>
             <li className='listItem'>Bebe</li>
@@ -17,6 +22,7 @@ function Presentation() {
           </ul>
         </div>
         <h2>Task</h2>
+        <img className="picture" src={Task}/>
         <div className='listContainer'>
           <ul className='listing'>
             <li className='listItem'>Freestyle</li>
@@ -26,6 +32,7 @@ function Presentation() {
           </ul>
         </div>
         <h2>Challenges</h2>
+        <img className="picture" src={Challenge}/>
         <div className='listContainer'>
           <ul className='listing'>
             <li className='listItem'>Communication</li>
@@ -37,6 +44,7 @@ function Presentation() {
         </div>
         <h2>Site tour</h2>
         <a href='/'>
+          <img className="bigpicture" src={Tour}/>
         </a>
         <h2>Code snippets</h2>
       </div>

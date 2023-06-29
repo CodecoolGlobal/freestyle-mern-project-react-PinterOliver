@@ -1,7 +1,20 @@
-body {
-  background-color: rgb(212, 212, 212);
+.container {
+  height: 100vh;
+  width: 100vw;  
+}
+
+.background {
+  background-color: rgb(212, 212, 179);
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
   background-size: cover;
   background-repeat: no-repeat;
+  z-index: -99;
+}
+
+.logo {
+  height: 100vh;
 }
 
 .presentationContainer {
@@ -12,7 +25,11 @@ body {
 }
 
 .picture {
-  width: 400px;
+  width: 500px;
+}
+
+.bigpicture {
+  width: 800px;
 }
 
 .listContainer {
@@ -22,12 +39,12 @@ body {
 
 h1 {
   font-size: 100px;
-  margin: 20px 0 0 0;
+  margin: -10px 0 -10px 0;
 }
 
 h2 {
   font-size: 60px;
-  margin: 40px 0 10px 0;
+  margin: 60px 0 20px 0;
 }
 
 li {
