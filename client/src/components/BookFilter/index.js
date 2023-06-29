@@ -1,3 +1,3 @@
-import BookFilter from "./BookFilter";
+import BookFilter from './BookFilter';
 
 export default BookFilter;

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import "./BookFilter.css";
+import React, { useState } from 'react';
+import './BookFilter.css';
 
 const BookFilter = (props) => {
   const [sliderValue, setSliderValue] = useState(props.maxPrice);
@@ -8,7 +8,7 @@ const BookFilter = (props) => {
     setSliderValue(event.target.value);
   };
 
-  const [sortBy, setSortBy] = useState("title,ascend");
+  const [sortBy, setSortBy] = useState('title,ascend');
 
   const sliderStyles = {
     background: `linear-gradient(to right, #85bb65 0%, #85bb65 ${
@@ -17,9 +17,9 @@ const BookFilter = (props) => {
   };
 
   function setTitle(string) {
-    const title = string.replace("title,", "Title, ");
-    const mTitle = title.replace("author,", "Author, ");
-    const fTitle = mTitle.replace("end", "ending");
+    const title = string.replace('title,', 'Title, ');
+    const mTitle = title.replace('author,', 'Author, ');
+    const fTitle = mTitle.replace('end', 'ending');
     return fTitle;
   }
 
@@ -39,17 +39,17 @@ const BookFilter = (props) => {
         />
       </div>
       <h2>Sort Items</h2>
-      <div className={"dropdown"}>
+      <div className={'dropdown'}>
         <button className="dropbtn">{setTitle(sortBy)}</button>
         <div className="dropdown-content">
-          <div onClick={() => setSortBy("title,ascend")}>Title, ascending</div>
-          <div onClick={() => setSortBy("title,descend")}>
+          <div onClick={() => setSortBy('title,ascend')}>Title, ascending</div>
+          <div onClick={() => setSortBy('title,descend')}>
             Title, descending
           </div>
-          <div onClick={() => setSortBy("author,ascend")}>
+          <div onClick={() => setSortBy('author,ascend')}>
             Author, ascending
           </div>
-          <div onClick={() => setSortBy("author,descend")}>
+          <div onClick={() => setSortBy('author,descend')}>
             Author, descending
           </div>
         </div>
