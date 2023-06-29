@@ -19,12 +19,12 @@ function Presentation() {
       </div>
       <h2>Task</h2>
       <div className='listContainer'>
-      <ul className='listing'>
-        <li className='listItem'>Freestyle</li>
-        <li className='listItem'>MERN Stack</li>
-        <li className='listItem'>CRUD Operations</li>
-        <li className='listItem'>Book webshop</li>
-      </ul>
+        <ul className='listing'>
+          <li className='listItem'>Freestyle</li>
+          <li className='listItem'>MERN Stack</li>
+          <li className='listItem'>CRUD Operations</li>
+          <li className='listItem'>Book webshop</li>
+        </ul>
       </div>
       <h2>Challenges</h2>
       <h2>Site tour</h2>
