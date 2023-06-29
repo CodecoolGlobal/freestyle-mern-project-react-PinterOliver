@@ -3,10 +3,8 @@ import './Presentation.css';
 
 function Presentation() {
   return (
-    <div className='presentationContainer' style={{
-
-    }}>
-      <img className="logo" src={'icon.png'} alt="logo" style={{height: '200px'}} />
+    <div className='presentationContainer' >
+      <img className="logo" src={'icon.png'} alt="logo" />
       <h1>Presentation</h1>
       <h2>Team members</h2>
       <div className='listContainer'>
@@ -27,6 +25,15 @@ function Presentation() {
         </ul>
       </div>
       <h2>Challenges</h2>
+      <div className='listContainer'>
+        <ul className='listing'>
+          <li className='listItem'>Communication</li>
+          <li className='listItem'>Git branches</li>
+          <li className='listItem'>Testing & debugging</li>
+          <li className='listItem'>Slow internet in CodeCool</li>
+          <li className='listItem'>Mongoose filtering</li>
+        </ul>
+      </div>
       <h2>Site tour</h2>
       <a href='/'>
       </a>

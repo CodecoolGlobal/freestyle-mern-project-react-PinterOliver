@@ -1,5 +1,15 @@
 .presentationContainer {
-  display: 'flex';
-  flex-direction: 'column';
-  align-items: 'center';
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.picture {
+  width: 400px;
+}
+
+.listContainer {
+  margin-left: 100px;
+  width: 400px;
 }
