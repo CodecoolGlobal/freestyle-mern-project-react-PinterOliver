@@ -1,16 +1,16 @@
 .filterContainer{
-  width: 280px;
+  width: 18%;
   background-color: #846e3b;
   height: 85%;
   padding-top: 5vh;
   text-align: center;
   display: inline-block;
-  border-radius: 3px;
   border: black 1px solid;
   margin: 5 px;
   position: absolute;
   left: 0;
   justify-content: center;
+  border-right: 5px solid black;
 }
 
 .slidecontainer {
