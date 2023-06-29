@@ -1,6 +1,8 @@
+import React from 'react';
+
 function CartTable({ cart, onUpdate }) {
   return (
-    <table>
+    <table style={{ height: 'fit-content'}}>
       <thead>
         <tr>
           <th>Title</th>
