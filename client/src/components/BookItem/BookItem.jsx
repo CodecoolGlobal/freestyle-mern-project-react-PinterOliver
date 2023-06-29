@@ -2,21 +2,18 @@ import { useState } from "react";
 import "./BookItem.css";
 
 const BookItem = (props) => {
-
   function checkLocalStorageCart() {
-    const cart = localStorage.getItem('cart');
+    const cart = localStorage.getItem("cart");
     const hasCart = cart !== null && cart !== undefined;
-    if (hasCart){
+    if (hasCart) {
       addToCart(props.book);
-    }
-    else {
-      const myObject =  {
+    } else {
+      const myObject = {
         [props.book._id]: {
           title: props.book.title,
           price: props.book.price,
           amount: 1,
         },
-      
       };
       // Convert the JSON object to a string
       const jsonString = JSON.stringify(myObject);
@@ -27,7 +24,7 @@ const BookItem = (props) => {
 
   const [book, setBook] = useState(props.book);
 
-  function addToCart( book ) {
+  function addToCart(book) {
     const storedJsonString = localStorage.getItem("cart");
     const storedObject = JSON.parse(storedJsonString);
 
@@ -36,7 +33,6 @@ const BookItem = (props) => {
       const jsonString = JSON.stringify(storedObject);
       localStorage.setItem("cart", jsonString);
     } else {
-
       storedObject[book._id] = {
         title: book.title,
         price: book.price,
@@ -50,7 +46,6 @@ const BookItem = (props) => {
 
     return null;
   }
-
   const maxLength = 20;
   const limitedTitle =
     props.book.title.length > maxLength
