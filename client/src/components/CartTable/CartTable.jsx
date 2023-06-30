@@ -36,7 +36,7 @@ function CartTable({ cart, onUpdate }) {
             <th>Summary</th>
             <td>{cart.reduce((acc, cv) => (acc += Number(cv.amount)), 0)}</td>
             <td>{cart.reduce((acc, cv) => (acc += Number(cv.price)), 0)}</td>
-            <td>{cart.reduce((acc, cv) => (acc += Number(cv.amount) * Number(cv.amount)), 0)}</td>
+            <td>{cart.reduce((acc, cv) => (acc += Number(cv.amount) * Number(cv.price)), 0)}</td>
           </tr>
         </tfoot>
       </table>
