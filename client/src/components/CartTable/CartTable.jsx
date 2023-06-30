@@ -19,6 +19,7 @@ function CartTable({ cart, onUpdate }) {
               <td>
                 <input
                   type="number"
+                  min='1'
                   value={book.amount}
                   onChange={(e) => {
                     book.amount = e.target.value;
