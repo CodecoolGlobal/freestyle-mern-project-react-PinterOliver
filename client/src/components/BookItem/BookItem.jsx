@@ -1,10 +1,10 @@
 /* eslint-disable require-atomic-updates */
-import React, { useState } from 'react';
+import React from 'react';
 import './BookItem.css';
 
 const BookItem = (props) => {
 
-  const [book, setBook] = useState(props.book);
+  const book = props.book;
 
   async function checkLocalStorageCart() {
     const cart = localStorage.getItem('cart');
@@ -24,9 +24,10 @@ const BookItem = (props) => {
       ];
       localStorage.setItem('cart', JSON.stringify(newCart));
     }
-    const newCart = localStorage.getItem('cart');
+    const newCart = await JSON.parse(localStorage.getItem('cart'));
+    console.log(newCart);
     if (!cartid) {
-      const resHeader = await fetch(`/api/orderheaders${cartid}`, {
+      const resHeader = await fetch('/api/orderheaders', {
         method: 'POST',
         headers: {token: token},
       });
@@ -38,13 +39,20 @@ const BookItem = (props) => {
       console.log(jsonHeader.orderheader);
     }
     const jsonItems = await Promise.all(newCart.map(async (item) => {
+      console.log({
+        bookid: item.id,
+        amount: item.amount,
+      });
       const smallData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
         method: 'POST',
-        headers: {token: token},
-        body: {
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+        body: JSON.stringify({
           bookid: item.id,
           amount: item.amount,
-        },
+        }),
       });
       const smallJSON = await smallData.json();
       if (smallData.status !== 201) {
