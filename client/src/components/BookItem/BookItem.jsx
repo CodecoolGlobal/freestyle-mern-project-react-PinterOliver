@@ -25,7 +25,6 @@ const BookItem = (props) => {
       localStorage.setItem('cart', JSON.stringify(newCart));
     }
     const newCart = await JSON.parse(localStorage.getItem('cart'));
-    console.log(newCart);
     if (!cartid) {
       const resHeader = await fetch('/api/orderheaders', {
         method: 'POST',
@@ -36,13 +35,8 @@ const BookItem = (props) => {
         cartid = jsonHeader.orderheader._id;
         localStorage.setItem('cartid', cartid);
       }
-      console.log(jsonHeader.orderheader);
     }
     const jsonItems = await Promise.all(newCart.map(async (item) => {
-      console.log({
-        bookid: item.id,
-        amount: item.amount,
-      });
       const smallData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
         method: 'POST',
         headers: {
@@ -56,17 +50,19 @@ const BookItem = (props) => {
       });
       const smallJSON = await smallData.json();
       if (smallData.status !== 201) {
-        if (smallJSON.rightmethod) {
-          const otherData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
-            method: smallJSON.rightmethod,
-            headers: {token: token},
-            body: {
+        if (smallJSON.rightMethod) {
+          const otherData = await fetch(`/api/orderitems/${smallJSON.orderItem._id}`, {
+            method: smallJSON.rightMethod,
+            headers: {
+              'Content-Type': 'application/json',
+              token: token,
+            },
+            body: JSON.stringify({
               bookid: item.id,
               amount: item.amount,
-            },
+            }),
           });
           const otherJSON = await otherData.json();
-          console.log(otherJSON);
           smallJSON.plus = otherJSON;
         } else console.log(smallJSON.error);
       }

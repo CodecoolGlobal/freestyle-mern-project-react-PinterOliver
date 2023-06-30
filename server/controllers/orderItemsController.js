@@ -86,6 +86,14 @@ const addOneOrderItem = async (req, res) => {
     const orderHeader = req.order;
     const {bookid, amount} = req.body;
     const book = await Book.findById(bookid);
+    const isExist = await OrderItem.findOne({item: book._id});
+    if (isExist) {
+      return res.status(405).json({
+        error: 'There is already an item with this book.',
+        rightMethod: 'PATCH',
+        orderItem: isExist,
+      });
+    }
     const order = {};
     order.order = orderHeader._id;
     order.item = book._id;
@@ -142,9 +150,10 @@ const updateOneOrderItem = async (req, res) => {
       amount = resData.amount;
     }
     if (order.order.state === 'cart' || amount > order.amount) {
-      order.bookPrice = order.book.price;
+      order.bookPrice = order.item.price;
     }
     order.amount = amount;
+    order.price = order.amount * order.bookPrice;
     const savedOrder = await order.save();
     const newHeader = updateHeader(order.order);
     res.status(202).json({orderitem: savedOrder, message: problem, orderheader: newHeader});
