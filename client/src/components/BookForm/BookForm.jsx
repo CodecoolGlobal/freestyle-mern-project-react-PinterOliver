@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
+import './BookForm.css';
 
 function BookForm({ book, onCancel, onSave }) {
   const [title, setTitle] = useState(book?.title ?? '');
@@ -36,7 +37,7 @@ function BookForm({ book, onCancel, onSave }) {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className='createForm'>
       <div className="control">
         <label htmlFor="title">Title:</label>
         <input value={title} onChange={(e) => setTitle(e.target.value)} name="title" id="title" />

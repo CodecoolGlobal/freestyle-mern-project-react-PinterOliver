@@ -14,7 +14,7 @@ function AdminOrderList() {
 
   const fetchOrders = async () => {
     const response = await fetch('/api/orderheaders', {headers: {
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
     }});
     const jsonData = await response.json();
     setOrderList(jsonData.orderheaders);
@@ -32,40 +32,40 @@ function AdminOrderList() {
   }
 
   const handleLearnMore = async (id) => {
-    const response = await fetch(`/api/orderheaders/${id}`)
-    const orderHeaderId = getLastPart(response.url)
+    const response = await fetch(`/api/orderheaders/${id}`);
+    const orderHeaderId = getLastPart(response.url);
 
     const moreInfoResponse = await fetch(`/api/orderitems/orderheaders/${orderHeaderId}`, {headers: {
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
     }});
     const jsonData = await moreInfoResponse.json();
-    setSideType('items')
-    console.log(jsonData.orderitems)
-    console.log(orderHeaderId)
+    setSideType('items');
+    console.log(jsonData.orderitems);
+    console.log(orderHeaderId);
     setOrderList(jsonData.orderitems);
-  }
+  };
 
   const handleLearnLess = async () => {
-    fetchOrders()
-  }
+    await fetchOrders();
+  };
 
   const handleDelete = async (id) => {
     const response = await fetch(`/api/orderheaders/${id}`, {headers: {
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
     },
     method: 'DELETE',
-    })
-    console.log(await response)
+    });
+    console.log(await response);
     setOrderList(orderList.filter((order) => order._id !== id));
   };
 
   const handleDeleteItem = async (id) => {
     const response = await fetch(`/api/orderitems/${id}`, {headers: {
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('token'),
     },
     method: 'DELETE',
-    })
-    console.log(await response)
+    });
+    console.log(await response);
     setOrderList(orderList.filter((order) => order._id !== id));
   };
 
@@ -87,14 +87,14 @@ function AdminOrderList() {
   if (loading) return <Loading />;
 
   return (sideType === 'headers') ? (
-    <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore} 
-    onDelete={handleDelete}/>
+    <OrderHeadersTable orderList={orderList} onLearnMore={handleLearnMore}
+      onDelete={handleDelete}/>
   ) : (sideType === 'items') ? (
-    <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess} 
-    onDelete={handleDeleteItem} onGoBack={handleLearnLess}/>
+    <OrderItemsTable orderList={orderList} onLearnLess={handleLearnLess}
+      onDelete={handleDeleteItem} onGoBack={handleLearnLess}/>
   ) : (
     <Loading />
-  )
+  );
 }
 
 export default AdminOrderList;

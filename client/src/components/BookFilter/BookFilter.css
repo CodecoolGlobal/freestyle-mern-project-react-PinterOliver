@@ -1,16 +1,20 @@
 .filterContainer{
-  width: 20vw;
+  width: 18%;
   background-color: #846e3b;
   height: 85%;
   padding-top: 5vh;
   text-align: center;
   display: inline-block;
-  border-radius: 3px;
   border: black 1px solid;
   margin: 5 px;
   position: absolute;
   left: 0;
   justify-content: center;
+  border-right: 5px solid black;
+}
+
+.slidecontainer {
+  width: 260px;
 }
 
 .slider {
@@ -58,15 +62,22 @@
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
+  position: absolute;
+  top: 100%;
   background-color: #f1f1f1;
-  width: 12vw;
+  width: 200px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   cursor: pointer;
@@ -90,13 +101,21 @@
 .dropdown:hover .dropbtn {background-color: #828282;}
 .filterButton{
 display: block;
-margin-left: 4vw;
-margin-top: 30%;
-background-color: #323232;
 color: white;
-padding: 16px;
+padding: 0 0;
 font-size: 16px;
 border: none;
-width: 12vw;
+width: 200px;
 cursor: pointer;
+}
+
+.extratopmargin {
+  margin-top: 120px;
+}
+
+.filterSideContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }

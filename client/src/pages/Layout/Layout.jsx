@@ -1,13 +1,19 @@
 import React from 'react';
 import './Layout.css';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import NavbarButton from '../../components/NavbarButton/NavbarButton';
 
 function Layout() {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (window.confirm('Are you sure you want to log out?')) {
+      await fetch('/api/login', {
+        method: 'DELETE',
+        headers: {token: localStorage.getItem('token')},
+      });
       localStorage.removeItem('token');
+      localStorage.removeItem('cartid');
       navigate('/');
     }
   };
@@ -19,20 +25,22 @@ function Layout() {
   return (
     <div className="Layout">
       <div className="main-navbar">
-        <img className="main-logo" src="/icon.png" alt="main logo"></img>
-        <a href="/books">
-          <button>Books</button>
+        <a className="main-logo" href="/">
+          <img className="main-logo" src="/icon.png" alt="main logo"></img>
         </a>
-        <a href="/admin">
-          <button>Admin</button>
+        <a className='topButton' href="/books">
+          <NavbarButton text='Books'/>
         </a>
-        <a href="/cart">
-          <button>Cart</button>
+        <a className='topButton' href="/admin">
+          <NavbarButton text='Admin'/>
         </a>
-        <a href='/presentation'>
-          <button>Presentation</button>
+        <a className='topButton' href="/cart">
+          <NavbarButton text='Cart'/>
         </a>
-        <button onClick={() => handleLogout()}>Logout</button>
+        <a className='topButton' href='/presentation'>
+          <NavbarButton text='Presentation'/>
+        </a>
+        <NavbarButton onClick={() => handleLogout()} text='Logout'/>
       </div>
       <div className="main-content">
         <Outlet />

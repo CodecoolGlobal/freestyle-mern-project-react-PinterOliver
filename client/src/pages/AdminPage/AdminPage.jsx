@@ -1,26 +1,35 @@
 import React from 'react';
 import './AdminPage.css';
 import { Outlet, Link } from 'react-router-dom';
+import NavbarButton from '../../components/NavbarButton/NavbarButton';
 
 function AdminPage() {
   return (
     <>
       <div className="sidebarContainer">
         <nav className="side-menu">
-          <ul>
-            <li>
-              <Link to="books">Books</Link>
-              <a href="books/create">
-                <button>+</button>
+          <div>
+            <div>
+              <Link to="books" className='adminSideButton'>
+                <NavbarButton text='Books'/>
+              </Link>
+            </div>
+            <div>
+              <a href="/admin/books/create" className='adminSideButton'>
+                <NavbarButton text='Add a book'/>
               </a>
-            </li>
-            <li>
-              <Link to="orders">Orders</Link>
-            </li>
-            <li>
-              <Link to="users">Users</Link>
-            </li>
-          </ul>
+            </div>
+            <div>
+              <Link to="orders" className='adminSideButton'>
+                <NavbarButton text='Orders'/>
+              </Link>
+            </div>
+            <div>
+              <Link to="users" className='adminSideButton'>
+                <NavbarButton text='Users'/>
+              </Link>
+            </div>
+          </div>
         </nav>
       </div>
       <div className="pageContent">

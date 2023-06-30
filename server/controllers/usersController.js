@@ -4,6 +4,7 @@ const Role = require('../model/Role');
 const {
   arraySearch,
 } = require('./filterAndSort');
+const bcrypt = require('bcrypt');
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -18,7 +19,7 @@ const getAllUsers = async (req, res) => {
       }));
       search = arraySearch(search, 'role', roleData);
     }
-    const users = await User.find(search).sort({userName: -1});
+    const users = await User.find(search).sort({userName: -1}).populate('role');
     res.status(200).json({users: users});
   } catch (error) {
     res.status(400).json({error: error.message});
@@ -43,6 +44,11 @@ const addOneUser = async (req, res) => {
       const role = await Role.findOne({name: 'User'});
       user.role = role._id;
     }
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(user.password, salt);
+    user.salt = salt;
+    user.password = hashedPassword;
     const newUser = await User.create(user);
     res.status(201).json({user: newUser});
   } catch (error) {

@@ -4,7 +4,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { useNavigate } from 'react-router';
 
 function OrderHeadersTable({ orderList, onLearnMore, onDelete }) {
-  console.log(orderList)
+  console.log(orderList);
   const navigate = useNavigate();
 
   return (
@@ -25,12 +25,14 @@ function OrderHeadersTable({ orderList, onLearnMore, onDelete }) {
             <td>{formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}</td>
             <td>
               <button onClick={() => onLearnMore(order._id)}>Learn more</button>
-              <td>
+            </td>
+            <td>
               <button onClick={() => onDelete(order._id)}>Delete order</button>
             </td>
             <td>
               <button onClick={() => navigate(`update/${order._id}`)}>Update order state</button>
             </td>
+            <td>
               <button onClick={() => navigate(`update/${order._id}`)}>Update order details</button>
             </td>
           </tr>
