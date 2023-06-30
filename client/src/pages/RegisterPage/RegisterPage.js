@@ -1,27 +1,29 @@
-import React, { useState } from "react";
-import "./RegisterPage.css";
+import React, { useState } from 'react';
+import './RegisterPage.css';
+import { useNavigate } from 'react-router';
 
 function RegisterPage() {
-  const [userName, setUserName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    if (id === "userName") setUserName(value);
-    if (id === "firstName") setFirstName(value);
-    if (id === "lastName") setLastName(value);
-    if (id === "email") setEmail(value);
-    if (id === "password") setPassword(value);
+    if (id === 'userName') setUserName(value);
+    if (id === 'firstName') setFirstName(value);
+    if (id === 'lastName') setLastName(value);
+    if (id === 'email') setEmail(value);
+    if (id === 'password') setPassword(value);
   };
 
   const handleSubmit = async () => {
-    const response = await fetch("/api/users", {
-      method: "POST",
+    const response = await fetch('/api/users', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         userName,
@@ -32,6 +34,7 @@ function RegisterPage() {
     });
     const jsonData = await response.json();
     console.log(jsonData);
+    navigate('/');
   };
 
   return (
