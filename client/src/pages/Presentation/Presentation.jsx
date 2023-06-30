@@ -67,9 +67,9 @@ function Presentation() {
         <img className="tallpicture" src={Funfact}/>
         <div className='listContainer'>
           <ul className='listing'>
-            <li className='listItem'>Trello card: 32</li>
+            <li className='listItem'>Trello card: 33</li>
             <li className='listItem'>JS file: 47</li>
-            <li className='listItem'>Git commit: 356</li>
+            <li className='listItem'>Git commit: 381</li>
           </ul>
         </div>
         <h2 className='prestitle'>Do you have any questions?</h2>
