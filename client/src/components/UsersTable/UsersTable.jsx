@@ -24,7 +24,13 @@ function UsersTable({ userList, onDelete }) {
             <td>{user.name.last}</td>
             <td>{user.role.name}</td>
             <td>{user.email}</td>
-            <td>{user.delivery.country} {user.delivery.post_code} {user.delivery.city} {user.delivery.address}</td>
+            user.delivery ? (
+            <td>{
+              user.delivery.country} {user.delivery.post_code} {user.delivery.city} {user.delivery.address}
+            </td>
+            ) : (
+            <div></div>
+            )
             <td>{user.telephone_number}</td>
             <td>
               <button>Update</button>

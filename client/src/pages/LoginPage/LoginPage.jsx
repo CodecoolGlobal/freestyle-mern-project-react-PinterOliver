@@ -30,10 +30,10 @@ function LoginPage() {
       if (resData.status === 200) {
         const id = jsonDataPlus.orderheader._id;
         localStorage.setItem('cartid', id);
-        navigate('/');
       } else {
         console.log(jsonDataPlus);
       }
+      navigate('/');
     } else {
       console.log(jsonData.error);
     }
