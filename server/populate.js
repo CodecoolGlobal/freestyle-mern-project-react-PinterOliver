@@ -7,9 +7,8 @@ const mongoose = require('mongoose');
 const BookModel = require('./model/Book');
 const RoleModel = require('./model/Role');
 const StoredItemModel = require('./model/StoredItem');
-const Book = require('./model/Book');
-const OrderHeader = require('./model/OrderHeader');
-const OrderItem = require('./model/OrderItem');
+const OrderHeaderModel = require('./model/OrderHeader');
+const OrderItemModel = require('./model/OrderItem');
 const UserModel = require('./model/User');
 const { updateHeader } = require('./controllers/orderItemsController');
 const { lte } = require('semver');
@@ -110,13 +109,13 @@ async function populateBooks() {
     }
   }
 
-  const books = await Book.find({});
+  const books = await BookModel.find({});
   let counter = 0;
 
   await Promise.all(books.map(async (book, index, array) => {
     if (array.slice(0, index).some((item) => item.title === book.title)) {
       counter++;
-      return await Book.findByIdAndDelete(book._id);
+      return await BookModel.findByIdAndDelete(book._id);
     }
     return {};
   }));
@@ -186,7 +185,7 @@ async function populateRoles() {
 async function populateStorage() {
   await StoredItemModel.deleteMany({});
 
-  const books = await Book.find({});
+  const books = await BookModel.find({});
   const storage = books.map((book) => {
     return {
       item: book._id,
@@ -426,4 +425,12 @@ function genStreet() {
   const number = Math.floor(Math.random() * 199) + 1;
   street += ` ${number}.`;
   return street;
+}
+
+async function createOrder (user, state, books) {
+  const header = {
+    user: user,
+    state: state,
+  };
+  const orderHeader = await OrderHeaderModel.create(header);
 }
