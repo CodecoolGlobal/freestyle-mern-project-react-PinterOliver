@@ -11,7 +11,6 @@ const OrderHeaderModel = require('./model/OrderHeader');
 const OrderItemModel = require('./model/OrderItem');
 const UserModel = require('./model/User');
 const { updateHeader } = require('./controllers/orderItemsController');
-const { lte } = require('semver');
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -25,10 +24,10 @@ const main = async () => {
   await mongoose.connect(mongoUrl);
   console.log('Successfully connected to DB');
 
-  /*   await populateBooks();
+  await populateBooks();
   await populateRoles();
   await populateStorage();
-  await populateUsers(); */
+  await populateUsers();
   await populateOrders();
 
   await mongoose.disconnect();
