@@ -9,7 +9,7 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    deleteCache();
     const response = await fetch('api/login', {
       method: 'POST',
       headers: {
@@ -126,6 +126,15 @@ async function loadExistingCart(token) {
     ),
   );
 
+}
+
+async function deleteCache() {
+  await fetch('/api/login', {
+    method: 'DELETE',
+    headers: {token: localStorage.getItem('token')},
+  });
+  localStorage.removeItem('token');
+  localStorage.removeItem('cartid');
 }
 
 export default LoginPage;

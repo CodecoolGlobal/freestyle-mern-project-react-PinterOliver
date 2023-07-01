@@ -15,7 +15,7 @@ const main = async () => {
   await mongoose.connect(mongoUrl);
   console.log('Successfully connected to DB');
 
-  modifyUser('Bebe');
+  modifyUser('DanDan');
 
   console.log('Disconnected from DB');
 };
@@ -27,7 +27,7 @@ main().catch((error) => {
 
 async function modifyUser(username) {
   const user = await User.findOne({userName: username});
-  const password = 'aslm@ĐđDFG213';
+  const password = 'dfg4567&$@dGF';
   const saltRounds = 10;
   const salt = bcrypt.genSaltSync(saltRounds);
   const hashedPassword = bcrypt.hashSync(password, salt);
