@@ -203,25 +203,6 @@ async function deleteOrders() {
 async function addUsers() {
   //await UserModel.deleteMany({});
 
-  const addition = {
-    userName: String,
-    name: {
-      first: String,
-      last: String,
-    },
-    password: String,
-    salt: String,
-    email: String,
-    role: { type: mongoose.Types.ObjectId, ref: 'Role' },
-    delivery: {
-      country: String,
-      city: String,
-      address: String,
-      post_code: String,
-    },
-    telephone_number: String,
-    token: [],
-  };
 
 
   let users = [
@@ -291,26 +272,39 @@ async function addUsers() {
     },
   ];
 
+
+
+
   users = [...users, ...generateRandomUsers(10)];
-  const userstext = users.map((user) => `${user.userName}\n${user.password}`).join('\n\n');
-  console.log(userstext);
+
+  await Promise.all(users.map(async (user) => {
+    const role = await RoleModel.find({name: user.role});
+
+    const password = genPassword();
+    user.literalPassword = password;
+    /*     password: String,
+    salt: String,
+    email: String,
+    role: { type: mongoose.Types.ObjectId, ref: 'Role' },
+    delivery: {
+      country: String,
+      city: String,
+      address: String,
+      post_code: String,
+    },
+    telephone_number: String,
+    token: [],
+    user.role = role._id;
+    await user.save(); */
+  }));
+
+  const userstext = users.map((user) => `${user.userName}\n${user.literalPassword}`).join('\n\n');
+
   fs.writeFile('../passwords.txt', userstext, (err) => {
     if (err) console.log(err);
   });
 
-
-  /*   users.forEach(async (user) => {
-    const userRole = await RoleModel.find({name: user.role.name});
-    if (userRole) {
-      user.role = userRole._id;
-    } else {
-      const defaultRole = await RoleModel.find({name: 'User'});
-      user.role = defaultRole._id;
-    }
-    await user.save();
-  });
-  console.log('Users updated'); */
-
+  console.log('Users updated');
 }
 
 function generateRandomUsers(num) {
@@ -339,4 +333,29 @@ function generateRandomUsers(num) {
 
   return array;
 
+}
+
+function genPassword() {
+  const chars = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const passwordLength = 8;
+  let password = '';
+  for (let i = 0; i <= passwordLength; i++) {
+    const randomNumber = Math.floor(Math.random() * chars.length);
+    password += chars[randomNumber];
+  }
+  const randomNumber1 = Math.floor((Math.random() * 10) + 0);
+  password += chars[randomNumber1];
+  const randomNumber2 = Math.floor((Math.random() * 26) + 10);
+  password += chars[randomNumber2];
+  const randomNumber3 = Math.floor((Math.random() * 10) + 36);
+  password += chars[randomNumber3];
+  const randomNumber4 = Math.floor((Math.random() * 26) + 46);
+  password += chars[randomNumber4];
+  let newPassword = '';
+  while (password.length > 0) {
+    const rand = Math.floor(Math.random() * password.length);
+    newPassword += password[rand];
+    password = password.slice(0, rand) + password.slice(rand + 1);
+  }
+  return newPassword;
 }
