@@ -35,6 +35,7 @@ const getOneOrderHeader = (req, res) => {
 const addOneOrderHeader = async (req, res) => {
   try {
     const user = req.user;
+    console.log(user);
     const isExist = await OrderHeader.findOne({user: user._id, state: 'cart'});
     if (isExist) {
       return res.status(405).json({
@@ -119,11 +120,11 @@ const updateOneOrderHeader = async (req, res) => {
 const deleteOneOrderHeader = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id)
+    console.log(id);
     const deletedItems = await OrderItem.deleteMany({order: id});
-    console.log(deletedItems)
+    console.log(deletedItems);
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
-    console.log(deletedOrder)
+    console.log(deletedOrder);
     deletedOrder.items = deletedItems;
     res.status(202).json({orderheader: deletedOrder});
   } catch (error) {
@@ -137,7 +138,7 @@ const getCartOrderHeader = async (req, res) => {
     const user = req.user;
     const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
     if (!order) {
-      return res.status(204);
+      return res.status(204).json({message: 'User has an empty cart', orderheader: order});
     }
     res.status(200).json({message: 'User has a cart', orderheader: order});
   } catch (error) {

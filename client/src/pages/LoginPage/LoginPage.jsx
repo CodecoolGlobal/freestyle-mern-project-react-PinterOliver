@@ -97,12 +97,13 @@ async function loadExistingCart(token) {
   }
   if (response.status === 204) {
     const newHeadRes = await fetch('/api/orderheaders', {
+      method: 'POST',
       headers: {
         token: token,
       },
     });
     const jsonData = await newHeadRes.json();
-    cartOrderId = jsonData._id;
+    cartOrderId = jsonData.orderheader._id;
   }
 
   const cartItemsRes = await fetch(`/api/orderitems/orderheaders/${cartOrderId}`, {
@@ -124,6 +125,7 @@ async function loadExistingCart(token) {
       }),
     ),
   );
+
 }
 
 export default LoginPage;

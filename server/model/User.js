@@ -11,7 +11,6 @@ const userSchema = new Schema({
   },
   password: String,
   salt: String,
-  hashedpassword: String,
   email: String,
   role: { type: mongoose.Types.ObjectId, ref: 'Role' },
   delivery: {

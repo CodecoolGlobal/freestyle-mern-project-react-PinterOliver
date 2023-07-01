@@ -23,12 +23,12 @@ const main = async () => {
   await mongoose.connect(mongoUrl);
   console.log('Successfully connected to DB');
 
-  await populateBooks();
+/*   await populateBooks();
   await populateRoles();
   await populateStorage();
   await deleteOrders();
 
-  await mongoose.disconnect();
+  await mongoose.disconnect(); */
   console.log('Disconnected from DB');
 };
 
@@ -208,3 +208,94 @@ async function deleteOrders() {
   await OrderHeader.deleteMany({});
   await OrderItem.deleteMany({});
 }
+/*
+async function addUsers() {
+
+  "delivery": {
+    "country": ,
+    "city": ,
+    "address": ,
+    "post_code": 
+  },
+
+
+  const users = [
+    {
+      "name": {
+        "first": "Tamás",
+        "last": "Molnár"
+      },
+      "userName": "tomocza",
+      "password": "$2b$10$n1X1z5liGvv7FT1DSFndDOOqvKZbDu3Fi5ntlfZ7WASKV6Wadns5S",
+      "email": "tomi@astala.hu",
+      "telephone_number": "+36201515341",
+      "token": [],
+      "role": ,
+      "salt": "$2b$10$n1X1z5liGvv7FT1DSFndDO"
+    },
+    {
+      "name": {
+        "first": "Béla",
+        "last": "Kovács"
+      },
+      "userName": "pörköltvacak",
+      "password": "$2b$10$KHjxMv01H2nP9.csSFHhiexc9Ae7ZFKcbOoJPewQBMgu4rxTX.ioW",
+      "email": "toth.Kovács@gmail.com",
+      "telephone_number": "+36206548989",
+      "token": [],
+      "role": ,
+      "salt": "$2b$10$KHjxMv01H2nP9.csSFHhie"
+    },
+    {
+      "name": {
+        "first": "Kakszi",
+        "last": "Lajos"
+      },
+      "userName": "kakszilali",
+      "password": "$2b$10$MCC99NLphU2n.puhVQx59.GEFM3klj8mT2UsYY8mO0TpCV4.meMie",
+      "salt": "$2b$10$MCC99NLphU2n.puhVQx59.",
+      "email": "kakszilali@gmail.com",
+      "role": ,
+      "token": [],
+    },
+    {
+      "name": {
+        "first": "Olivér Péter",
+        "last": "Pintér"
+      },
+      "userName": "Oliviero",
+      "password": "$2b$10$EKRSYo5dxtrj2obV6rIn4Oko3/CcSxfqklGf3KHvm4OvK6d/CdlkC",
+      "salt": "$2b$10$EKRSYo5dxtrj2obV6rIn4O",
+      "email": "oliver.pinter@gmail.com",
+      "role": ,
+      "token": []
+    },
+    {
+      "name": {
+        "first": "András",
+        "last": "Tóth"
+      },
+      "userName": "BurgerKing",
+      "password": "$2b$10$U/27pe82YV2n9Y9ztlQYZOLOk0mAxBpKiXEFzKQRvs/fUIYm4ND.S",
+      "email": "toth.andras@gmail.com",
+      "telephone_number": "+36206548989",
+      "token": [],
+      "role": ,
+      "salt": "$2b$10$U/27pe82YV2n9Y9ztlQYZO"
+    },
+    {
+      "name": {
+        "first": "Benedek",
+        "last": "Sebestyén"
+      },
+      "userName": "Bebe",
+      "password": "$2b$10$covZUPm9xpCOyQm5q5WT7e1fr6MrPyTsmYX2cT//3XLNCWZEsobrO",
+      "salt": "$2b$10$covZUPm9xpCOyQm5q5WT7e",
+      "email": "sebibebe@gmail.com",
+      "role": ,
+      "token": []
+    }
+  ]
+
+}
+ */
