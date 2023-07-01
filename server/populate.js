@@ -220,8 +220,9 @@ async function populateOrders() {
     await createOrder(user, 'cart', books);
   }
 
-  for (let i = 0; i < 100; i++) {
-    const rand = Math.random;
+  const numberOfOrders = 100;
+  for (let i = 0; i < numberOfOrders; i++) {
+    const rand = Math.random();
     let state;
     if (rand < 0.15) state = states[1];
     else if (rand < 0.3) state = states[2];
@@ -229,6 +230,7 @@ async function populateOrders() {
     else state = states[4];
     const user = users[Math.floor(Math.random() * users.length)];
     await createOrder(user, state, books);
+    if (!(i % 10)) console.log(`Orders created (${i}/${numberOfOrders})`);
   }
 
   console.log('Created orders');
