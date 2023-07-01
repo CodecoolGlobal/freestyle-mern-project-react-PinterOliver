@@ -8,8 +8,7 @@ const StoredItemModel = require('./model/StoredItem');
 const Book = require('./model/Book');
 const OrderHeader = require('./model/OrderHeader');
 const OrderItem = require('./model/OrderItem');
-const User = require('./model/User');
-const Role = require('./model/Role');
+const UserModel = require('./model/User');
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -23,12 +22,12 @@ const main = async () => {
   await mongoose.connect(mongoUrl);
   console.log('Successfully connected to DB');
 
-/*   await populateBooks();
+  await populateBooks();
   await populateRoles();
   await populateStorage();
   await deleteOrders();
 
-  await mongoose.disconnect(); */
+  await mongoose.disconnect();
   console.log('Disconnected from DB');
 };
 
@@ -121,8 +120,6 @@ async function populateBooks() {
 }
 
 async function populateRoles() {
-  const users = await User.find({}).populate('role');
-
   await RoleModel.deleteMany({});
 
   const roles = [
@@ -171,22 +168,14 @@ async function populateRoles() {
       canViewItems: true,
       canViewAllOrders: true,
     },
+    {
+      name: 'Boss',
+      canViewItems: true,
+    },
   ];
 
   await RoleModel.create(...roles);
   console.log('Roles created');
-
-  users.forEach(async (user) => {
-    const userRole = await Role.find({name: user.role.name});
-    if (userRole) {
-      user.role = userRole._id;
-    } else {
-      const defaultRole = await Role.find({name: 'User'});
-      user.role = defaultRole._id;
-    }
-    await user.save();
-  });
-  console.log('Users updated');
 }
 
 async function populateStorage() {
@@ -208,94 +197,109 @@ async function deleteOrders() {
   await OrderHeader.deleteMany({});
   await OrderItem.deleteMany({});
 }
-/*
+
 async function addUsers() {
 
-  "delivery": {
-    "country": ,
-    "city": ,
-    "address": ,
-    "post_code": 
-  },
+  const addition = {
+    userName: String,
+    name: {
+      first: String,
+      last: String,
+    },
+    password: String,
+    salt: String,
+    email: String,
+    role: { type: mongoose.Types.ObjectId, ref: 'Role' },
+    delivery: {
+      country: String,
+      city: String,
+      address: String,
+      post_code: String,
+    },
+    telephone_number: String,
+    token: [],
+  };
 
 
   const users = [
     {
-      "name": {
-        "first": "Tamás",
-        "last": "Molnár"
+      'name': {
+        'first': 'Tamás',
+        'last': 'Molnár',
       },
-      "userName": "tomocza",
-      "password": "$2b$10$n1X1z5liGvv7FT1DSFndDOOqvKZbDu3Fi5ntlfZ7WASKV6Wadns5S",
-      "email": "tomi@astala.hu",
-      "telephone_number": "+36201515341",
-      "token": [],
-      "role": ,
-      "salt": "$2b$10$n1X1z5liGvv7FT1DSFndDO"
+      'userName': 'tomocza',
+      'role': 'Admin',
     },
     {
-      "name": {
-        "first": "Béla",
-        "last": "Kovács"
+      'name': {
+        'first': 'Olivér Péter',
+        'last': 'Pintér',
       },
-      "userName": "pörköltvacak",
-      "password": "$2b$10$KHjxMv01H2nP9.csSFHhiexc9Ae7ZFKcbOoJPewQBMgu4rxTX.ioW",
-      "email": "toth.Kovács@gmail.com",
-      "telephone_number": "+36206548989",
-      "token": [],
-      "role": ,
-      "salt": "$2b$10$KHjxMv01H2nP9.csSFHhie"
+      'userName': 'Oliviero',
+      'role': 'Customer_service_agent',
     },
     {
-      "name": {
-        "first": "Kakszi",
-        "last": "Lajos"
+      'name': {
+        'first': 'András',
+        'last': 'Tóth',
       },
-      "userName": "kakszilali",
-      "password": "$2b$10$MCC99NLphU2n.puhVQx59.GEFM3klj8mT2UsYY8mO0TpCV4.meMie",
-      "salt": "$2b$10$MCC99NLphU2n.puhVQx59.",
-      "email": "kakszilali@gmail.com",
-      "role": ,
-      "token": [],
+      'userName': 'BurgerKing',
+      'role': 'HR_manager',
     },
     {
-      "name": {
-        "first": "Olivér Péter",
-        "last": "Pintér"
+      'name': {
+        'first': 'Benedek',
+        'last': 'Sebestyén',
       },
-      "userName": "Oliviero",
-      "password": "$2b$10$EKRSYo5dxtrj2obV6rIn4Oko3/CcSxfqklGf3KHvm4OvK6d/CdlkC",
-      "salt": "$2b$10$EKRSYo5dxtrj2obV6rIn4O",
-      "email": "oliver.pinter@gmail.com",
-      "role": ,
-      "token": []
+      'userName': 'Bebe',
+      'role': 'Storekeeper',
     },
     {
-      "name": {
-        "first": "András",
-        "last": "Tóth"
+      'userName': 'DanDan',
+      'name': {
+        'first': 'Dániel',
+        'last': 'Tóth',
       },
-      "userName": "BurgerKing",
-      "password": "$2b$10$U/27pe82YV2n9Y9ztlQYZOLOk0mAxBpKiXEFzKQRvs/fUIYm4ND.S",
-      "email": "toth.andras@gmail.com",
-      "telephone_number": "+36206548989",
-      "token": [],
-      "role": ,
-      "salt": "$2b$10$U/27pe82YV2n9Y9ztlQYZO"
+      'role': 'Courier',
     },
     {
-      "name": {
-        "first": "Benedek",
-        "last": "Sebestyén"
+      'userName': 'SasszemÁdám',
+      'name': {
+        'first': 'Ádám',
+        'last': 'Kozák',
       },
-      "userName": "Bebe",
-      "password": "$2b$10$covZUPm9xpCOyQm5q5WT7e1fr6MrPyTsmYX2cT//3XLNCWZEsobrO",
-      "salt": "$2b$10$covZUPm9xpCOyQm5q5WT7e",
-      "email": "sebibebe@gmail.com",
-      "role": ,
-      "token": []
+      'role': 'Accountant',
+    },
+    {
+      'userName': 'DogLover',
+      'name': {
+        'first': 'Lajos',
+        'last': 'Sávoly',
+      },
+      'role': 'Purchasing_agent',
+    },
+    {
+      'userName': 'CousinAdam',
+      'name': {
+        'first': 'Ádám',
+        'last': 'Dulai',
+      },
+      'role': 'Boss',
+    },
+  ];
+
+
+  /*   users.forEach(async (user) => {
+    const userRole = await RoleModel.find({name: user.role.name});
+    if (userRole) {
+      user.role = userRole._id;
+    } else {
+      const defaultRole = await RoleModel.find({name: 'User'});
+      user.role = defaultRole._id;
     }
-  ]
+    await user.save();
+  });
+  console.log('Users updated'); */
 
 }
- */
+

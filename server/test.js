@@ -33,7 +33,7 @@ async function modifyUser(username) {
   const hashedPassword = bcrypt.hashSync(password, salt);
   user.salt = salt;
   user.password = hashedPassword;
-  const newUser = await user.save();
+  await user.save();
   const usertext = `${username}\n${password}`;
   console.log(usertext);
 }
