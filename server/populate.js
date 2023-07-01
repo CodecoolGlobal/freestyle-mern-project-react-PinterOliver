@@ -198,8 +198,8 @@ async function populateStorage() {
 }
 
 async function populateOrders() {
-  await OrderHeader.deleteMany({});
-  await OrderItem.deleteMany({});
+  await OrderHeaderModel.deleteMany({});
+  await OrderItemModel.deleteMany({});
 
   const states = [
     'cart',
@@ -217,7 +217,7 @@ async function populateOrders() {
   const cartUsers = users.filter(() => Math.random() < 0.5);
 
   for (const user of cartUsers) {
-    createOrder(user, cart, books);
+    await createOrder(user, 'cart', books);
   }
   //updateHeader(orderHeader);
 
@@ -433,4 +433,25 @@ async function createOrder (user, state, books) {
     state: state,
   };
   const orderHeader = await OrderHeaderModel.create(header);
+  const rounds = Math.floor(Math.random() * 5) + 1;
+  const used = [];
+
+  for (let i = 0; i < rounds; i++) {
+    const bookid = books[Math.floor(Math.random() * books.length)];
+    if (!used.includes(bookid)) {
+      const book = await BookModel.findById(bookid);
+      used.push(bookid);
+      const rand = Math.floor(Math.random() * 5) + 1;
+      const item = {
+        item: book._id,
+        order: orderHeader._id,
+        amount: rand,
+        bookPrice: book.price,
+        price: rand * book.price,
+      };
+      await OrderItemModel.create(item);
+    }
+  }
+
+  await updateHeader(orderHeader);
 }
