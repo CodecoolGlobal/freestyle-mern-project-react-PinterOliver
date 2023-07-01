@@ -219,8 +219,19 @@ async function populateOrders() {
   for (const user of cartUsers) {
     await createOrder(user, 'cart', books);
   }
-  //updateHeader(orderHeader);
 
+  for (let i = 0; i < 100; i++) {
+    const rand = Math.random;
+    let state;
+    if (rand < 0.15) state = states[1];
+    else if (rand < 0.3) state = states[2];
+    else if (rand < 0.45) state = states[3];
+    else state = states[4];
+    const user = users[Math.floor(Math.random() * users.length)];
+    await createOrder(user, state, books);
+  }
+
+  console.log('Created orders');
 }
 
 async function populateUsers() {
