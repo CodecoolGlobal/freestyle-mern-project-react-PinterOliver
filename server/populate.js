@@ -366,18 +366,32 @@ function generateRandomUsers(num) {
   const array = [];
 
   for (let i = 0; i < num; i++) {
-    const first = firstNames[Math.floor(Math.random() * firstNames.length)];
-    const last = lastNames[Math.floor(Math.random() * lastNames.length)];
-    array.push(
-      {
-        'userName': `${first}${Math.floor((Math.random() * 89) + 10)}`,
-        'name': {
-          'first': first,
-          'last': last,
-        },
-        'role': 'User',
-      },
+    let first;
+    let last;
+    let userName;
+    let name;
+    const nameArray = [];
+    const userNameArray = [];
+    do {
+      first = firstNames[Math.floor(Math.random() * firstNames.length)];
+      last = lastNames[Math.floor(Math.random() * lastNames.length)];
+      userName = `${first}${Math.floor((Math.random() * 89) + 10)}`;
+      name = first + last;
+    } while (
+      userNameArray.includes(userName) ||
+      nameArray.includes(name)
     );
+    nameArray.push(name);
+    userNameArray.push(userName);
+    const newPerson = {
+      'userName': userName,
+      'name': {
+        'first': first,
+        'last': last,
+      },
+      'role': 'User',
+    };
+    array.push(newPerson);
   }
 
   return array;
