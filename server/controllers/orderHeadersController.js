@@ -138,7 +138,7 @@ const getCartOrderHeader = async (req, res) => {
     const user = req.user;
     const order = await OrderHeader.findOne({user: user._id, state: 'cart'});
     if (!order) {
-      return res.status(204).json({message: 'User has an empty cart', orderheader: order});
+      return res.status(404).json({message: 'User has an empty cart', orderheader: order});
     }
     res.status(200).json({message: 'User has a cart', orderheader: order});
   } catch (error) {

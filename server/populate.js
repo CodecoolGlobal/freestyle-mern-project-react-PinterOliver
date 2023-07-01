@@ -11,6 +11,8 @@ const Book = require('./model/Book');
 const OrderHeader = require('./model/OrderHeader');
 const OrderItem = require('./model/OrderItem');
 const UserModel = require('./model/User');
+const { updateHeader } = require('./controllers/orderItemsController');
+const { lte } = require('semver');
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -27,8 +29,8 @@ const main = async () => {
   /*   await populateBooks();
   await populateRoles();
   await populateStorage();
-  await deleteOrders(); */
-  await addUsers();
+  await populateUsers(); */
+  await populateOrders();
 
   await mongoose.disconnect();
   console.log('Disconnected from DB');
@@ -188,7 +190,7 @@ async function populateStorage() {
   const storage = books.map((book) => {
     return {
       item: book._id,
-      amount: Math.floor(Math.random() * 40),
+      amount: Math.floor(Math.random() * 40) + 10,
     };
   });
 
@@ -196,12 +198,33 @@ async function populateStorage() {
   console.log('Created storage');
 }
 
-async function deleteOrders() {
+async function populateOrders() {
   await OrderHeader.deleteMany({});
   await OrderItem.deleteMany({});
+
+  const states = [
+    'cart',
+    'placed',
+    'order_confirmed',
+    'transferred_to_shipping',
+    'order_completed',
+  ];
+
+  let users = await UserModel.find({});
+  users = users.map((user) => user._id);
+  let books = await BookModel.find({});
+  books = books.map((book) => book._id);
+
+  const cartUsers = users.filter(() => Math.random() < 0.5);
+
+  for (const user of cartUsers) {
+    createOrder(user, cart, books);
+  }
+  //updateHeader(orderHeader);
+
 }
 
-async function addUsers() {
+async function populateUsers() {
   await UserModel.deleteMany({});
 
   let users = [
@@ -273,7 +296,7 @@ async function addUsers() {
 
   users = [...users, ...generateRandomUsers(10)];
 
-  await Promise.all(users.map(async (user) => {
+  users = await Promise.all(users.map(async (user) => {
     user.token = [];
 
     const role = await RoleModel.findOne({name: user.role});
@@ -308,7 +331,7 @@ async function addUsers() {
 
     user.telephone_number = genPhone();
 
-    await UserModel.create(user);
+    return user;
   }));
 
   const userstext = users.map((user) => `${user.userName}\n${user.literalPassword}`).join('\n\n');
@@ -317,7 +340,9 @@ async function addUsers() {
     if (err) console.log(err);
   });
 
-  console.log('Users updated');
+  await UserModel.create(...users);
+
+  console.log('Users created');
 }
 
 function generateRandomUsers(num) {

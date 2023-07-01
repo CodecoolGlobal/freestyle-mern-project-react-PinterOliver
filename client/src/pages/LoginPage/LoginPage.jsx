@@ -129,12 +129,15 @@ async function loadExistingCart(token) {
 }
 
 async function deleteCache() {
-  await fetch('/api/login', {
-    method: 'DELETE',
-    headers: {token: localStorage.getItem('token')},
-  });
+  if (localStorage.getItem('token')) {
+    await fetch('/api/login', {
+      method: 'DELETE',
+      headers: {token: localStorage.getItem('token')},
+    });
+  }
   localStorage.removeItem('token');
   localStorage.removeItem('cartid');
+  localStorage.removeItem('cart');
 }
 
 export default LoginPage;
