@@ -1,5 +1,6 @@
 /* eslint-disable require-atomic-updates */
 /* eslint-disable camelcase */
+const fs = require('fs');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const BookModel = require('./model/Book');
@@ -22,10 +23,11 @@ const main = async () => {
   await mongoose.connect(mongoUrl);
   console.log('Successfully connected to DB');
 
-  await populateBooks();
+  /*   await populateBooks();
   await populateRoles();
   await populateStorage();
-  await deleteOrders();
+  await deleteOrders(); */
+  await addUsers();
 
   await mongoose.disconnect();
   console.log('Disconnected from DB');
@@ -199,6 +201,7 @@ async function deleteOrders() {
 }
 
 async function addUsers() {
+  //await UserModel.deleteMany({});
 
   const addition = {
     userName: String,
@@ -221,7 +224,7 @@ async function addUsers() {
   };
 
 
-  const users = [
+  let users = [
     {
       'name': {
         'first': 'Tamás',
@@ -288,6 +291,13 @@ async function addUsers() {
     },
   ];
 
+  users = [...users, ...generateRandomUsers(10)];
+  const userstext = users.map((user) => `${user.userName}\n${user.password}`).join('\n\n');
+  console.log(userstext);
+  fs.writeFile('../passwords.txt', userstext, (err) => {
+    if (err) console.log(err);
+  });
+
 
   /*   users.forEach(async (user) => {
     const userRole = await RoleModel.find({name: user.role.name});
@@ -303,3 +313,30 @@ async function addUsers() {
 
 }
 
+function generateRandomUsers(num) {
+  // eslint-disable-next-line max-len
+  const firstNames = ['Adam', 'Alex', 'Aaron', 'Ben', 'Carl', 'Dan', 'David', 'Edward', 'Fred', 'Frank', 'George', 'Hal', 'Hank', 'Ike', 'John', 'Jack', 'Joe', 'Larry', 'Monte', 'Matthew', 'Mark', 'Nathan', 'Otto', 'Paul', 'Peter', 'Roger', 'Roger', 'Steve', 'Thomas', 'Tim', 'Ty', 'Victor', 'Walter'];
+
+  // eslint-disable-next-line max-len
+  const lastNames = ['Anderson', 'Ashwoon', 'Aikin', 'Bateman', 'Bongard', 'Bowers', 'Boyd', 'Cannon', 'Cast', 'Deitz', 'Dewalt', 'Ebner', 'Frick', 'Hancock', 'Haworth', 'Hesch', 'Hoffman', 'Kassing', 'Knutson', 'Lawless', 'Lawicki', 'Mccord', 'McCormack', 'Miller', 'Myers', 'Nugent', 'Ortiz', 'Orwig', 'Ory', 'Paiser', 'Pak', 'Pettigrew', 'Quinn', 'Quizoz', 'Ramachandran', 'Resnick', 'Sagar', 'Schickowski', 'Schiebel', 'Sellon', 'Severson', 'Shaffer', 'Solberg', 'Soloman', 'Sonderling', 'Soukup', 'Soulis', 'Stahl', 'Sweeney', 'Tandy', 'Trebil', 'Trusela', 'Trussel', 'Turco', 'Uddin', 'Uflan', 'Ulrich', 'Upson', 'Vader', 'Vail', 'Valente', 'Van Zandt', 'Vanderpoel', 'Ventotla', 'Vogal', 'Wagle', 'Wagner', 'Wakefield', 'Weinstein', 'Weiss', 'Woo', 'Yang', 'Yates', 'Yocum', 'Zeaser', 'Zeller', 'Ziegler', 'Bauer', 'Baxster', 'Casal', 'Cataldi', 'Caswell', 'Celedon', 'Chambers', 'Chapman', 'Christensen', 'Darnell', 'Davidson', 'Davis', 'DeLorenzo', 'Dinkins', 'Doran', 'Dugelman', 'Dugan', 'Duffman', 'Eastman', 'Ferro', 'Ferry', 'Fletcher', 'Fietzer', 'Hylan', 'Hydinger', 'Illingsworth', 'Ingram', 'Irwin', 'Jagtap', 'Jenson', 'Johnson', 'Johnsen', 'Jones', 'Jurgenson', 'Kalleg', 'Kaskel', 'Keller', 'Leisinger', 'LePage', 'Lewis', 'Linde', 'Lulloff', 'Maki', 'Martin', 'McGinnis', 'Mills', 'Moody', 'Moore', 'Napier', 'Nelson', 'Norquist', 'Nuttle', 'Olson', 'Ostrander', 'Reamer', 'Reardon', 'Reyes', 'Rice', 'Ripka', 'Roberts', 'Rogers', 'Root', 'Sandstrom', 'Sawyer', 'Schlicht', 'Schmitt', 'Schwager', 'Schutz', 'Schuster', 'Tapia', 'Thompson', 'Tiernan', 'Tisler' ];
+
+  const array = [];
+
+  for (let i = 0; i < num; i++) {
+    const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+    const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+    array.push(
+      {
+        'userName': `${first}${Math.floor((Math.random() * 89) + 10)}`,
+        'name': {
+          'first': first,
+          'last': last,
+        },
+        'role': 'User',
+      },
+    );
+  }
+
+  return array;
+
+}
