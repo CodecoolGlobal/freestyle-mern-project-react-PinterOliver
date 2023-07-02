@@ -10,7 +10,6 @@ const userSchema = new Schema({
     last: String,
   },
   password: String,
-  salt: String,
   email: String,
   role: { type: mongoose.Types.ObjectId, ref: 'Role' },
   delivery: {

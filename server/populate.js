@@ -153,6 +153,7 @@ async function populateRoles() {
     {
       name: 'Customer_service_agent',
       canViewItems: true,
+      canViewAllOrders: true,
       canViewAllUsers: true,
     },
     {
