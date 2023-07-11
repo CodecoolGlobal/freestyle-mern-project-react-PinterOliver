@@ -111,12 +111,6 @@ function RegisterPage() {
               title='Minimum 8 characters, at least 1 lowercase letter, uppercase letter, number, special character'
             />
           </div>
-          <div>
-            <input
-              pattern='abcdef'
-              required
-            />
-          </div>
         </div>
         <div className="registerSubmit">
           <input
