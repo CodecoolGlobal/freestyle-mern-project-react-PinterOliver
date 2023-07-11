@@ -12,13 +12,21 @@ const OrderHeaderModel = require('../model/OrderHeader');
 const OrderItemModel = require('../model/OrderItem');
 const UserModel = require('../model/User');
 
-const firstNames = require('./firstNames.json');
-const lastNames = require('./lastNames.json');
 const genreList = require('./genres.json');
 const states = require('./states.json');
 const userList = require('./userList.json');
 
 const { updateHeader } = require('../controllers/orderItemsController');
+const {
+  pick,
+  generateNumber,
+  generateDate,
+  generateCity,
+  generateStreet,
+  generatePassword,
+  generatePhone,
+  generateRandomUsers,
+} = require('./generateParts');
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -92,7 +100,7 @@ async function populateBooks() {
 
       books.forEach((book) => {
         if (!book.price) {
-          book.price = (Math.floor(Math.random() * 300) * 10) + 509;
+          book.price = (generateNumber(0, 300) * 10) + 509;
         }
       });
 
@@ -183,7 +191,7 @@ async function populateStorage() {
   const storage = books.map((book) => {
     return {
       item: book._id,
-      amount: Math.floor(Math.random() * 40) + 10,
+      amount: generateNumber(10, 50),
     };
   });
 
@@ -214,7 +222,7 @@ async function populateOrders() {
     else if (rand < 0.3) state = states[2];
     else if (rand < 0.45) state = states[3];
     else state = states[4];
-    const user = users[Math.floor(Math.random() * users.length)];
+    const user = pick(users);
     await createOrder(user, state, books);
     if (!(i % 10)) console.log(`Orders created (${i}/${numberOfOrders})`);
   }
@@ -235,13 +243,12 @@ async function populateUsers() {
     const role = await RoleModel.findOne({name: user.role});
     user.role = role._id;
 
-    const password = genPassword();
+    const password = generatePassword();
     user.literalPassword = password;
 
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashedPassword = bcrypt.hashSync(password, salt);
-    user.salt = salt;
     user.password = hashedPassword;
 
     const number = user.userName.replace(/\D/gi, '');
@@ -254,15 +261,15 @@ async function populateUsers() {
       .replace(/[úüű]/gi, 'u');
     user.email = email.toLowerCase();
 
-    const {city, post} = genCity();
+    const {city, post} = generateCity();
     user.delivery = {
       country: 'Magyarország',
       city: city,
-      address: genStreet(),
+      address: generateStreet(),
       post_code: post,
     };
 
-    user.telephone_number = genPhone();
+    user.telephone_number = generatePhone();
 
     return user;
   }));
@@ -278,92 +285,21 @@ async function populateUsers() {
   console.log('Users created');
 }
 
-function generateRandomUsers(num) {
-  const array = [];
-
-  for (let i = 0; i < num; i++) {
-    let first;
-    let last;
-    let userName;
-    let name;
-    const nameArray = [];
-    const userNameArray = [];
-    do {
-      first = firstNames[Math.floor(Math.random() * firstNames.length)];
-      last = lastNames[Math.floor(Math.random() * lastNames.length)];
-      userName = `${first}${Math.floor((Math.random() * 89) + 10)}`;
-      name = first + last;
-    } while (
-      userNameArray.includes(userName) ||
-      nameArray.includes(name)
-    );
-    nameArray.push(name);
-    userNameArray.push(userName);
-    const newPerson = {
-      'userName': userName,
-      'name': {
-        'first': first,
-        'last': last,
-      },
-      'role': 'User',
-    };
-    array.push(newPerson);
-  }
-
-  return array;
-
-}
-
-function genPassword() {
-  const chars = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const passwordLength = 8;
-  let password = '';
-  for (let i = 0; i <= passwordLength; i++) {
-    const randomNumber = Math.floor(Math.random() * chars.length);
-    password += chars[randomNumber];
-  }
-  const randomNumber1 = Math.floor((Math.random() * 10) + 0);
-  password += chars[randomNumber1];
-  const randomNumber2 = Math.floor((Math.random() * 26) + 10);
-  password += chars[randomNumber2];
-  const randomNumber3 = Math.floor((Math.random() * 10) + 36);
-  password += chars[randomNumber3];
-  const randomNumber4 = Math.floor((Math.random() * 26) + 46);
-  password += chars[randomNumber4];
-  let newPassword = '';
-  while (password.length > 0) {
-    const rand = Math.floor(Math.random() * password.length);
-    newPassword += password[rand];
-    password = password.slice(0, rand) + password.slice(rand + 1);
-  }
-  return newPassword;
-}
-
-function genPhone() {
-  let phone = '+36';
-  const pre = ['20', '30', '70'];
-  phone += pre[Math.floor(Math.random() * pre.length)];
-  for (let i = 0; i < 7; i++) {
-    phone += Math.floor(Math.random() * 10);
-  }
-  return phone;
-}
-
 async function createOrder (user, state, books) {
   const header = {
     user: user,
     state: state,
   };
   const orderHeader = await OrderHeaderModel.create(header);
-  const rounds = Math.floor(Math.random() * 5) + 1;
+  const rounds = generateNumber(1, 5);
   const used = [];
 
   for (let i = 0; i < rounds; i++) {
-    const bookid = books[Math.floor(Math.random() * books.length)];
+    const bookid = pick(books);
     if (!used.includes(bookid)) {
       const book = await BookModel.findById(bookid);
       used.push(bookid);
-      const rand = Math.floor(Math.random() * 5) + 1;
+      const rand = generateNumber(1, 5);
       const item = {
         item: book._id,
         order: orderHeader._id,
