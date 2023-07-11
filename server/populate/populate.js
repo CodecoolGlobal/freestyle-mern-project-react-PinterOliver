@@ -258,8 +258,9 @@ async function populateUsers() {
     user.password = hashedPassword;
 
     const number = user.userName.replace(/\D/gi, '');
-    let email = `${user.name.first}.${user.name.last}${number}@gmail.com`;
+    let email = `${user.name.last}.${user.name.first}${number}@gmail.com`;
     email = email
+      .replace(/ /gi, '.')
       .replace(/á/gi, 'a')
       .replace(/é/gi, 'e')
       .replace(/í/gi, 'i')

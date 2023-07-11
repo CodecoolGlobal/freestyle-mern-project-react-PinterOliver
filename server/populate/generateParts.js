@@ -39,7 +39,7 @@ function generatePassword() {
   ];
   const chars = charSets.join('');
   const passwordLength = 8;
-  let password = Array.from(Array(passwordLength), () => pick(chars));
+  let password = Array.from(Array(passwordLength), () => pick(chars)).join('');
   password += charSets.map((item) => pick(item)).join('');
   let newPassword = '';
   while (password.length > 0) {
@@ -55,7 +55,7 @@ function generatePhone() {
   const phonePrefixes = ['20', '30', '70'];
   phone += pick(phonePrefixes);
   const numberOfDigits = 7;
-  phone += Array.from(Array(numberOfDigits), () => generateNumber(0, 9));
+  phone += Array.from(Array(numberOfDigits), () => generateNumber(0, 9)).join('');
   return phone;
 }
 
@@ -71,8 +71,11 @@ function generateRandomUsers(num) {
     const userNameArray = [];
     do {
       first = pick(firstNames);
+      let middle = '';
+      if (Math.random < 0.33) middle = pick(firstNames);
+      if (middle && middle !== first) first += ` ${middle}`;
       last = pick(lastNames);
-      userName = `${first}${generateNumber(10, 99)}`;
+      userName = `${first.replace(' ', '').toLowerCase()}${generateNumber(10, 99)}`;
       name = first + last;
     } while (
       userNameArray.includes(userName) ||
