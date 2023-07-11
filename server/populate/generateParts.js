@@ -1,4 +1,5 @@
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 
 const firstNames = require('./firstNames.json');
 const lastNames = require('./lastNames.json');
@@ -27,7 +28,7 @@ function generateCity() {
 }
 
 function generateStreet() {
-  return `${pick(streetNameList)} ${pick(streetTypeList)} ${generateNumber(1, 199)}`;
+  return `${pick(streetNameList)} ${pick(streetTypeList)} ${generateNumber(1, 120)}.`;
 }
 
 function generatePassword() {
@@ -47,7 +48,10 @@ function generatePassword() {
     newPassword += password[rand];
     password = password.slice(0, rand) + password.slice(rand + 1);
   }
-  return newPassword;
+  const saltRounds = 10;
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hashedPassword = bcrypt.hashSync(newPassword, salt);
+  return {literalPassword: newPassword, hashedPassword: hashedPassword};
 }
 
 function generatePhone() {
@@ -97,6 +101,19 @@ function generateRandomUsers(num) {
   return array;
 }
 
+function generateEmail (user) {
+  const number = user.userName.replace(/\D/gi, '');
+  let email = `${user.name.last}.${user.name.first}${number}@gmail.com`;
+  email = email
+    .replace(' ', '.')
+    .replace(/á/gi, 'a')
+    .replace(/é/gi, 'e')
+    .replace(/í/gi, 'i')
+    .replace(/[óöő]/gi, 'o')
+    .replace(/[úüű]/gi, 'u');
+  return email.toLowerCase();
+}
+
 function writeNewFile () {
   const names = [''];
   fs.writeFileSync('./populate/test.json', JSON.stringify(names, null, 2));
@@ -113,4 +130,5 @@ module.exports = {
   generatePassword,
   generatePhone,
   generateRandomUsers,
+  generateEmail,
 };

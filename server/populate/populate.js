@@ -1,6 +1,5 @@
 /* eslint-disable require-atomic-updates */
 /* eslint-disable camelcase */
-const bcrypt = require('bcrypt');
 const fs = require('fs');
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -26,6 +25,7 @@ const {
   generatePassword,
   generatePhone,
   generateRandomUsers,
+  generateEmail,
 } = require('./generateParts');
 
 const START_DAY = new Date('2001-10-09');
@@ -157,19 +157,19 @@ async function populateRoles() {
       canAccessStorage: true,
     },
     {
-      name: 'Customer_service_agent',
+      name: 'Customer service agent',
       canViewItems: true,
       canViewAllOrders: true,
       canViewAllUsers: true,
     },
     {
-      name: 'HR_manager',
+      name: 'HR manager',
       canViewItems: true,
       canViewAllUsers: true,
       canModifyRoles: true,
     },
     {
-      name: 'Purchasing_agent',
+      name: 'Purchasing agent',
       canViewItems: true,
       canModifyItems: true,
     },
@@ -249,24 +249,11 @@ async function populateUsers() {
     const role = await RoleModel.findOne({name: user.role});
     user.role = role._id;
 
-    const password = generatePassword();
-    user.literalPassword = password;
-
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hashedPassword = bcrypt.hashSync(password, salt);
+    const {literalPassword, hashedPassword} = generatePassword();
+    user.literalPassword = literalPassword;
     user.password = hashedPassword;
 
-    const number = user.userName.replace(/\D/gi, '');
-    let email = `${user.name.last}.${user.name.first}${number}@gmail.com`;
-    email = email
-      .replace(/ /gi, '.')
-      .replace(/á/gi, 'a')
-      .replace(/é/gi, 'e')
-      .replace(/í/gi, 'i')
-      .replace(/[óöő]/gi, 'o')
-      .replace(/[úüű]/gi, 'u');
-    user.email = email.toLowerCase();
+    user.email = generateEmail(user);
 
     const {city, post} = generateCity();
     user.delivery = {
