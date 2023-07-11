@@ -28,6 +28,9 @@ const {
   generateRandomUsers,
 } = require('./generateParts');
 
+const START_DAY = new Date('2001-10-09');
+const TODAY = new Date();
+
 const mongoUrl = process.env.MONGO_URL;
 
 if (!mongoUrl) {
@@ -102,6 +105,7 @@ async function populateBooks() {
         if (!book.price) {
           book.price = (generateNumber(0, 300) * 10) + 509;
         }
+        book.createdAt = generateDate(START_DAY, TODAY);
       });
 
       await BookModel.create(...books);
@@ -180,6 +184,10 @@ async function populateRoles() {
     },
   ];
 
+  roles.forEach((item) => {
+    item.createdAt = START_DAY;
+  });
+
   await RoleModel.create(...roles);
   console.log('Roles created');
 }
@@ -192,6 +200,7 @@ async function populateStorage() {
     return {
       item: book._id,
       amount: generateNumber(10, 50),
+      createdAt: book.createdAt,
     };
   });
 
@@ -203,15 +212,12 @@ async function populateOrders() {
   await OrderHeaderModel.deleteMany({});
   await OrderItemModel.deleteMany({});
 
-  let users = await UserModel.find({});
-  users = users.map((user) => user._id);
-  let books = await BookModel.find({});
-  books = books.map((book) => book._id);
+  const users = await UserModel.find({});
 
   const cartUsers = users.filter(() => Math.random() < 0.5);
 
   for (const user of cartUsers) {
-    await createOrder(user, 'cart', books);
+    await createOrder(user, 'cart');
   }
 
   const numberOfOrders = 100;
@@ -223,7 +229,7 @@ async function populateOrders() {
     else if (rand < 0.45) state = states[3];
     else state = states[4];
     const user = pick(users);
-    await createOrder(user, state, books);
+    await createOrder(user, state);
     if (!(i % 10)) console.log(`Orders created (${i}/${numberOfOrders})`);
   }
 
@@ -233,9 +239,7 @@ async function populateOrders() {
 async function populateUsers() {
   await UserModel.deleteMany({});
 
-  let users = structuredClone(userList);
-
-  users = [...users, ...generateRandomUsers(10)];
+  let users = [...structuredClone(userList), ...generateRandomUsers(10)];
 
   users = await Promise.all(users.map(async (user) => {
     user.token = [];
@@ -270,6 +274,7 @@ async function populateUsers() {
     };
 
     user.telephone_number = generatePhone();
+    user.createdAt = generateDate(START_DAY, TODAY);
 
     return user;
   }));
@@ -285,17 +290,23 @@ async function populateUsers() {
   console.log('Users created');
 }
 
-async function createOrder (user, state, books) {
+async function createOrder (user, state) {
+  let orderDate = generateDate(user.createdAt, TODAY);
   const header = {
-    user: user,
+    user: user._id,
     state: state,
+    createdAt: orderDate,
   };
+
   const orderHeader = await OrderHeaderModel.create(header);
   const rounds = generateNumber(1, 5);
   const used = [];
 
   for (let i = 0; i < rounds; i++) {
-    const bookid = pick(books);
+    orderDate = generateDate(orderDate, TODAY);
+    const books = await BookModel.find({createdAt: {$lt: orderDate}});
+    const bookid = pick(books)._id;
+
     if (!used.includes(bookid)) {
       const book = await BookModel.findById(bookid);
       used.push(bookid);
