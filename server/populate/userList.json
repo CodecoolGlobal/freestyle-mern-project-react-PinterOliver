@@ -13,7 +13,7 @@
       "last": "Pintér"
     },
     "userName": "Oliviero",
-    "role": "Customer_service_agent"
+    "role": "Customer service agent"
   },
   {
     "name": {
@@ -21,7 +21,7 @@
       "last": "Tóth"
     },
     "userName": "BurgerKing",
-    "role": "HR_manager"
+    "role": "HR manager"
   },
   {
     "name": {
@@ -53,7 +53,7 @@
       "first": "Lajos",
       "last": "Sávoly"
     },
-    "role": "Purchasing_agent"
+    "role": "Purchasing agent"
   },
   {
     "userName": "CousinAdam",
