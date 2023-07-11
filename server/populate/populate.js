@@ -79,7 +79,7 @@ async function populateBooks() {
         return {
           title: book.volumeInfo.title,
           author: book.volumeInfo.authors ? book.volumeInfo.authors[0] : null,
-          publishedYear: String(book.volumeInfo.publishedDate).substring(0, 4),
+          publishedYear: Number(String(book.volumeInfo.publishedDate).substring(0, 4)),
           price: book.saleInfo.listPrice?.amount,
           genres: book.volumeInfo.categories,
           description: book.volumeInfo.description,
