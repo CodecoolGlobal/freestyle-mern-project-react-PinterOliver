@@ -239,7 +239,9 @@ async function populateOrders() {
 async function populateUsers() {
   await UserModel.deleteMany({});
 
-  let users = [...structuredClone(userList), ...generateRandomUsers(10)];
+  const userCount = 20;
+  const userNumber = Math.max(userCount - userList.length, 0);
+  let users = [...structuredClone(userList), ...generateRandomUsers(userNumber)];
 
   users = await Promise.all(users.map(async (user) => {
     user.token = [];

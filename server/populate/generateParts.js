@@ -96,7 +96,7 @@ function generateRandomUsers(num) {
 
 function writeNewFile () {
   const names = [''];
-  fs.writeFileSync('./populate/nnn.json', JSON.stringify(names, null, 2));
+  fs.writeFileSync('./populate/test.json', JSON.stringify(names, null, 2));
 }
 
 writeNewFile();
