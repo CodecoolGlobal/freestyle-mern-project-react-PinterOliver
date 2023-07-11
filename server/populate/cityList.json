@@ -1,0 +1,1394 @@
+[
+  {
+    "name": "Aba",
+    "postcode": "8127"
+  },
+  {
+    "name": "Abádszalók",
+    "postcode": "5241"
+  },
+  {
+    "name": "Abaújszántó",
+    "postcode": "3881"
+  },
+  {
+    "name": "Abony",
+    "postcode": "2740"
+  },
+  {
+    "name": "Ács",
+    "postcode": "2941"
+  },
+  {
+    "name": "Adony",
+    "postcode": "2457"
+  },
+  {
+    "name": "Ajak",
+    "postcode": "4524"
+  },
+  {
+    "name": "Ajka",
+    "postcode": "8400"
+  },
+  {
+    "name": "Albertirsa",
+    "postcode": "2730"
+  },
+  {
+    "name": "Alsózsolca",
+    "postcode": "3571"
+  },
+  {
+    "name": "Aszód",
+    "postcode": "2170"
+  },
+  {
+    "name": "Bábolna",
+    "postcode": "2943"
+  },
+  {
+    "name": "Bácsalmás",
+    "postcode": "6430"
+  },
+  {
+    "name": "Badacsonytomaj",
+    "postcode": "8258"
+  },
+  {
+    "name": "Baja",
+    "postcode": "6500"
+  },
+  {
+    "name": "Baktalórántháza",
+    "postcode": "4561"
+  },
+  {
+    "name": "Balassagyarmat",
+    "postcode": "2660"
+  },
+  {
+    "name": "Balatonalmádi",
+    "postcode": "8220"
+  },
+  {
+    "name": "Balatonboglár",
+    "postcode": "8630"
+  },
+  {
+    "name": "Balatonföldvár",
+    "postcode": "8623"
+  },
+  {
+    "name": "Balatonfüred",
+    "postcode": "8230"
+  },
+  {
+    "name": "Balatonfűzfő",
+    "postcode": "8175"
+  },
+  {
+    "name": "Balatonkenese",
+    "postcode": "8172"
+  },
+  {
+    "name": "Balatonlelle",
+    "postcode": "8638"
+  },
+  {
+    "name": "Balkány",
+    "postcode": "4233"
+  },
+  {
+    "name": "Balmazújváros",
+    "postcode": "4060"
+  },
+  {
+    "name": "Barcs",
+    "postcode": "7570"
+  },
+  {
+    "name": "Bátaszék",
+    "postcode": "7140"
+  },
+  {
+    "name": "Bátonyterenye",
+    "postcode": "3070"
+  },
+  {
+    "name": "Battonya",
+    "postcode": "5830"
+  },
+  {
+    "name": "Békés",
+    "postcode": "5630"
+  },
+  {
+    "name": "Békéscsaba",
+    "postcode": "5600"
+  },
+  {
+    "name": "Bélapátfalva",
+    "postcode": "3346"
+  },
+  {
+    "name": "Beled",
+    "postcode": "9343"
+  },
+  {
+    "name": "Berettyóújfalu",
+    "postcode": "4100"
+  },
+  {
+    "name": "Berhida",
+    "postcode": "8181"
+  },
+  {
+    "name": "Besenyszög",
+    "postcode": "5071"
+  },
+  {
+    "name": "Biatorbágy",
+    "postcode": "2051"
+  },
+  {
+    "name": "Bicske",
+    "postcode": "2060"
+  },
+  {
+    "name": "Biharkeresztes",
+    "postcode": "4110"
+  },
+  {
+    "name": "Bodajk",
+    "postcode": "8053"
+  },
+  {
+    "name": "Bóly",
+    "postcode": "7754"
+  },
+  {
+    "name": "Bonyhád",
+    "postcode": "7150"
+  },
+  {
+    "name": "Borsodnádasd",
+    "postcode": "3671"
+  },
+  {
+    "name": "Budakalász",
+    "postcode": "2011"
+  },
+  {
+    "name": "Budakeszi",
+    "postcode": "2092"
+  },
+  {
+    "name": "Budaörs",
+    "postcode": "2040"
+  },
+  {
+    "name": "Budapest",
+    "postcode": "1000"
+  },
+  {
+    "name": "Bük",
+    "postcode": "9737"
+  },
+  {
+    "name": "Cegléd",
+    "postcode": "2700"
+  },
+  {
+    "name": "Celldömölk",
+    "postcode": "9500"
+  },
+  {
+    "name": "Cigánd",
+    "postcode": "3973"
+  },
+  {
+    "name": "Csákvár",
+    "postcode": "8083"
+  },
+  {
+    "name": "Csanádpalota",
+    "postcode": "6913"
+  },
+  {
+    "name": "Csenger",
+    "postcode": "4765"
+  },
+  {
+    "name": "Csepreg",
+    "postcode": "9735"
+  },
+  {
+    "name": "Csongrád",
+    "postcode": "6640"
+  },
+  {
+    "name": "Csorna",
+    "postcode": "9300"
+  },
+  {
+    "name": "Csorvás",
+    "postcode": "5920"
+  },
+  {
+    "name": "Csurgó",
+    "postcode": "8840"
+  },
+  {
+    "name": "Dabas",
+    "postcode": "2370"
+  },
+  {
+    "name": "Debrecen",
+    "postcode": "4000"
+  },
+  {
+    "name": "Demecser",
+    "postcode": "4516"
+  },
+  {
+    "name": "Derecske",
+    "postcode": "4130"
+  },
+  {
+    "name": "Dévaványa",
+    "postcode": "5510"
+  },
+  {
+    "name": "Devecser",
+    "postcode": "8460"
+  },
+  {
+    "name": "Diósd",
+    "postcode": "2049"
+  },
+  {
+    "name": "Dombóvár",
+    "postcode": "7200"
+  },
+  {
+    "name": "Dombrád",
+    "postcode": "4492"
+  },
+  {
+    "name": "Dorog",
+    "postcode": "2510"
+  },
+  {
+    "name": "Dunaföldvár",
+    "postcode": "7020"
+  },
+  {
+    "name": "Dunaharaszti",
+    "postcode": "2330"
+  },
+  {
+    "name": "Dunakeszi",
+    "postcode": "2120"
+  },
+  {
+    "name": "Dunaújváros",
+    "postcode": "2400"
+  },
+  {
+    "name": "Dunavarsány",
+    "postcode": "2336"
+  },
+  {
+    "name": "Dunavecse",
+    "postcode": "6087"
+  },
+  {
+    "name": "Edelény",
+    "postcode": "3780"
+  },
+  {
+    "name": "Eger",
+    "postcode": "3300"
+  },
+  {
+    "name": "Elek",
+    "postcode": "5742"
+  },
+  {
+    "name": "Emőd",
+    "postcode": "3432"
+  },
+  {
+    "name": "Encs",
+    "postcode": "3860"
+  },
+  {
+    "name": "Enying",
+    "postcode": "8130"
+  },
+  {
+    "name": "Ercsi",
+    "postcode": "2451"
+  },
+  {
+    "name": "Érd",
+    "postcode": "2030"
+  },
+  {
+    "name": "Esztergom",
+    "postcode": "2500"
+  },
+  {
+    "name": "Fegyvernek",
+    "postcode": "5231"
+  },
+  {
+    "name": "Fehérgyarmat",
+    "postcode": "4900"
+  },
+  {
+    "name": "Felsőzsolca",
+    "postcode": "3561"
+  },
+  {
+    "name": "Fertőd",
+    "postcode": "9431"
+  },
+  {
+    "name": "Fertőszentmiklós",
+    "postcode": "9444"
+  },
+  {
+    "name": "Fonyód",
+    "postcode": "8640"
+  },
+  {
+    "name": "Fót",
+    "postcode": "2151"
+  },
+  {
+    "name": "Füzesabony",
+    "postcode": "3390"
+  },
+  {
+    "name": "Füzesgyarmat",
+    "postcode": "5525"
+  },
+  {
+    "name": "Gárdony",
+    "postcode": "2483"
+  },
+  {
+    "name": "Göd",
+    "postcode": "2131"
+  },
+  {
+    "name": "Gödöllő",
+    "postcode": "2100"
+  },
+  {
+    "name": "Gönc",
+    "postcode": "3895"
+  },
+  {
+    "name": "Gyál",
+    "postcode": "2360"
+  },
+  {
+    "name": "Gyomaendrőd",
+    "postcode": "5500"
+  },
+  {
+    "name": "Gyömrő",
+    "postcode": "2230"
+  },
+  {
+    "name": "Gyöngyös",
+    "postcode": "3200"
+  },
+  {
+    "name": "Gyöngyöspata",
+    "postcode": "3035"
+  },
+  {
+    "name": "Gyönk",
+    "postcode": "7064"
+  },
+  {
+    "name": "Győr",
+    "postcode": "9000"
+  },
+  {
+    "name": "Gyula",
+    "postcode": "5700"
+  },
+  {
+    "name": "Hajdúböszörmény",
+    "postcode": "4220"
+  },
+  {
+    "name": "Hajdúdorog",
+    "postcode": "4087"
+  },
+  {
+    "name": "Hajdúhadház",
+    "postcode": "4242"
+  },
+  {
+    "name": "Hajdúnánás",
+    "postcode": "4080"
+  },
+  {
+    "name": "Hajdúsámson",
+    "postcode": "4251"
+  },
+  {
+    "name": "Hajdúszoboszló",
+    "postcode": "4200"
+  },
+  {
+    "name": "Hajós",
+    "postcode": "6344"
+  },
+  {
+    "name": "Halásztelek",
+    "postcode": "2314"
+  },
+  {
+    "name": "Harkány",
+    "postcode": "7815"
+  },
+  {
+    "name": "Hatvan",
+    "postcode": "3000"
+  },
+  {
+    "name": "Herend",
+    "postcode": "8440"
+  },
+  {
+    "name": "Heves",
+    "postcode": "3360"
+  },
+  {
+    "name": "Hévíz",
+    "postcode": "8380"
+  },
+  {
+    "name": "Hódmezővásárhely",
+    "postcode": "6800"
+  },
+  {
+    "name": "Ibrány",
+    "postcode": "4484"
+  },
+  {
+    "name": "Igal",
+    "postcode": "7275"
+  },
+  {
+    "name": "Isaszeg",
+    "postcode": "2117"
+  },
+  {
+    "name": "Izsák",
+    "postcode": "6070"
+  },
+  {
+    "name": "Jánoshalma",
+    "postcode": "6440"
+  },
+  {
+    "name": "Jánosháza",
+    "postcode": "9545"
+  },
+  {
+    "name": "Jánossomorja",
+    "postcode": "9241"
+  },
+  {
+    "name": "Jászapáti",
+    "postcode": "5130"
+  },
+  {
+    "name": "Jászárokszállás",
+    "postcode": "5123"
+  },
+  {
+    "name": "Jászberény",
+    "postcode": "5100"
+  },
+  {
+    "name": "Jászfényszaru",
+    "postcode": "5126"
+  },
+  {
+    "name": "Jászkisér",
+    "postcode": "5137"
+  },
+  {
+    "name": "Kaba",
+    "postcode": "4183"
+  },
+  {
+    "name": "Kadarkút",
+    "postcode": "7530"
+  },
+  {
+    "name": "Kalocsa",
+    "postcode": "6300"
+  },
+  {
+    "name": "Kaposvár",
+    "postcode": "7400"
+  },
+  {
+    "name": "Kapuvár",
+    "postcode": "9330"
+  },
+  {
+    "name": "Karcag",
+    "postcode": "5300"
+  },
+  {
+    "name": "Kazincbarcika",
+    "postcode": "3700"
+  },
+  {
+    "name": "Kecel",
+    "postcode": "6237"
+  },
+  {
+    "name": "Kecskemét",
+    "postcode": "6000"
+  },
+  {
+    "name": "Kemecse",
+    "postcode": "4501"
+  },
+  {
+    "name": "Kenderes",
+    "postcode": "5331"
+  },
+  {
+    "name": "Kerekegyháza",
+    "postcode": "6041"
+  },
+  {
+    "name": "Kerepes",
+    "postcode": "2144"
+  },
+  {
+    "name": "Keszthely",
+    "postcode": "8360"
+  },
+  {
+    "name": "Kisbér",
+    "postcode": "2870"
+  },
+  {
+    "name": "Kisköre",
+    "postcode": "3384"
+  },
+  {
+    "name": "Kiskőrös",
+    "postcode": "6200"
+  },
+  {
+    "name": "Kiskunfélegyháza",
+    "postcode": "6100"
+  },
+  {
+    "name": "Kiskunhalas",
+    "postcode": "6400"
+  },
+  {
+    "name": "Kiskunlacháza",
+    "postcode": "2340"
+  },
+  {
+    "name": "Kiskunmajsa",
+    "postcode": "6120"
+  },
+  {
+    "name": "Kistarcsa",
+    "postcode": "2143"
+  },
+  {
+    "name": "Kistelek",
+    "postcode": "6760"
+  },
+  {
+    "name": "Kisújszállás",
+    "postcode": "5310"
+  },
+  {
+    "name": "Kisvárda",
+    "postcode": "4600"
+  },
+  {
+    "name": "Komádi",
+    "postcode": "4138"
+  },
+  {
+    "name": "Komárom",
+    "postcode": "2900"
+  },
+  {
+    "name": "Komló",
+    "postcode": "7300"
+  },
+  {
+    "name": "Kondoros",
+    "postcode": "5553"
+  },
+  {
+    "name": "Kozármisleny",
+    "postcode": "7761"
+  },
+  {
+    "name": "Körmend",
+    "postcode": "9900"
+  },
+  {
+    "name": "Körösladány",
+    "postcode": "5516"
+  },
+  {
+    "name": "Kőszeg",
+    "postcode": "9730"
+  },
+  {
+    "name": "Kunhegyes",
+    "postcode": "5340"
+  },
+  {
+    "name": "Kunszentmárton",
+    "postcode": "5440"
+  },
+  {
+    "name": "Kunszentmiklós",
+    "postcode": "6090"
+  },
+  {
+    "name": "Lábatlan",
+    "postcode": "2541"
+  },
+  {
+    "name": "Lajosmizse",
+    "postcode": "6050"
+  },
+  {
+    "name": "Lébény",
+    "postcode": "9155"
+  },
+  {
+    "name": "Lengyeltóti",
+    "postcode": "8693"
+  },
+  {
+    "name": "Lenti",
+    "postcode": "8960"
+  },
+  {
+    "name": "Létavértes",
+    "postcode": "4281"
+  },
+  {
+    "name": "Letenye",
+    "postcode": "8868"
+  },
+  {
+    "name": "Lőrinci",
+    "postcode": "3021"
+  },
+  {
+    "name": "Maglód",
+    "postcode": "2234"
+  },
+  {
+    "name": "Mágocs",
+    "postcode": "7342"
+  },
+  {
+    "name": "Makó",
+    "postcode": "6900"
+  },
+  {
+    "name": "Mándok",
+    "postcode": "4644"
+  },
+  {
+    "name": "Marcali",
+    "postcode": "8700"
+  },
+  {
+    "name": "Máriapócs",
+    "postcode": "4326"
+  },
+  {
+    "name": "Martfű",
+    "postcode": "5435"
+  },
+  {
+    "name": "Martonvásár",
+    "postcode": "2462"
+  },
+  {
+    "name": "Mátészalka",
+    "postcode": "4700"
+  },
+  {
+    "name": "Medgyesegyháza",
+    "postcode": "5666"
+  },
+  {
+    "name": "Mélykút",
+    "postcode": "6449"
+  },
+  {
+    "name": "Mezőberény",
+    "postcode": "5650"
+  },
+  {
+    "name": "Mezőcsát",
+    "postcode": "3450"
+  },
+  {
+    "name": "Mezőhegyes",
+    "postcode": "5820"
+  },
+  {
+    "name": "Mezőkeresztes",
+    "postcode": "3441"
+  },
+  {
+    "name": "Mezőkovácsháza",
+    "postcode": "5800"
+  },
+  {
+    "name": "Mezőkövesd",
+    "postcode": "3400"
+  },
+  {
+    "name": "Mezőtúr",
+    "postcode": "5400"
+  },
+  {
+    "name": "Mindszent",
+    "postcode": "6630"
+  },
+  {
+    "name": "Miskolc",
+    "postcode": "3500"
+  },
+  {
+    "name": "Mohács",
+    "postcode": "7700"
+  },
+  {
+    "name": "Monor",
+    "postcode": "2200"
+  },
+  {
+    "name": "Mór",
+    "postcode": "8060"
+  },
+  {
+    "name": "Mórahalom",
+    "postcode": "6782"
+  },
+  {
+    "name": "Mosonmagyaróvár",
+    "postcode": "9200"
+  },
+  {
+    "name": "Nádudvar",
+    "postcode": "4181"
+  },
+  {
+    "name": "Nagyatád",
+    "postcode": "7500"
+  },
+  {
+    "name": "Nagybajom",
+    "postcode": "7561"
+  },
+  {
+    "name": "Nagyecsed",
+    "postcode": "4355"
+  },
+  {
+    "name": "Nagyhalász",
+    "postcode": "4485"
+  },
+  {
+    "name": "Nagykálló",
+    "postcode": "4320"
+  },
+  {
+    "name": "Nagykanizsa",
+    "postcode": "8800"
+  },
+  {
+    "name": "Nagykáta",
+    "postcode": "2760"
+  },
+  {
+    "name": "Nagykőrös",
+    "postcode": "2750"
+  },
+  {
+    "name": "Nagymányok",
+    "postcode": "7355"
+  },
+  {
+    "name": "Nagymaros",
+    "postcode": "2626"
+  },
+  {
+    "name": "Nyékládháza",
+    "postcode": "3433"
+  },
+  {
+    "name": "Nyergesújfalu",
+    "postcode": "2536"
+  },
+  {
+    "name": "Nyíradony",
+    "postcode": "4254"
+  },
+  {
+    "name": "Nyírbátor",
+    "postcode": "4300"
+  },
+  {
+    "name": "Nyírbogát",
+    "postcode": "4361"
+  },
+  {
+    "name": "Nyíregyháza",
+    "postcode": "4400"
+  },
+  {
+    "name": "Nyírlugos",
+    "postcode": "4371"
+  },
+  {
+    "name": "Nyírmada",
+    "postcode": "4564"
+  },
+  {
+    "name": "Nyírtelek",
+    "postcode": "4461"
+  },
+  {
+    "name": "Ócsa",
+    "postcode": "2364"
+  },
+  {
+    "name": "Onga",
+    "postcode": "3562"
+  },
+  {
+    "name": "Orosháza",
+    "postcode": "5900"
+  },
+  {
+    "name": "Oroszlány",
+    "postcode": "2840"
+  },
+  {
+    "name": "Ózd",
+    "postcode": "3600"
+  },
+  {
+    "name": "Őrbottyán",
+    "postcode": "2162"
+  },
+  {
+    "name": "Őriszentpéter",
+    "postcode": "9941"
+  },
+  {
+    "name": "Örkény",
+    "postcode": "2377"
+  },
+  {
+    "name": "Pacsa",
+    "postcode": "8761"
+  },
+  {
+    "name": "Paks",
+    "postcode": "7030"
+  },
+  {
+    "name": "Pálháza",
+    "postcode": "3994"
+  },
+  {
+    "name": "Pannonhalma",
+    "postcode": "9090"
+  },
+  {
+    "name": "Pápa",
+    "postcode": "8500"
+  },
+  {
+    "name": "Pásztó",
+    "postcode": "3060"
+  },
+  {
+    "name": "Pécel",
+    "postcode": "2119"
+  },
+  {
+    "name": "Pécs",
+    "postcode": "7600"
+  },
+  {
+    "name": "Pécsvárad",
+    "postcode": "7720"
+  },
+  {
+    "name": "Pétervására",
+    "postcode": "3250"
+  },
+  {
+    "name": "Pilis",
+    "postcode": "2721"
+  },
+  {
+    "name": "Piliscsaba",
+    "postcode": "2081"
+  },
+  {
+    "name": "Pilisvörösvár",
+    "postcode": "2085"
+  },
+  {
+    "name": "Polgár",
+    "postcode": "4090"
+  },
+  {
+    "name": "Polgárdi",
+    "postcode": "8154"
+  },
+  {
+    "name": "Pomáz",
+    "postcode": "2013"
+  },
+  {
+    "name": "Pusztaszabolcs",
+    "postcode": "2490"
+  },
+  {
+    "name": "Putnok",
+    "postcode": "3630"
+  },
+  {
+    "name": "Püspökladány",
+    "postcode": "4150"
+  },
+  {
+    "name": "Rácalmás",
+    "postcode": "2459"
+  },
+  {
+    "name": "Ráckeve",
+    "postcode": "2300"
+  },
+  {
+    "name": "Rakamaz",
+    "postcode": "4465"
+  },
+  {
+    "name": "Rákóczifalva",
+    "postcode": "5085"
+  },
+  {
+    "name": "Répcelak",
+    "postcode": "9653"
+  },
+  {
+    "name": "Rétság",
+    "postcode": "2651"
+  },
+  {
+    "name": "Rudabánya",
+    "postcode": "3733"
+  },
+  {
+    "name": "Sajóbábony",
+    "postcode": "3792"
+  },
+  {
+    "name": "Sajószentpéter",
+    "postcode": "3770"
+  },
+  {
+    "name": "Salgótarján",
+    "postcode": "3100"
+  },
+  {
+    "name": "Sándorfalva",
+    "postcode": "6762"
+  },
+  {
+    "name": "Sárbogárd",
+    "postcode": "7000"
+  },
+  {
+    "name": "Sarkad",
+    "postcode": "5720"
+  },
+  {
+    "name": "Sárospatak",
+    "postcode": "3950"
+  },
+  {
+    "name": "Sárvár",
+    "postcode": "9600"
+  },
+  {
+    "name": "Sásd",
+    "postcode": "7370"
+  },
+  {
+    "name": "Sátoraljaújhely",
+    "postcode": "3980"
+  },
+  {
+    "name": "Sellye",
+    "postcode": "7960"
+  },
+  {
+    "name": "Siklós",
+    "postcode": "7800"
+  },
+  {
+    "name": "Simontornya",
+    "postcode": "7081"
+  },
+  {
+    "name": "Siófok",
+    "postcode": "8600"
+  },
+  {
+    "name": "Solt",
+    "postcode": "6320"
+  },
+  {
+    "name": "Soltvadkert",
+    "postcode": "6230"
+  },
+  {
+    "name": "Sopron",
+    "postcode": "9400"
+  },
+  {
+    "name": "Sülysáp",
+    "postcode": "2241"
+  },
+  {
+    "name": "Sümeg",
+    "postcode": "8330"
+  },
+  {
+    "name": "Szabadszállás",
+    "postcode": "6080"
+  },
+  {
+    "name": "Szarvas",
+    "postcode": "5540"
+  },
+  {
+    "name": "Százhalombatta",
+    "postcode": "2440"
+  },
+  {
+    "name": "Szécsény",
+    "postcode": "3170"
+  },
+  {
+    "name": "Szeged",
+    "postcode": "6700"
+  },
+  {
+    "name": "Szeghalom",
+    "postcode": "5520"
+  },
+  {
+    "name": "Székesfehérvár",
+    "postcode": "8000"
+  },
+  {
+    "name": "Szekszárd",
+    "postcode": "7100"
+  },
+  {
+    "name": "Szendrő",
+    "postcode": "3752"
+  },
+  {
+    "name": "Szentendre",
+    "postcode": "2000"
+  },
+  {
+    "name": "Szentes",
+    "postcode": "6600"
+  },
+  {
+    "name": "Szentgotthárd",
+    "postcode": "9970"
+  },
+  {
+    "name": "Szentlőrinc",
+    "postcode": "7940"
+  },
+  {
+    "name": "Szerencs",
+    "postcode": "3900"
+  },
+  {
+    "name": "Szigethalom",
+    "postcode": "2315"
+  },
+  {
+    "name": "Szigetszentmiklós",
+    "postcode": "2310"
+  },
+  {
+    "name": "Szigetvár",
+    "postcode": "7900"
+  },
+  {
+    "name": "Szikszó",
+    "postcode": "3800"
+  },
+  {
+    "name": "Szob",
+    "postcode": "2628"
+  },
+  {
+    "name": "Szolnok",
+    "postcode": "5000"
+  },
+  {
+    "name": "Szombathely",
+    "postcode": "9700"
+  },
+  {
+    "name": "Tab",
+    "postcode": "8660"
+  },
+  {
+    "name": "Tamási",
+    "postcode": "7090"
+  },
+  {
+    "name": "Tápiószele",
+    "postcode": "2766"
+  },
+  {
+    "name": "Tapolca",
+    "postcode": "8300"
+  },
+  {
+    "name": "Tát",
+    "postcode": "2534"
+  },
+  {
+    "name": "Tata",
+    "postcode": "2890"
+  },
+  {
+    "name": "Tatabánya",
+    "postcode": "2800"
+  },
+  {
+    "name": "Téglás",
+    "postcode": "4243"
+  },
+  {
+    "name": "Tét",
+    "postcode": "9100"
+  },
+  {
+    "name": "Tiszacsege",
+    "postcode": "4066"
+  },
+  {
+    "name": "Tiszaföldvár",
+    "postcode": "5430"
+  },
+  {
+    "name": "Tiszafüred",
+    "postcode": "5350"
+  },
+  {
+    "name": "Tiszakécske",
+    "postcode": "6060"
+  },
+  {
+    "name": "Tiszalök",
+    "postcode": "4450"
+  },
+  {
+    "name": "Tiszaújváros",
+    "postcode": "3580"
+  },
+  {
+    "name": "Tiszavasvári",
+    "postcode": "4440"
+  },
+  {
+    "name": "Tokaj",
+    "postcode": "3910"
+  },
+  {
+    "name": "Tolna",
+    "postcode": "7130"
+  },
+  {
+    "name": "Tompa",
+    "postcode": "6422"
+  },
+  {
+    "name": "Tótkomlós",
+    "postcode": "5940"
+  },
+  {
+    "name": "Tököl",
+    "postcode": "2316"
+  },
+  {
+    "name": "Törökbálint",
+    "postcode": "2045"
+  },
+  {
+    "name": "Törökszentmiklós",
+    "postcode": "5200"
+  },
+  {
+    "name": "Tura",
+    "postcode": "2194"
+  },
+  {
+    "name": "Túrkeve",
+    "postcode": "5420"
+  },
+  {
+    "name": "Újfehértó",
+    "postcode": "4244"
+  },
+  {
+    "name": "Újhartyán",
+    "postcode": "2367"
+  },
+  {
+    "name": "Újkígyós",
+    "postcode": "5661"
+  },
+  {
+    "name": "Újszász",
+    "postcode": "5052"
+  },
+  {
+    "name": "Üllő",
+    "postcode": "2225"
+  },
+  {
+    "name": "Vác",
+    "postcode": "2600"
+  },
+  {
+    "name": "Vaja",
+    "postcode": "4562"
+  },
+  {
+    "name": "Vámospércs",
+    "postcode": "4287"
+  },
+  {
+    "name": "Várpalota",
+    "postcode": "8100"
+  },
+  {
+    "name": "Vásárosnamény",
+    "postcode": "4800"
+  },
+  {
+    "name": "Vasvár",
+    "postcode": "9800"
+  },
+  {
+    "name": "Vecsés",
+    "postcode": "2220"
+  },
+  {
+    "name": "Velence",
+    "postcode": "2481"
+  },
+  {
+    "name": "Vép",
+    "postcode": "9751"
+  },
+  {
+    "name": "Veresegyház",
+    "postcode": "2112"
+  },
+  {
+    "name": "Verpelét",
+    "postcode": "3351"
+  },
+  {
+    "name": "Veszprém",
+    "postcode": "8200"
+  },
+  {
+    "name": "Vésztő",
+    "postcode": "5530"
+  },
+  {
+    "name": "Villány",
+    "postcode": "7773"
+  },
+  {
+    "name": "Visegrád",
+    "postcode": "2025"
+  },
+  {
+    "name": "Záhony",
+    "postcode": "4625"
+  },
+  {
+    "name": "Zalaegerszeg",
+    "postcode": "8900"
+  },
+  {
+    "name": "Zalakaros",
+    "postcode": "8749"
+  },
+  {
+    "name": "Zalalövő",
+    "postcode": "8999"
+  },
+  {
+    "name": "Zalaszentgrót",
+    "postcode": "8790"
+  },
+  {
+    "name": "Zamárdi",
+    "postcode": "8621"
+  },
+  {
+    "name": "Zirc",
+    "postcode": "8420"
+  },
+  {
+    "name": "Zsámbék",
+    "postcode": "2072"
+  }
+]
