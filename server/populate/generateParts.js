@@ -74,10 +74,11 @@ function generateRandomUsers(num) {
     const nameArray = [];
     const userNameArray = [];
     do {
-      first = pick(firstNames);
+      const nameList = (Math.random() < 0.5 ? firstNames.masculine : firstNames.feminine);
+      first = pick(nameList);
       last = pick(lastNames);
       let middle = '';
-      if (Math.random() < 0.33) middle = pick(firstNames);
+      if (Math.random() < 0.33) middle = pick(nameList);
       if (middle && middle !== first) first += ` ${middle}`;
       userName = `${first.replace(' ', '').toLowerCase()}${generateNumber(10, 99)}`;
       name = first + last;

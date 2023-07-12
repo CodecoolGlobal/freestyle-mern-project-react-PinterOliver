@@ -230,7 +230,7 @@ async function populateOrders() {
     else state = states[4];
     const user = pick(users);
     await createOrder(user, state);
-    if (!(i % 10)) console.log(`Orders created (${i}/${numberOfOrders})`);
+    if (!(i % 10)) console.log(`Orders created (${i + 10}/${numberOfOrders})`);
   }
 
   console.log('Created orders');
