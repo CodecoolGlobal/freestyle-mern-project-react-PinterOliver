@@ -22,10 +22,14 @@ const getAllBooks = async (req, res) => {
     }
     let skip = 0;
     let limit = 0;
-    if (perpage) {
-      limit = perpage;
-      if (page) {
-        skip = (page - 1) * perpage;
+    let pageNum;
+    let perpageNum;
+    if (page) pageNum = Number(page);
+    if (perpage) perpageNum = Number(perpage);
+    if (perpageNum && perpageNum > 0) {
+      limit = perpageNum;
+      if (pageNum && pageNum > 0) {
+        skip = (pageNum - 1) * perpageNum;
       }
     }
     let sortBy = {
