@@ -10,7 +10,7 @@ const getAllBooks = async ( req, res ) => {
   try {
     const { title, author, maxprice, genres, sort, page, perpage } = req.query;
     let search = {};
-    if ( title ) search = stringSearch( search, 'title', title );
+    if (title) search = stringSearch(search, 'title', title);
     if (author) search = stringSearch(search, 'author', author);
     if (maxprice) {
       const numberMaxprice = Number(maxprice);
@@ -82,9 +82,9 @@ const addOneBook = async ( req, res ) => {
 const deleteOneBook = async ( req, res ) => {
   try {
     const { id } = req.params;
-    const storedItem = await StoredItem.findOneAndDelete({item: id});
+    const storedItem = await StoredItem.findOneAndDelete({ item: id });
     if (!storedItem) {
-      return res.status(404).json({error: 'No such stored item'});
+      return res.status(404).json({ error: 'No such stored item' });
     }
     const book = await Book.findByIdAndDelete(id);
     if (!book) {

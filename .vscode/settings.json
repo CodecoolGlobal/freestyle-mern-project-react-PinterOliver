@@ -2,7 +2,7 @@
   "json.schemaDownload.enable": true,
   "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
   "editor.formatOnPaste": false,
-  "editor.formatOnType": true,
+  "editor.formatOnType": false, // true works for the line, but it wants false, but then not even that works
   "editor.formatOnSaveMode": "file",
   "vs-code-prettier-eslint.prettierLast": false,
   "editor.formatOnSave": true,
