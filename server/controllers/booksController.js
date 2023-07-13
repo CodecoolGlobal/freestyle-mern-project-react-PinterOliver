@@ -6,7 +6,7 @@ const StoredItem = require('../model/StoredItem');
 const { stringSearch, numberSearch, arraySearch, toSort } = require('./filterAndSort');
 
 // GET all books
-const getAllBooks = async (req, res) => {
+const getAllBooks = async ( req, res ) => {
   try {
     const { title, author, maxprice, genres, sort, page, perpage } = req.query;
     let search = {};
@@ -51,7 +51,7 @@ const getAllBooks = async (req, res) => {
 };
 
 // GET one book
-const getOneBook = async (req, res) => {
+const getOneBook = async ( req, res ) => {
   const { id } = req.params;
   try {
     const book = await Book.findById(id);

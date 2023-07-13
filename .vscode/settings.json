@@ -1,7 +1,7 @@
 {
   "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
   "editor.formatOnPaste": false,
-  "editor.formatOnType": false,
+  "editor.formatOnType": true,
   "editor.formatOnSaveMode": "file",
   "vs-code-prettier-eslint.prettierLast": false,
   "editor.formatOnSave": true,
