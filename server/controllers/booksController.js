@@ -10,7 +10,7 @@ const getAllBooks = async ( req, res ) => {
   try {
     const { title, author, maxprice, genres, sort, page, perpage } = req.query;
     let search = {};
-    if (title) search = stringSearch(search, 'title', title);
+    if ( title ) search = stringSearch( search, 'title', title );
     if (author) search = stringSearch(search, 'author', author);
     if (maxprice) {
       const numberMaxprice = Number(maxprice);
@@ -65,21 +65,21 @@ const getOneBook = async ( req, res ) => {
 };
 
 //ADD one new book with ADMIN account
-const addOneBook = async (req, res) => {
+const addOneBook = async ( req, res ) => {
   try {
     const newBook = await Book.create(req.body);
     const newStoredItem = await StoredItem.create({
       item: newBook._id,
       amount: 0,
     });
-    res.status(201).json({ book: newBook, storeditem: newStoredItem });
+    res.status( 201 ).json( { book: newBook, storeditem: newStoredItem } );
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status( 400 ).json( { error: error.message } );
   }
 };
 
 //DELETE a book with ADMIN account
-const deleteOneBook = async (req, res) => {
+const deleteOneBook = async ( req, res ) => {
   try {
     const { id } = req.params;
     const storedItem = await StoredItem.findOneAndDelete({item: id});
