@@ -9,7 +9,7 @@ const login = async (req, res) => {
   try {
     const account = await User.findOne({ userName: username }).populate('role');
     if (!account) {
-      return res.status(404).json({error: 'There is no account with this username'});
+      return res.status(404).json({ error: 'There is no account with this username' });
     }
     if (bcrypt.compare(password, account.password)) {
       const numberOfBytes = 32;
@@ -33,7 +33,7 @@ const login = async (req, res) => {
       res.status(401).json({ error: 'Wrong password' });
     }
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -43,9 +43,9 @@ const logout = async (req, res) => {
   user.token = user.token.filter((item) => item !== token);
   const savedUser = await user.save();
   if (!savedUser) {
-    res.status(404).json({success: false, error: 'No such user'});
+    res.status(404).json({ success: false, error: 'No such user' });
   }
-  res.status(202).json({success: true, message: 'User session is over'});
+  res.status(202).json({ success: true, message: 'User session is over' });
 };
 
 module.exports = {

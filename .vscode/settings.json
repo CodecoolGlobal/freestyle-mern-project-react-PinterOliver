@@ -1,6 +1,6 @@
 {
   "json.schemaDownload.enable": true,
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnPaste": false,
   "editor.formatOnType": false, // true works for the line, but it wants false, but then not even that works
   "editor.formatOnSaveMode": "file",
