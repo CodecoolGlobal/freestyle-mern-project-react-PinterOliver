@@ -6,7 +6,7 @@ const StoredItem = require('../model/StoredItem');
 const { stringSearch, numberSearch, arraySearch, toSort } = require('./filterAndSort');
 
 // GET all books
-const getAllBooks = async ( req, res ) => {
+const getAllBooks = async (req, res) => {
   try {
     const { title, author, maxprice, genres, sort, page, perpage } = req.query;
     let search = {};
@@ -39,11 +39,7 @@ const getAllBooks = async ( req, res ) => {
       const [type, ascend] = sort.split(',');
       sortBy = toSort(sortBy, type, ascend);
     }
-    const books = await Book
-      .find(search)
-      .skip(skip)
-      .limit(limit)
-      .sort(sortBy);
+    const books = await Book.find(search).skip(skip).limit(limit).sort(sortBy);
     res.status(200).json({ books: books });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -51,7 +47,7 @@ const getAllBooks = async ( req, res ) => {
 };
 
 // GET one book
-const getOneBook = async ( req, res ) => {
+const getOneBook = async (req, res) => {
   const { id } = req.params;
   try {
     const book = await Book.findById(id);
@@ -65,21 +61,21 @@ const getOneBook = async ( req, res ) => {
 };
 
 //ADD one new book with ADMIN account
-const addOneBook = async ( req, res ) => {
+const addOneBook = async (req, res) => {
   try {
     const newBook = await Book.create(req.body);
     const newStoredItem = await StoredItem.create({
       item: newBook._id,
       amount: 0,
     });
-    res.status( 201 ).json( { book: newBook, storeditem: newStoredItem } );
+    res.status(201).json({ book: newBook, storeditem: newStoredItem });
   } catch (error) {
-    res.status( 400 ).json( { error: error.message } );
+    res.status(400).json({ error: error.message });
   }
 };
 
 //DELETE a book with ADMIN account
-const deleteOneBook = async ( req, res ) => {
+const deleteOneBook = async (req, res) => {
   try {
     const { id } = req.params;
     const storedItem = await StoredItem.findOneAndDelete({ item: id });
@@ -100,9 +96,7 @@ const deleteOneBook = async ( req, res ) => {
 const updateOneBook = async (req, res) => {
   const { id } = req.params;
   try {
-    const book = await Book.findByIdAndUpdate(id, {
-      ...req.body,
-    }, { returnDocument: 'after' });
+    const book = await Book.findByIdAndUpdate(id, { ...req.body }, { returnDocument: 'after' });
     if (!book) {
       return res.status(404).json({ error: 'No such book' });
     }

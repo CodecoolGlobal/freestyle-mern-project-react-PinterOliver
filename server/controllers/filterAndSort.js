@@ -23,13 +23,13 @@ const arraySearch = (search, key, array) => {
 const toSort = (sortBy, key, ascend) => {
   sortBy = structuredClone(sortBy);
   switch (ascend) {
-  case 'ascend':
-    sortBy = {};
-    sortBy[key] = 1;
-    break;
-  case 'descend':
-    sortBy = {};
-    sortBy[key] = -1;
+    case 'ascend':
+      sortBy = {};
+      sortBy[key] = 1;
+      break;
+    case 'descend':
+      sortBy = {};
+      sortBy[key] = -1;
   }
   return sortBy;
 };

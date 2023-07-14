@@ -73,7 +73,11 @@
     "comma-spacing": "warn",
     "comma-style": "warn",
     "eol-last": "warn",
-    "indent": ["warn", 2],
+    "indent": [
+      "warn", 2, {
+        "SwitchCase": 1
+      }
+    ],
     "keyword-spacing": "warn",
     "max-len": ["warn", {
       "ignoreComments": true,
