@@ -12,19 +12,21 @@ function OrderHeadersTable({ orderList, onLearnMore, onDelete }) {
     <table>
       <thead>
         <tr>
-          <th>Total price of the order</th>
-          <th>State of the order</th>
-          <th>Date of the order</th>
-          <th></th>
+          <th className="totPriceCol">Total price</th>
+          <th className="stateCol">State</th>
+          <th className="dateCol">Date created</th>
+          <th className="btnCol"></th>
         </tr>
       </thead>
       <tbody>
         {orderList.map((order) => (
           <tr key={order._id}>
-            <td>{order.totalPrice}</td>
-            <td>{order.state}</td>
-            <td>{formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}</td>
-            <td>
+            <td className="totPriceCol">{order.totalPrice.toLocaleString('hu')}</td>
+            <td className="stateCol">{order.state}</td>
+            <td className="dateColt">
+              {formatDistanceToNow(new Date(order.createdAt), { addSuffix: true })}
+            </td>
+            <td className="btnCol">
               {expandedRow === order._id ? (
                 <>
                   {' '}
