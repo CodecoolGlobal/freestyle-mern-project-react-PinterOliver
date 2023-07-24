@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './BooksTable.css';
 import { useNavigate } from 'react-router';
 
 function BooksTable({ bookList, onDelete }) {
   const navigate = useNavigate();
+  const [expandedRow, setExpandedRow] = useState('');
 
   return (
     <table>
@@ -22,8 +23,17 @@ function BooksTable({ bookList, onDelete }) {
             <td className="authCol">{book.author}</td>
             <td className="priceCol">{book.price.toLocaleString('hu')}</td>
             <td className="btnCol">
-              <button onClick={() => navigate(`update/${book._id}`)}>Update</button>
-              <button onClick={() => onDelete(book._id)}>Delete</button>
+              {expandedRow === book._id ? (
+                <>
+                  <button onClick={() => navigate(`update/${book._id}`)}>Update</button>
+                  <button onClick={() => onDelete(book._id)}>Delete</button>
+                  <button onClick={() => setExpandedRow('')}>-</button>
+                </>
+              ) : (
+                <>
+                  <button onClick={() => setExpandedRow(book._id)}>+</button>
+                </>
+              )}
             </td>
           </tr>
         ))}
