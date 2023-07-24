@@ -19,7 +19,9 @@ function RegisterPage() {
     if (id === 'password') setPassword(value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(event.target);
     const response = await fetch('/api/users', {
       method: 'POST',
       headers: {
@@ -34,7 +36,7 @@ function RegisterPage() {
     });
     const jsonData = await response.json();
     console.log(jsonData);
-    navigate('/');
+    if (response.status === 201) navigate('/');
   };
 
   return (
@@ -43,7 +45,7 @@ function RegisterPage() {
         <button>Back</button>
       </a>
       <h2>Register</h2>
-      <div className="form">
+      <form className="form" onSubmit={(event) => handleSubmit(event)}>
         <div className="form-body">
           <div className="userName">
             <label className="register_label">Username </label>
@@ -54,6 +56,7 @@ function RegisterPage() {
               placeholder="Username"
               value={userName}
               onChange={(e) => handleInputChange(e)}
+              required
             />
           </div>
           <div className="firstName">
@@ -65,6 +68,7 @@ function RegisterPage() {
               placeholder="Firstname"
               value={firstName}
               onChange={(e) => handleInputChange(e)}
+              required
             />
           </div>
           <div className="lastName">
@@ -76,6 +80,7 @@ function RegisterPage() {
               placeholder="Lastname"
               value={lastName}
               onChange={(e) => handleInputChange(e)}
+              required
             />
           </div>
           <div className="email">
@@ -87,6 +92,7 @@ function RegisterPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => handleInputChange(e)}
+              required
             />
           </div>
           <div className="password">
@@ -98,15 +104,22 @@ function RegisterPage() {
               placeholder="Password"
               value={password}
               onChange={(e) => handleInputChange(e)}
+              required
+              autoComplete='off'
+              pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}'
+              // eslint-disable-next-line max-len
+              title='Minimum 8 characters, at least 1 lowercase letter, uppercase letter, number, special character'
             />
           </div>
         </div>
         <div className="registerSubmit">
-          <button onClick={() => handleSubmit()} type="submit" className="btn">
-            Register
-          </button>
+          <input
+            type="submit"
+            className="btn"
+            value='Register'
+          />
         </div>
-      </div>
+      </form>
     </div>
   );
 }

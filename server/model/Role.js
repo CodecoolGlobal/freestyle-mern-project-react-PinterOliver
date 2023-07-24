@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const roleSchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   canViewItems: {
     type: Boolean,
     default: false,

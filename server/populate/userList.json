@@ -1,0 +1,66 @@
+[
+  {
+    "name": {
+      "first": "Tamás",
+      "last": "Molnár"
+    },
+    "userName": "tomocza",
+    "role": "Admin"
+  },
+  {
+    "name": {
+      "first": "Olivér Péter",
+      "last": "Pintér"
+    },
+    "userName": "Oliviero",
+    "role": "Customer service agent"
+  },
+  {
+    "name": {
+      "first": "András",
+      "last": "Tóth"
+    },
+    "userName": "BurgerKing",
+    "role": "HR manager"
+  },
+  {
+    "name": {
+      "first": "Benedek",
+      "last": "Sebestyén"
+    },
+    "userName": "Bebe",
+    "role": "Storekeeper"
+  },
+  {
+    "userName": "DanDan",
+    "name": {
+      "first": "Dániel",
+      "last": "Tóth"
+    },
+    "role": "Courier"
+  },
+  {
+    "userName": "SasszemÁdám",
+    "name": {
+      "first": "Ádám",
+      "last": "Kozák"
+    },
+    "role": "Accountant"
+  },
+  {
+    "userName": "DogLover",
+    "name": {
+      "first": "Lajos",
+      "last": "Sávoly"
+    },
+    "role": "Purchasing agent"
+  },
+  {
+    "userName": "CousinAdam",
+    "name": {
+      "first": "Ádám",
+      "last": "Dulai"
+    },
+    "role": "Boss"
+  }
+]

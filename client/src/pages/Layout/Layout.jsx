@@ -14,6 +14,7 @@ function Layout() {
       });
       localStorage.removeItem('token');
       localStorage.removeItem('cartid');
+      localStorage.removeItem('cart');
       navigate('/');
     }
   };

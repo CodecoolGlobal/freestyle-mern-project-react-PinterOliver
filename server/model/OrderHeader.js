@@ -4,8 +4,14 @@ const { Schema, model } = mongoose;
 
 const headerSchema = new Schema({
   user: { type: mongoose.Types.ObjectId, ref: 'User' },
-  totalPrice: Number,
-  state: String,
+  totalPrice: {
+    type: Number,
+    default: 0,
+  },
+  state: {
+    type: String,
+    default: 'cart',
+  },
   completedAt: Date,
   createdAt: {
     type: Date,

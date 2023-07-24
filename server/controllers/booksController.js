@@ -8,7 +8,7 @@ const { stringSearch, numberSearch, arraySearch, toSort } = require('./filterAnd
 // GET all books
 const getAllBooks = async (req, res) => {
   try {
-    const { title, author, maxprice, genres, sort } = req.query;
+    const { title, author, maxprice, genres, sort, page, perpage } = req.query;
     let search = {};
     if (title) search = stringSearch(search, 'title', title);
     if (author) search = stringSearch(search, 'author', author);
@@ -20,6 +20,18 @@ const getAllBooks = async (req, res) => {
       const genresArray = genres.split(',');
       search = arraySearch(search, 'genres', genresArray);
     }
+    let skip = 0;
+    let limit = 0;
+    let pageNum;
+    let perpageNum;
+    if (page) pageNum = Number(page);
+    if (perpage) perpageNum = Number(perpage);
+    if (perpageNum && perpageNum > 0) {
+      limit = perpageNum;
+      if (pageNum && pageNum > 0) {
+        skip = (pageNum - 1) * perpageNum;
+      }
+    }
     let sortBy = {
       title: 1,
     };
@@ -27,7 +39,11 @@ const getAllBooks = async (req, res) => {
       const [type, ascend] = sort.split(',');
       sortBy = toSort(sortBy, type, ascend);
     }
-    const books = await Book.find(search).sort(sortBy);
+    const books = await Book
+      .find(search)
+      .skip(skip)
+      .limit(limit)
+      .sort(sortBy);
     res.status(200).json({ books: books });
   } catch (error) {
     res.status(400).json({ error: error.message });

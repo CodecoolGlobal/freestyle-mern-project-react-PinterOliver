@@ -9,7 +9,7 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    deleteCache();
     const response = await fetch('api/login', {
       method: 'POST',
       headers: {
@@ -97,12 +97,13 @@ async function loadExistingCart(token) {
   }
   if (response.status === 204) {
     const newHeadRes = await fetch('/api/orderheaders', {
+      method: 'POST',
       headers: {
         token: token,
       },
     });
     const jsonData = await newHeadRes.json();
-    cartOrderId = jsonData._id;
+    cartOrderId = jsonData.orderheader._id;
   }
 
   const cartItemsRes = await fetch(`/api/orderitems/orderheaders/${cartOrderId}`, {
@@ -124,6 +125,19 @@ async function loadExistingCart(token) {
       }),
     ),
   );
+
+}
+
+async function deleteCache() {
+  if (localStorage.getItem('token')) {
+    await fetch('/api/login', {
+      method: 'DELETE',
+      headers: {token: localStorage.getItem('token')},
+    });
+  }
+  localStorage.removeItem('token');
+  localStorage.removeItem('cartid');
+  localStorage.removeItem('cart');
 }
 
 export default LoginPage;

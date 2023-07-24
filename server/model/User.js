@@ -4,16 +4,33 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
-  userName: String,
-  name: {
-    first: String,
-    last: String,
+  userName: {
+    type: String,
+    required: true,
   },
-  password: String,
-  salt: String,
-  hashedpassword: String,
-  email: String,
-  role: { type: mongoose.Types.ObjectId, ref: 'Role' },
+  name: {
+    first: {
+      type: String,
+      required: true,
+    },
+    last: {
+      type: String,
+      required: true,
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Role',
+    required: true,
+  },
   delivery: {
     country: String,
     city: String,

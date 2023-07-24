@@ -11,8 +11,7 @@ const login = async (req, res) => {
     if (!account) {
       return res.status(404).json({error: 'There is no account with this username'});
     }
-    const hashedPassword = bcrypt.hashSync(password, account.salt);
-    if (hashedPassword === account.password) {
+    if (bcrypt.compare(password, account.password)) {
       const numberOfBytes = 32;
       const randomBytes = crypto.randomBytes(numberOfBytes);
       const randomHex = randomBytes.toString('hex');

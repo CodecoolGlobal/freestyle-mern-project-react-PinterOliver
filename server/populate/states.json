@@ -1,0 +1,7 @@
+[
+  "cart",
+  "placed",
+  "order_confirmed",
+  "transferred_to_shipping",
+  "order_completed"
+]
