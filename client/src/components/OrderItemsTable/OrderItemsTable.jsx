@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './OrderItemsTable.css';
 
 function OrderItemsTable({ orderList, onLearnLess, onDelete, onGoBack }) {
-  return (
-    <div>
+  const [expandedRow, setExpandedRow] = useState('');
 
+  return (
+    <>
       <table>
         <thead>
           <tr>
@@ -25,20 +26,24 @@ function OrderItemsTable({ orderList, onLearnLess, onDelete, onGoBack }) {
               <td>{order.item.author}</td>
               <td>{order.item.title}</td>
               <td>
-                <button onClick={() => onLearnLess(order._id)}>Learn less</button>
-              </td>
-              <td>
-                <button onClick={() => onDelete(order._id)}>Delete item</button>
-              </td>
-              <td>
-                <button onClick={() => onLearnLess(order._id)}>Update order</button>
+                {expandedRow === order._id ? (
+                  <>
+                    <button onClick={() => onDelete(order._id)}>Delete item</button>
+                    <button onClick={() => onLearnLess(order._id)}>Update order</button>
+                    <button onClick={() => setExpandedRow('')}>-</button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => setExpandedRow(order._id)}>+</button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <button onClick={() => onGoBack()}>Back</button>
-    </div>
+    </>
   );
 }
 
