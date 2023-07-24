@@ -9,15 +9,24 @@ const BookPage = () => {
   const [maxPrice, setMaxPrice] = useState(500);
   const [sort, setSort] = useState('title,ascend');
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const perpage = 24;
 
   useEffect(() => {
-    fetch(`/api/books?maxprice=${maxPrice}&sort=${sort}`)
+    fetch(`/api/books?maxprice=${maxPrice}&sort=${sort}&page=${page}&perpage=${perpage}`)
       .then((res) => res.json())
       .then((data) => {
         setBooks(data.books);
         setLoading(false);
       });
-  }, [maxPrice, sort]);
+  }, [maxPrice, sort, page, perpage]);
+
+  const handleScroll = (event) => {
+    const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
+    console.log(bottom);
+    if (bottom) setPage(page + 1);
+    console.log(page);
+  };
 
   if (loading) return <Loading />;
   return (
@@ -30,9 +39,17 @@ const BookPage = () => {
         }}
         OnSort={(value) => setSort(value)}
       />
-      {books?.map((book) => (
-        <BookItem key={book._id} book={book} />
-      ))}
+      <div
+        className='itemsGrid'
+        onScroll={handleScroll}
+      >
+        {books?.map((book) => (
+          <BookItem
+            key={book._id}
+            book={book}
+          />
+        ))}
+      </div>
     </div>
   );
 };

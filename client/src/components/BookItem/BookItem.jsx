@@ -2,9 +2,7 @@
 import React from 'react';
 import './BookItem.css';
 
-const BookItem = (props) => {
-
-  const book = props.book;
+const BookItem = ({ book }) => {
 
   async function checkLocalStorageCart() {
     const cart = localStorage.getItem('cart');
@@ -71,9 +69,9 @@ const BookItem = (props) => {
     console.log(jsonItems);
   }
 
-  function addToCart(book) {
+  function addToCart(bookData) {
     const storedCart = JSON.parse(localStorage.getItem('cart'));
-    const foundItem = storedCart.find((item) => item.id === book._id);
+    const foundItem = storedCart.find((item) => item.id === bookData._id);
 
     if (foundItem) {
       foundItem.amount++;
