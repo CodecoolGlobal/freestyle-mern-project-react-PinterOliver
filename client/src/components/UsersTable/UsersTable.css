@@ -1,0 +1,31 @@
+.userNameCol {
+  width: 15%;
+}
+
+.firstNameCol {
+  width: 10%;
+}
+
+.lastNameCol {
+  width: 10%;
+}
+
+.roleCol {
+  width: 5%;
+}
+
+.emailCol {
+  width: 15%;
+}
+
+.addrCol {
+  width: 15%;
+}
+
+.telCol {
+  width: 15%;
+}
+
+.btnCol {
+  width: 5%;
+}

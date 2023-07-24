@@ -1,0 +1,23 @@
+.totPriceCol {
+  width: 20%;
+}
+
+.stateCol {
+  width: 20%;
+}
+
+.dateCol {
+  width: 30%;
+}
+
+.btnCol {
+  width: 30%;
+}
+
+th.totPriceCol {
+  text-align: center;
+}
+
+td.totPriceCol {
+  text-align: right;
+}

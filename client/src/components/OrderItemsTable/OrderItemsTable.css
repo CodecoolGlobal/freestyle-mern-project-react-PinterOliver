@@ -1,0 +1,33 @@
+.titleCol {
+  width: 40%;
+}
+
+.authCol {
+  width: 20%;
+}
+
+.amountCol {
+  width: 10%;
+}
+
+.priceCol {
+  width: 10%;
+}
+
+.totPriceCol {
+  width: 10%;
+}
+
+.btnCol {
+  width: 10%;
+}
+
+th.priceCol,
+th.totPriceCol {
+  text-align: center;
+}
+
+td.priceCol,
+td.totPriceCol {
+  text-align: right;
+}
