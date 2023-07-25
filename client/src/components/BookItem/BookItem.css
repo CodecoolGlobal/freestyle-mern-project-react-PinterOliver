@@ -1,37 +1,35 @@
-.bookThumbnail{
-width: 80px;
-height: auto;
-}
-.bookTitle{
-  font-size: 20px;
-  margin-bottom: 0;
-  margin: 0;
-}
-.bookPrice{
-  margin: 0;
-  font-size: 20px;
-}
-.bookContainer{
-  width: 150px;
-  height: 250px;
-  background-color: #846e3b;
+.bookContainer {
+  background-color: #e3c379;
   text-align: center;
   margin: 5px;
   padding: 5px;
   border-radius: 5px;
   border: black 1px solid;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.itemsContainer{
-  display: inline-block;
-  position: relative;
-  left: 20vw
+
+.bookThumbnail {
+  width: 80px;
+  height: auto;
+  flex: 1;
 }
-.cartButton{
-width: 60%;
-height: 10%;
-border-radius: 5px;
-background-color: green;
-color: white;
-cursor: pointer;
+.bookTitle {
+  font-size: 20px;
+  margin-bottom: 0;
+  margin: 0;
+}
+.bookPrice {
+  margin: 0;
+  font-size: 20px;
+}
+
+.cartButton {
+  width: 100%;
+  height: 25px;
+  border-radius: 5px;
+  background-color: green;
+  color: white;
+  cursor: pointer;
 }

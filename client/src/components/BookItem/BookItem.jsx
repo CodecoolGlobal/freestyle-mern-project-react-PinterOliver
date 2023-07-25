@@ -3,7 +3,6 @@ import React from 'react';
 import './BookItem.css';
 
 const BookItem = (props) => {
-
   const book = props.book;
 
   async function checkLocalStorageCart() {
@@ -28,7 +27,7 @@ const BookItem = (props) => {
     if (!cartid) {
       const resHeader = await fetch('/api/orderheaders', {
         method: 'POST',
-        headers: {token: token},
+        headers: { token: token },
       });
       const jsonHeader = await resHeader.json();
       if (jsonHeader && jsonHeader.orderheader._id) {
@@ -36,38 +35,40 @@ const BookItem = (props) => {
         localStorage.setItem('cartid', cartid);
       }
     }
-    const jsonItems = await Promise.all(newCart.map(async (item) => {
-      const smallData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          token: token,
-        },
-        body: JSON.stringify({
-          bookid: item.id,
-          amount: item.amount,
-        }),
-      });
-      const smallJSON = await smallData.json();
-      if (smallData.status !== 201) {
-        if (smallJSON.rightMethod) {
-          const otherData = await fetch(`/api/orderitems/${smallJSON.orderItem._id}`, {
-            method: smallJSON.rightMethod,
-            headers: {
-              'Content-Type': 'application/json',
-              token: token,
-            },
-            body: JSON.stringify({
-              bookid: item.id,
-              amount: item.amount,
-            }),
-          });
-          const otherJSON = await otherData.json();
-          smallJSON.plus = otherJSON;
-        } else console.log(smallJSON.error);
-      }
-      return smallJSON;
-    }));
+    const jsonItems = await Promise.all(
+      newCart.map(async (item) => {
+        const smallData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            token: token,
+          },
+          body: JSON.stringify({
+            bookid: item.id,
+            amount: item.amount,
+          }),
+        });
+        const smallJSON = await smallData.json();
+        if (smallData.status !== 201) {
+          if (smallJSON.rightMethod) {
+            const otherData = await fetch(`/api/orderitems/${smallJSON.orderItem._id}`, {
+              method: smallJSON.rightMethod,
+              headers: {
+                'Content-Type': 'application/json',
+                token: token,
+              },
+              body: JSON.stringify({
+                bookid: item.id,
+                amount: item.amount,
+              }),
+            });
+            const otherJSON = await otherData.json();
+            smallJSON.plus = otherJSON;
+          } else console.log(smallJSON.error);
+        }
+        return smallJSON;
+      })
+    );
     console.log(jsonItems);
   }
 
@@ -92,15 +93,15 @@ const BookItem = (props) => {
     book.title.length > maxLength ? `${book.title.substring(0, maxLength)}...` : book.title;
 
   return (
-    <div className="itemsContainer" key={book._id}>
-      <div className="bookContainer">
-        <img className="bookThumbnail" src={book?.image_url} />
-        <a href={`http://localhost:3000/books/${book._id}`}>
-          <h2 className="bookTitle">{limitedTitle}</h2>
-        </a>
-        <p className="bookPrice">{book.price}HUF</p>
-        <button onClick={() => checkLocalStorageCart()} className='cartButton'>Add to cart</button>
-      </div>
+    <div className="bookContainer" key={book._id}>
+      <img className="bookThumbnail" src={book?.image_url} />
+      <a href={`http://localhost:3000/books/${book._id}`}>
+        <h2 className="bookTitle">{limitedTitle}</h2>
+      </a>
+      <p className="bookPrice">{book.price}HUF</p>
+      <button onClick={() => checkLocalStorageCart()} className="cartButton">
+        Add to cart
+      </button>
     </div>
   );
 };

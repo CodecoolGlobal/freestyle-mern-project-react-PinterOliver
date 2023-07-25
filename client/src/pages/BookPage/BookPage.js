@@ -21,19 +21,25 @@ const BookPage = () => {
 
   if (loading) return <Loading />;
   return (
-    <div className="items">
-      <BookFilter
-        maxPrice={maxPrice}
-        OnFilter={(value) => {
-          setMaxPrice(value);
-          setLoading(true);
-        }}
-        OnSort={(value) => setSort(value)}
-      />
-      {books?.map((book) => (
-        <BookItem key={book._id} book={book} />
-      ))}
-    </div>
+    <>
+      <div className="sidebarContainer">
+        <BookFilter
+          maxPrice={maxPrice}
+          OnFilter={(value) => {
+            setMaxPrice(value);
+            setLoading(true);
+          }}
+          OnSort={(value) => setSort(value)}
+        />
+      </div>
+      <div className="pageContent">
+        <div className="gridWrapper">
+          {books?.map((book) => (
+            <BookItem key={book._id} book={book} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 
