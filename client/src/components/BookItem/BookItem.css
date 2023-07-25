@@ -1,6 +1,19 @@
+.bookContainer {
+  background-color: #e3c379;
+  text-align: center;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: black 1px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .bookThumbnail {
   width: 80px;
   height: auto;
+  flex: 1;
 }
 .bookTitle {
   font-size: 20px;
@@ -11,19 +24,10 @@
   margin: 0;
   font-size: 20px;
 }
-.bookContainer {
-  background-color: #846e3b;
-  text-align: center;
-  margin: 5px;
-  padding: 5px;
-  border-radius: 5px;
-  border: black 1px solid;
-  display: inline-block;
-}
 
 .cartButton {
-  width: 60%;
-  height: 10%;
+  width: 100%;
+  height: 25px;
   border-radius: 5px;
   background-color: green;
   color: white;
