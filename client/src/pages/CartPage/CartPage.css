@@ -1,0 +1,6 @@
+.pageContent {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: scroll;
+  padding: 10px;
+}
