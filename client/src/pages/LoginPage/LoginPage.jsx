@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -77,7 +78,9 @@ function LoginPage() {
             <button className="button">Register</button>
           </a>
         </div>
-        <button className="button">Continue as a guest</button>
+        <Link to='/books'>
+          <button className="button">Continue as a guest</button>
+        </Link>
       </div>
     </div>
   );

@@ -66,7 +66,7 @@ const BookItem = ({ book }) => {
           } else console.log(smallJSON.error);
         }
         return smallJSON;
-      })
+      }),
     );
     console.log(jsonItems);
   }

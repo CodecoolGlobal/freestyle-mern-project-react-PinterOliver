@@ -10,7 +10,9 @@ const BookPage = () => {
   const [sort, setSort] = useState('title,ascend');
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const perpage = 24;
+  const [extraBooksLoading, setExtraBooksLoading] = useState(false);
+  const [bottomOfPage, setBottomOfPage] = useState(false);
+  const perpage = 20;
 
   useEffect(() => {
     fetch(`/api/books?maxprice=${maxPrice}&sort=${sort}&page=${page}&perpage=${perpage}`)
@@ -19,13 +21,25 @@ const BookPage = () => {
         setBooks(data.books);
         setLoading(false);
       });
-  }, [maxPrice, sort, page, perpage]);
+  }, [maxPrice, sort, perpage]);
+
+  useEffect(() => {
+    setExtraBooksLoading(true);
+    fetch(`/api/books?maxprice=${maxPrice}&sort=${sort}&page=${page}&perpage=${perpage}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.books.length > 0) setBooks([...books, ...data.books]);
+        else setBottomOfPage(true);
+        setExtraBooksLoading(false);
+      });
+  }, [page]);
 
   const handleScroll = (event) => {
-    const bottom = event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight;
-    console.log(bottom);
-    if (bottom) setPage(page + 1);
-    console.log(page);
+    if (!bottomOfPage && !extraBooksLoading) {
+      const bottom =
+        event.target.scrollHeight - event.target.scrollTop - event.target.clientHeight <= 1;
+      if (bottom) setPage(page + 1);
+    }
   };
 
   if (loading) return <Loading />;
@@ -41,12 +55,15 @@ const BookPage = () => {
           OnSort={(value) => setSort(value)}
         />
       </div>
-      <div className="pageContent">
+      <div className="pageContent" onScroll={handleScroll}>
         <div className="gridWrapper">
           {books?.map((book) => (
             <BookItem key={book._id} book={book} />
           ))}
         </div>
+        {extraBooksLoading ? (
+          <Loading />
+        ) : ''}
       </div>
     </>
   );
