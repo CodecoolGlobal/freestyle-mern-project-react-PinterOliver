@@ -33,9 +33,11 @@ const BookPage = () => {
         />
       </div>
       <div className="pageContent">
-        {books?.map((book) => (
-          <BookItem key={book._id} book={book} />
-        ))}
+        <div className="gridWrapper">
+          {books?.map((book) => (
+            <BookItem key={book._id} book={book} />
+          ))}
+        </div>
       </div>
     </>
   );

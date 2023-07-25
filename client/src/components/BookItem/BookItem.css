@@ -1,19 +1,17 @@
-.bookThumbnail{
-width: 80px;
-height: auto;
+.bookThumbnail {
+  width: 80px;
+  height: auto;
 }
-.bookTitle{
+.bookTitle {
   font-size: 20px;
   margin-bottom: 0;
   margin: 0;
 }
-.bookPrice{
+.bookPrice {
   margin: 0;
   font-size: 20px;
 }
-.bookContainer{
-  width: 150px;
-  height: 250px;
+.bookContainer {
   background-color: #846e3b;
   text-align: center;
   margin: 5px;
@@ -22,16 +20,12 @@ height: auto;
   border: black 1px solid;
   display: inline-block;
 }
-.itemsContainer{
-  display: inline-block;
-  position: relative;
-  left: 20vw
-}
-.cartButton{
-width: 60%;
-height: 10%;
-border-radius: 5px;
-background-color: green;
-color: white;
-cursor: pointer;
+
+.cartButton {
+  width: 60%;
+  height: 10%;
+  border-radius: 5px;
+  background-color: green;
+  color: white;
+  cursor: pointer;
 }
