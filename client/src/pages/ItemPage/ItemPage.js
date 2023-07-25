@@ -17,16 +17,48 @@ const ItemPage = () => {
       });
   }, []);
 
+  function checkLocalStorageCart() {
+    const cart = localStorage.getItem('cart');
+    const hasCart = cart !== null && typeof cart !== 'undefined';
+    if (hasCart) {
+      addToCart(book);
+    } else {
+      const newCart = [
+        {
+          id: book._id,
+          title: book.title,
+          price: book.price,
+          amount: 1,
+        },
+      ];
+      localStorage.setItem('cart', JSON.stringify(newCart));
+    }
+  }
+
+  function addToCart(book) {
+    const storedCart = JSON.parse(localStorage.getItem('cart'));
+    const foundItem = storedCart.find((item) => item.id === book._id);
+
+    if (foundItem) {
+      foundItem.amount++;
+    } else {
+      storedCart.push({
+        id: book._id,
+        title: book.title,
+        price: book.price,
+        amount: 1,
+      });
+    }
+    localStorage.setItem('cart', JSON.stringify(storedCart));
+  }
+
   return (
     <div>
+      <div className="itemContainer">{book && book ? <ItemPageItem book={book} /> : null}</div>
       <a href={'http://localhost:3000/books'}>
         <button>Back</button>
       </a>
-      <div className="itemContainer">
-        {book && book ?
-          <ItemPageItem book={book} />
-          : null}
-      </div>
+      <button onClick={() => checkLocalStorageCart()}>Add to cart</button>
     </div>
   );
 };
