@@ -106,7 +106,7 @@ function RegisterPage() {
               onChange={(e) => handleInputChange(e)}
               required
               autoComplete='off'
-              pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}'
+              pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!\@\#\$\%\^\&\*\(\)])[A-Za-z\d\!\@\#\$\%\^\&\*\(\)]{8,}'
               // eslint-disable-next-line max-len
               title='Minimum 8 characters, at least 1 lowercase letter, uppercase letter, number, special character'
             />
