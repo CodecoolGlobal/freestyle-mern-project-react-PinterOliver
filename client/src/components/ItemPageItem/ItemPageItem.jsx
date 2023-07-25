@@ -3,11 +3,11 @@ import './ItemPageItem.css';
 
 const ItemPageItem = (props) => {
   
-  const book = props.book
+  const book = props.book;
 
   function checkLocalStorageCart() {
     const cart = localStorage.getItem("cart");
-    const hasCart = cart !== null && cart !== undefined;
+    const hasCart = cart && cart;
     if (hasCart) {
       addToCart(book);
     } else {

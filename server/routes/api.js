@@ -54,6 +54,10 @@ const {
   updateOneRole,
 } = require('../controllers/rolesController');
 
+const {
+  sendCreateUserEmail
+} = require('../controllers/emailController');
+
 const router = express.Router();
 
 const {
@@ -119,7 +123,7 @@ router.route('/orderitems/:id')
 
 router.route('/users')
   .get(userValidation, userAdminValidation, getAllUsers)
-  .post(userDataValidation, addOneUser);
+  .post(userDataValidation, sendCreateUserEmail, addOneUser);
 
 router.route('/users/:id')
   .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
