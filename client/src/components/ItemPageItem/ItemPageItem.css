@@ -1,15 +1,27 @@
-.item{
-/*   margin-left: 20vw;
-  margin-right: 20vw; */
-  background-color: #846e3b;
-  padding: 3%;
-  position: relative;
+.item {
+  background-color: #e3c379;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  padding: 5px;
 }
-.bookCover{
-  height: 40vh;
-  width: auto;
+
+.coverContainer {
+  width: 300px;
+  margin-right: 20px;
 }
-.description{
-  width: 40vw;
-  margin-bottom: 2vh;
+
+.coverContainer > img {
+  width: 100%;
+  height: auto;
+}
+
+.detailsContainer {
+  flex: 1;
+}
+
+.detailsContainer h2 {
+  text-align: center;
+  text-transform: full-width;
+  font-size: 32px;
 }
