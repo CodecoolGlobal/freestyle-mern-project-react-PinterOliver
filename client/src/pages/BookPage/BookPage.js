@@ -3,6 +3,7 @@ import BookItem from '../../components/BookItem/BookItem';
 import BookFilter from '../../components/BookFilter/BookFilter';
 import './BookPage.css';
 import Loading from '../../components/Loading';
+import { fetchGetBooks } from '../../controllers/fetchController';
 
 const BookPage = () => {
   const [books, setBooks] = useState([]);
@@ -15,23 +16,25 @@ const BookPage = () => {
   const perpage = 20;
 
   useEffect(() => {
-    fetch(`/api/books?maxprice=${maxPrice}&sort=${sort}&page=${page}&perpage=${perpage}`)
-      .then((res) => res.json())
+    setLoading(true);
+    setPage(1);
+    fetchGetBooks(maxPrice, sort, 1, perpage)
       .then((data) => {
         setBooks(data.books);
         setLoading(false);
       });
+    console.log(page);
   }, [maxPrice, sort, perpage]);
 
   useEffect(() => {
     setExtraBooksLoading(true);
-    fetch(`/api/books?maxprice=${maxPrice}&sort=${sort}&page=${page}&perpage=${perpage}`)
-      .then((res) => res.json())
+    fetchGetBooks(maxPrice, sort, page, perpage)
       .then((data) => {
         if (data.books.length > 0) setBooks([...books, ...data.books]);
         else setBottomOfPage(true);
         setExtraBooksLoading(false);
       });
+    console.log(page);
   }, [page]);
 
   const handleScroll = (event) => {
