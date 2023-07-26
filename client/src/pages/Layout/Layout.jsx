@@ -2,6 +2,7 @@ import React from 'react';
 import './Layout.css';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
+import ChatBox from '../../components/ChatBox/ChatBox';
 
 function Layout() {
   const webSocket = new WebSocket('ws://localhost:3000/chat');
@@ -55,6 +56,9 @@ function Layout() {
       </div>
       <div className="main-content">
         <Outlet />
+      </div>
+      <div className="chatBoxContainer">
+        <ChatBox />
       </div>
     </div>
   );
