@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Layout.css';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
 import ChatBox from '../../components/ChatBox/ChatBox';
 
 function Layout() {
   const navigate = useNavigate();
   const [chatContent, setChatContent] = useState('');
-  const webSocket = new WebSocket('ws://localhost:3000/chat');
+  const [webSocket, setWebSocket] = useState(null);
 
-  webSocket.onmessage = (event) => {
-    const message = JSON.parse(event.data);
+  useEffect(() => {
+    const webSocket = new WebSocket('ws://localhost:3000/chat');
 
-    if (message.type === 'clientId') {
-      const existingId = localStorage.getItem('clientId');
-      localStorage.setItem('clientId', existingId ?? message.content);
-      webSocket.send(
-        JSON.stringify({ type: 'clientId', content: localStorage.getItem('clientId') })
-      );
-    }
-    if (message.type === 'message') {
-      console.log(message.content);
-      setChatContent(`${chatContent}\n${message.content}`);
-    }
-  };
+    setWebSocket(webSocket);
+
+    webSocket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+
+      if (message.type === 'clientId') {
+        const existingId = localStorage.getItem('clientId');
+        localStorage.setItem('clientId', existingId ?? message.content);
+        webSocket.send(
+          JSON.stringify({ type: 'clientId', content: localStorage.getItem('clientId') })
+        );
+      }
+      if (message.type === 'message') {
+        console.log(message.content);
+        setChatContent(`${chatContent}\n${message.content}`);
+      }
+    };
+  }, []);
 
   const handleChatSend = (message) => {
     webSocket.send(
@@ -63,18 +69,22 @@ function Layout() {
         <a className="main-logo" href="/">
           <img className="main-logo" src="/icon.png" alt="main logo"></img>
         </a>
-        <a className="topButton" href="/books">
+        <Link to={'/books'}>
+          {' '}
           <NavbarButton text="Books" />
-        </a>
-        <a className="topButton" href="/admin">
+        </Link>
+        <Link to={'/admin'}>
+          {' '}
           <NavbarButton text="Admin" />
-        </a>
-        <a className="topButton" href="/cart">
+        </Link>
+        <Link to={'/cart'}>
+          {' '}
           <NavbarButton text="Cart" />
-        </a>
-        <a className="topButton" href="/presentation">
+        </Link>{' '}
+        <Link to={'/presentation'}>
+          {' '}
           <NavbarButton text="Presentation" />
-        </a>
+        </Link>
         <NavbarButton onClick={() => handleLogout()} text="Logout" />
       </div>
       <div className="main-content">
