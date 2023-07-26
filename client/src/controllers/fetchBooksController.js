@@ -1,7 +1,8 @@
 const API_URL = '/api/books';
 
 const fetchGetBooks = async (maxPrice, sort, page, perpage) => {
-  const response = await fetch(`${API_URL}?maxprice=${maxPrice ?? ''}&sort=${sort ?? ''}&page=${page ?? ''}&perpage=${perpage ?? ''}`);
+  const response =
+    await fetch(`${API_URL}?maxprice=${maxPrice ?? ''}&sort=${sort ?? ''}&page=${page ?? ''}&perpage=${perpage ?? ''}`);
   return await response.json();
 };
 

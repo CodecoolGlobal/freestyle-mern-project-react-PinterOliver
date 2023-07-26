@@ -1,9 +1,11 @@
 const API_URL = '/api/orderheaders';
 
 const fetchGetOrderHeaders = async () => {
-  const response = await fetch(API_URL, {headers: {
-    token: localStorage.getItem('token'),
-  }});
+  const response = await fetch(API_URL, {
+    headers: {
+      token: localStorage.getItem('token'),
+    },
+  });
   return await response.json();
 };
 
@@ -11,7 +13,8 @@ const fetchGetOneOrderHeader = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     headers: {
       token: localStorage.getItem('token'),
-    }});
+    },
+  });
   return await response.json();
 };
 
@@ -28,10 +31,11 @@ const fetchPatchOneOrderHeader = async (id, newstate) => {
 };
 
 const fetchDeleteOneOrderHeader = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, {headers: {
-    token: localStorage.getItem('token'),
-  },
-  method: 'DELETE',
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      token: localStorage.getItem('token'),
+    },
   });
   return await response.json();
 };
