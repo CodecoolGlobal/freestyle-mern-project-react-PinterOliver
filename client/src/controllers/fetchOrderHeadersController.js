@@ -1,0 +1,22 @@
+const API_URL = '/api/orderheaders';
+
+const fetchGetOrderHeaders = async () => {
+  const response = await fetch(API_URL, {headers: {
+    token: localStorage.getItem('token'),
+  }});
+  return await response.json();
+};
+
+const fetchDeleteOneOrderHeader = async (id) => {
+  const response = await fetch(`${API_URL}/${id}`, {headers: {
+    token: localStorage.getItem('token'),
+  },
+  method: 'DELETE',
+  });
+  return await response.json();
+};
+
+module.exports = {
+  fetchGetOrderHeaders,
+  fetchDeleteOneOrderHeader,
+};
