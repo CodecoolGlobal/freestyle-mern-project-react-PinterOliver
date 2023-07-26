@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BookForm from '../../components/BookForm/BookForm';
 import { useNavigate, useParams } from 'react-router';
 import Loading from '../../components/Loading';
+import { fetchGetOneBook, fetchPatchOneBook } from '../../controllers/fetchBooksController';
 
 function AdminBookUpdater() {
   const [book, setBook] = useState(null);
@@ -10,26 +11,17 @@ function AdminBookUpdater() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchBook = async () => {
-      setLoading(true);
-      const response = await fetch(`/api/books/${id}`);
-      const jsonData = await response.json();
-      setBook(jsonData.book);
-      setLoading(false);
-    };
-    fetchBook();
+    setLoading(true);
+    fetchGetOneBook()
+      .then((response) => {
+        setBook(response.book);
+        setLoading(false);
+      });
   }, [id]);
 
-  const handleSave = async (book) => {
+  const handleSave = async () => {
     setLoading(true);
-    await fetch(`/api/books/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-type': 'application/json',
-        token: localStorage.getItem('token'),
-      },
-      body: JSON.stringify(book),
-    });
+    await fetchPatchOneBook(id, book);
     setLoading(false);
     navigate('/admin/books');
   };

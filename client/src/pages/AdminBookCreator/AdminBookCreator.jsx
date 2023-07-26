@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import BookForm from '../../components/BookForm/BookForm';
 import Loading from '../../components/Loading';
 import { useNavigate } from 'react-router';
-import { fetchPostBooks } from '../../controllers/fetchController';
+import { fetchPostOneBook } from '../../controllers/fetchBooksController';
 
 function AdminBookCreator() {
   const [loading, setLoading] = useState(false);
@@ -10,7 +10,7 @@ function AdminBookCreator() {
 
   const handleCreate = async (book) => {
     setLoading(true);
-    await fetchPostBooks(book);
+    await fetchPostOneBook(book);
     setLoading(false);
     navigate('/admin/books');
   };

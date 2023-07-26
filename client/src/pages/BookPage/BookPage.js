@@ -3,7 +3,7 @@ import BookItem from '../../components/BookItem/BookItem';
 import BookFilter from '../../components/BookFilter/BookFilter';
 import './BookPage.css';
 import Loading from '../../components/Loading';
-import { fetchGetBooks } from '../../controllers/fetchController';
+import { fetchGetBooks } from '../../controllers/fetchBooksController';
 
 const BookPage = () => {
   const [books, setBooks] = useState([]);
