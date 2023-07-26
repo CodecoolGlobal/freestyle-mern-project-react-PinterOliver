@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ChatBox.css';
 
-function ChatBox() {
+function ChatBox({ onSend, content }) {
+  const [inputValue, setInputValue] = useState('');
+
   return (
     <>
-      <textarea></textarea>
+      <textarea defaultValue={content} />
       <div>
-        <input type="text" />
-        <button>Send</button>
+        <input type="text" onChange={(e) => setInputValue(e.target.value)} />
+        <button onClick={() => onSend(inputValue)}>Send</button>
       </div>
     </>
   );

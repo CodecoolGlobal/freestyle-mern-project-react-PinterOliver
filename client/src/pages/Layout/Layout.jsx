@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Layout.css';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
 import ChatBox from '../../components/ChatBox/ChatBox';
 
 function Layout() {
+  const navigate = useNavigate();
+  const [chatContent, setChatContent] = useState('');
   const webSocket = new WebSocket('ws://localhost:3000/chat');
-
-  webSocket.onopen = () => {};
 
   webSocket.onmessage = (event) => {
     const message = JSON.parse(event.data);
@@ -19,9 +19,25 @@ function Layout() {
         JSON.stringify({ type: 'clientId', content: localStorage.getItem('clientId') })
       );
     }
+    if (message.type === 'message') {
+      console.log(message.content);
+      setChatContent(`${chatContent}\n${message.content}`);
+    }
   };
 
-  const navigate = useNavigate();
+  const handleChatSend = (message) => {
+    webSocket.send(
+      JSON.stringify({
+        type: 'chatMessage',
+        content: {
+          clientId: localStorage.getItem('clientId'),
+          chatMessage: message,
+          senderName: 'testName',
+          dateTime: new Date().getTime(),
+        },
+      })
+    );
+  };
 
   const handleLogout = async () => {
     if (window.confirm('Are you sure you want to log out?')) {
@@ -65,7 +81,7 @@ function Layout() {
         <Outlet />
       </div>
       <div className="chatBoxContainer">
-        <ChatBox />
+        <ChatBox onSend={handleChatSend} content={chatContent} />
       </div>
     </div>
   );
