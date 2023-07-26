@@ -1,10 +1,11 @@
 const API_URL = '/api/login';
+const TOKEN = localStorage.getItem('token');
 
 const fetchDeleteOneLogin = async () => {
   const response = await fetch(API_URL, {
     method: 'DELETE',
     headers: {
-      token: localStorage.getItem('token'),
+      token: TOKEN,
     },
   });
   return await response.json();
