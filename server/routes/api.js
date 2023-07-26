@@ -55,7 +55,10 @@ const {
 } = require('../controllers/rolesController');
 
 const {
-  sendCreateUserEmail
+  sendCreateUserEmail,
+  sendChangeOrderStateEmail,
+  sendCompleteOrderEmail,
+  sendPasswordResetEmail,
 } = require('../controllers/emailController');
 
 const router = express.Router();
