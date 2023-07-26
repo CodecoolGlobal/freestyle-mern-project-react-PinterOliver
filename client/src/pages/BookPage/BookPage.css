@@ -1,9 +1,40 @@
-.items{
+.sidebarContainer {
+  padding: 10px;
+  left: 0;
+  border-right: 5px solid black;
+  width: 18%;
+  box-sizing: border-box;
+  background-color: #846e3b;
+}
+
+.sidebarContainer,
+.side-menu,
+.sidemenu > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.pageContent {
+  left: 18%;
+  width: 82%;
+  box-sizing: border-box;
+  overflow: scroll;
+  padding: 10px;
+}
+
+.gridWrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.itemsGrid{
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: auto;
   grid-gap: 10px;
   justify-items: center;
-  width: 800px;
-  margin-left: 80px;
+  width: 100%;
 }
