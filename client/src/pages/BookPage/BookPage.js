@@ -13,35 +13,45 @@ const BookPage = () => {
   const [page, setPage] = useState(1);
   const [extraBooksLoading, setExtraBooksLoading] = useState(false);
   const [bottomOfPage, setBottomOfPage] = useState(false);
+  const [bufferBooks, setBufferBooks] = useState([]);
   const perpage = 20;
 
   useEffect(() => {
     setLoading(true);
     setPage(1);
+    setBottomOfPage(false);
+    setBufferBooks([]);
     fetchGetBooks(maxPrice, sort, 1, perpage)
       .then((data) => {
         setBooks(data.books);
         setLoading(false);
       });
-    console.log(page);
   }, [maxPrice, sort, perpage]);
 
   useEffect(() => {
     setExtraBooksLoading(true);
-    fetchGetBooks(maxPrice, sort, page, perpage)
+    fetchGetBooks(maxPrice, sort, page + 1, perpage)
       .then((data) => {
-        if (data.books.length > 0) setBooks([...books, ...data.books]);
-        else setBottomOfPage(true);
+        setBufferBooks(data.books);
         setExtraBooksLoading(false);
       });
-    console.log(page);
   }, [page]);
 
   const handleScroll = (event) => {
     if (!bottomOfPage && !extraBooksLoading) {
       const bottom =
-        event.target.scrollHeight - event.target.scrollTop - event.target.clientHeight <= 1;
-      if (bottom) setPage(page + 1);
+        event.target.scrollHeight - event.target.scrollTop - event.target.clientHeight <= 2;
+      if (bottom) {
+        setPage(page + 1);
+        setBooks([...books, ...bufferBooks]);
+        /* console.log('page: ', page);
+        console.log('books: ', books.length);
+        console.log('book: ', books[books.length - 1]?.title);
+        console.log('buffers: ', bufferBooks.length);
+        console.log('buffer: ', bufferBooks[bufferBooks.length - 1]?.title);
+        console.log('bottom: ', bottomOfPage); */
+        if (!bufferBooks[0]) setBottomOfPage(true);
+      }
     }
   };
 
@@ -53,7 +63,6 @@ const BookPage = () => {
           maxPrice={maxPrice}
           OnFilter={(value) => {
             setMaxPrice(value);
-            setLoading(true);
           }}
           OnSort={(value) => setSort(value)}
         />
