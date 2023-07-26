@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
-import './LoginPage.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import "./LoginPage.css";
 
 function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     deleteCache();
-    const response = await fetch('api/login', {
-      method: 'POST',
+    const response = await fetch("api/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
     });
@@ -22,30 +22,29 @@ function LoginPage() {
     console.log(jsonData);
 
     if (jsonData.token) {
-      localStorage.setItem('token', jsonData.token);
+      localStorage.setItem("token", jsonData.token);
       loadExistingCart(jsonData.token);
-      const resData = await fetch('/api/orderheaders/cart', {
-        headers: {token: jsonData.token},
+      const resData = await fetch("/api/orderheaders/cart", {
+        headers: { token: jsonData.token },
       });
       const jsonDataPlus = await resData.json();
       if (resData.status === 200) {
         const id = jsonDataPlus.orderheader._id;
-        localStorage.setItem('cartid', id);
+        localStorage.setItem("cartid", id);
       } else {
         console.log(jsonDataPlus);
       }
-      navigate('/');
+      navigate("/");
     } else {
       console.log(jsonData.error);
     }
-
   };
 
   return (
-    <div className='outerContainer'>
+    <div className="outerContainer">
       <div className="loginFormContainer">
-        <img className="logo" src={'logo.png'} alt="logo" />
-        <hr/>
+        <img className="logo" src={"logo.png"} alt="logo" />
+        <hr />
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>
             Username:
@@ -71,14 +70,16 @@ function LoginPage() {
             Login
           </button>
         </form>
-        <hr/>
+        <hr />
         <div>
-          <button className="button">Forgot Password</button>
-          <a href='/register'>
+          <Link to="/resetpassword">
+            <button className="button">Forgot Password</button>
+          </Link>
+          <a href="/register">
             <button className="button">Register</button>
           </a>
         </div>
-        <Link to='/books'>
+        <Link to="/books">
           <button className="button">Continue as a guest</button>
         </Link>
       </div>
@@ -87,7 +88,7 @@ function LoginPage() {
 }
 
 async function loadExistingCart(token) {
-  const response = await fetch('/api/orderheaders/cart', {
+  const response = await fetch("/api/orderheaders/cart", {
     headers: {
       token: token,
     },
@@ -99,8 +100,8 @@ async function loadExistingCart(token) {
     cartOrderId = jsonData.orderheader._id;
   }
   if (response.status === 204) {
-    const newHeadRes = await fetch('/api/orderheaders', {
-      method: 'POST',
+    const newHeadRes = await fetch("/api/orderheaders", {
+      method: "POST",
       headers: {
         token: token,
       },
@@ -109,14 +110,17 @@ async function loadExistingCart(token) {
     cartOrderId = jsonData.orderheader._id;
   }
 
-  const cartItemsRes = await fetch(`/api/orderitems/orderheaders/${cartOrderId}`, {
-    headers: {
-      token: token,
-    },
-  });
+  const cartItemsRes = await fetch(
+    `/api/orderitems/orderheaders/${cartOrderId}`,
+    {
+      headers: {
+        token: token,
+      },
+    }
+  );
   const items = (await cartItemsRes.json()).orderitems ?? [];
   localStorage.setItem(
-    'cart',
+    "cart",
     JSON.stringify(
       items.map((order) => {
         return {
@@ -125,22 +129,21 @@ async function loadExistingCart(token) {
           amount: order.amount,
           price: order.price,
         };
-      }),
-    ),
+      })
+    )
   );
-
 }
 
 async function deleteCache() {
-  if (localStorage.getItem('token')) {
-    await fetch('/api/login', {
-      method: 'DELETE',
-      headers: {token: localStorage.getItem('token')},
+  if (localStorage.getItem("token")) {
+    await fetch("/api/login", {
+      method: "DELETE",
+      headers: { token: localStorage.getItem("token") },
     });
   }
-  localStorage.removeItem('token');
-  localStorage.removeItem('cartid');
-  localStorage.removeItem('cart');
+  localStorage.removeItem("token");
+  localStorage.removeItem("cartid");
+  localStorage.removeItem("cart");
 }
 
 export default LoginPage;

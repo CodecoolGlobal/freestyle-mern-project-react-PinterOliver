@@ -58,11 +58,11 @@ const sendCompleteOrderEmail = async (req, res, next) => {
       <th>Amount</th>
       <th>Total</th>
     </tr>${req.body.items.map((item) => { 
-      <tr>
-        <td>{item.name}</td>
-        <td>{item.amount}</td>
-        <td>{item}</td>
-      </tr>})}</table>
+      `<tr>
+        <td>${item.name}</td>
+        <td>${item.amount}</td>
+        <td>${item}</td>
+      </tr>`})}</table>
       <h3>Status: ${req.body.status}</h3>
       <p>Your order's state will soon be changed to confirmed. We will notify you when that happens.</p>
       <p>If you have any questions, feel free to get in contact with us at valkyrie@danielsproject.hu</p>

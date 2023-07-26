@@ -44,6 +44,7 @@ const {
   addOneUser,
   deleteOneUser,
   updateOneUser,
+  getOneUserbyEmail,
 } = require('../controllers/usersController');
 
 const {
@@ -132,6 +133,9 @@ router.route('/users/:id')
   .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
   .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
+
+  router.route('/userid/:email')
+  .get(getOneUserbyEmail);
 
 router.route('/roles')
   .get(userValidation, roleAdminValidation, getAllRoles)
