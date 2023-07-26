@@ -70,7 +70,7 @@ const {
   roleDataValidation,
 } = require('../controllers/validation');
 
-const { getOwnMessages } = require('../controllers/chatController');
+const { getOwnMessages, postMessage } = require('../controllers/chatController');
 
 router.route('/login').post(login).delete(userValidation, logout);
 
@@ -177,6 +177,6 @@ router
   .delete(idValidation, userValidation, roleAdminValidation, deleteOneRole)
   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, updateOneRole);
 
-router.route('/chat').get(userValidation, getOwnMessages);
+router.route('/chat').get(userValidation, getOwnMessages).post(userValidation, postMessage);
 
 module.exports = router;
