@@ -17,11 +17,9 @@ function Layout() {
     webSocket.onmessage = (event) => {
       const message = JSON.parse(event.data);
 
-      if (message.type === 'clientId') {
-        const existingId = localStorage.getItem('clientId');
-        localStorage.setItem('clientId', existingId ?? message.content);
+      if (message.type === 'clientIdRequest') {
         webSocket.send(
-          JSON.stringify({ type: 'clientId', content: localStorage.getItem('clientId') })
+          JSON.stringify({ type: 'clientIdPost', content: localStorage.getItem('token') })
         );
       }
       if (message.type === 'message') {

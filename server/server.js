@@ -26,13 +26,12 @@ const main = async () => {
   const wss = new ws.WebSocketServer({ server: server, path: '/chat' });
 
   wss.on('connection', (client) => {
-    client.id = getUniqueId();
-    client.send(JSON.stringify({ type: 'clientId', content: client.id }));
+    client.send(JSON.stringify({ type: 'clientIdRequest' }));
 
     client.on('message', (data) => {
       const message = JSON.parse(data);
 
-      if (message.type === 'clientId') {
+      if (message.type === 'clientIdPost') {
         client.id = message.content;
       }
       if (message.type === 'chatMessage') {
