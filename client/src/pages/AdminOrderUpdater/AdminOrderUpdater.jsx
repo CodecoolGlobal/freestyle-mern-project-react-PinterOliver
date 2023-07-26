@@ -35,7 +35,7 @@ function AdminOrderUpdater() {
       },
       body: JSON.stringify({newstate: order.state}),
     });
-    console.log(order)
+    console.log(order);
     setLoading(false);
     navigate('/admin/orders');
   };
