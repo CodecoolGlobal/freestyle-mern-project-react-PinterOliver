@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const ws = require('ws');
 const app = express();
 const apiRouter = require('./routes/api');
-const { Timestamp } = require('mongodb');
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -34,22 +33,16 @@ const main = async () => {
       if (message.type === 'clientIdPost') {
         client.id = message.content;
       }
-      if (message.type === 'chatMessage') {
-        const { clientId, chatMessage, senderName, dateTime } = message.content;
-        const timeStamp =
-          String(new Date(dateTime).getHours()).padStart(2, '0') +
-          ':' +
-          String(new Date(dateTime).getMinutes()).padStart(2, '0');
-
-        broadcast(`[${timeStamp}] ${senderName}: ${chatMessage}`, clientId);
+      if (message.type === 'newMessage') {
+        broadcast(message.content, client.id);
       }
     });
   });
 
-  broadcast = (msg, clientId) => {
+  const broadcast = (msg, clientId) => {
     for (const client of wss.clients) {
       if (client.id === clientId) {
-        client.send(JSON.stringify({ type: 'message', content: msg }));
+        client.send(JSON.stringify({ type: 'newMessage', content: msg }));
       }
     }
   };

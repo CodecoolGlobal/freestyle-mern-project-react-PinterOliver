@@ -22,25 +22,24 @@ function Layout() {
           JSON.stringify({ type: 'clientIdPost', content: localStorage.getItem('token') })
         );
       }
-      if (message.type === 'message') {
-        console.log(message.content);
-        setChatContent(`${chatContent}\n${message.content}`);
+      if (message.type === 'newMessage') {
+        setChatContent(`${chatContent}\n${message.content.text}`);
       }
     };
   }, []);
 
-  const handleChatSend = (message) => {
-    webSocket.send(
-      JSON.stringify({
-        type: 'chatMessage',
-        content: {
-          clientId: localStorage.getItem('clientId'),
-          chatMessage: message,
-          senderName: 'testName',
-          dateTime: new Date().getTime(),
-        },
-      })
-    );
+  const handleChatSend = async (message) => {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        token: localStorage.getItem('token'),
+      },
+      body: JSON.stringify({ text: message }),
+    });
+    const newMessage = (await response.json()).message;
+
+    webSocket.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
   };
 
   const handleLogout = async () => {
