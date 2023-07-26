@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const ws = require('ws');
 const app = express();
 const apiRouter = require('./routes/api');
-let server;
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -19,25 +18,33 @@ app.use('/api', apiRouter);
 const main = async () => {
   await mongoose.connect(MONGO_URL);
 
-  server = app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`App is listening on ${PORT}`);
   });
 
   const wss = new ws.WebSocketServer({ server: server, path: '/chat' });
 
-  wss.on('connection', function connection(ws) {
-    ws.on('message', function message(data) {
-      console.log('wss received: %s', data);
-    });
+  wss.on('connection', (client) => {
+    client.id = getUniqueId();
+    client.send(JSON.stringify({ type: 'clientId', content: client.id }));
 
-    ws.send('something');
+    client.on('message', (data) => {
+      const message = JSON.parse(data);
+
+      if (message.type === 'clientId') {
+        client.id = message.content;
+      }
+    });
   });
 };
 
-function getWebSocketResKey(reqKey) {
-  const shasum = crypto.createHash('sha1');
-  const magicString = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
-  return shasum.update(reqKey + magicString).digest('base64');
+function getUniqueId() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4();
 }
 
 main().catch((err) => {

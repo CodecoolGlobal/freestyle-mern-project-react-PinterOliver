@@ -7,12 +7,18 @@ import ChatBox from '../../components/ChatBox/ChatBox';
 function Layout() {
   const webSocket = new WebSocket('ws://localhost:3000/chat');
 
-  webSocket.onopen = () => {
-    webSocket.send('Websocket connection from client');
-  };
+  webSocket.onopen = () => {};
 
   webSocket.onmessage = (event) => {
-    console.log(event.data);
+    const message = JSON.parse(event.data);
+
+    if (message.type === 'clientId') {
+      const existingId = localStorage.getItem('clientId');
+      localStorage.setItem('clientId', existingId ?? message.content);
+      webSocket.send(
+        JSON.stringify({ type: 'clientId', content: localStorage.getItem('clientId') })
+      );
+    }
   };
 
   const navigate = useNavigate();
@@ -26,6 +32,7 @@ function Layout() {
       localStorage.removeItem('token');
       localStorage.removeItem('cartid');
       localStorage.removeItem('cart');
+      localStorage.removeItem('clientId');
       navigate('/');
     }
   };
