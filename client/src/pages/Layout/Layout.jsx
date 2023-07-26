@@ -2,16 +2,14 @@ import React from 'react';
 import './Layout.css';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
+import { fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
 
 function Layout() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     if (window.confirm('Are you sure you want to log out?')) {
-      await fetch('/api/login', {
-        method: 'DELETE',
-        headers: {token: localStorage.getItem('token')},
-      });
+      await fetchDeleteOneLogin();
       localStorage.removeItem('token');
       localStorage.removeItem('cartid');
       localStorage.removeItem('cart');
