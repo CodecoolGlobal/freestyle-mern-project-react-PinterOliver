@@ -45,6 +45,8 @@ const {
   deleteOneUser,
   updateOneUser,
   getOneUserbyEmail,
+  resetSecurityCode,
+  changePassword,
 } = require('../controllers/usersController');
 
 const {
@@ -136,6 +138,12 @@ router.route('/users/:id')
 
   router.route('/userid/:email')
   .get(getOneUserbyEmail);
+
+  router.route('/user/reset/:id')
+  .put(resetSecurityCode, sendPasswordResetEmail);
+
+  router.route('/user/changepassword')
+  .put(changePassword);
 
 router.route('/roles')
   .get(userValidation, roleAdminValidation, getAllRoles)

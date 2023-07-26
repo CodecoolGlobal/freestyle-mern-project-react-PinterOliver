@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const User = require("../model/User");
 
 const sendCreateUserEmail = async (req, res, next) => {
   try {
@@ -112,6 +113,7 @@ const sendChangeOrderStateEmail = async (req, res, next) => {
 
 const sendPasswordResetEmail = async (req, res, next) => {
   try {
+    const user = await User.findOne({_id: req.params.id})
     const transporter = nodemailer.createTransport({
       host: "smtp.rackhost.hu",
       port: "465",
@@ -123,15 +125,15 @@ const sendPasswordResetEmail = async (req, res, next) => {
     });
     const info = await transporter.sendMail({
       from: "valkyrie@danielsproject.hu",
-      to: req.body.email,
+      to: user.email,
       subject: "Password reset",
       html: `
       <img src="http://danielsproject.hu/logo.png" width="150" 
       height="150"></img>
-      <h1>Hello ${req.body.name.first}!</h1>
+      <h1>Hello ${user.name.first}!</h1>
       <p>To change your password, please click on the link below.</p>
-      <p>placeholder.com/change-pass</p>
-      <p>If you did not ask to change your password, please ignore our message.</p>
+      <p>danielsproject.hu/changepassword/${user._id}/${user.security}</p>
+      <p>If you did not ask to change your password, please ignore this message.</p>
       <p>We wish you the best,</p>
       <p>-Valkyrie</p>`,
     });
