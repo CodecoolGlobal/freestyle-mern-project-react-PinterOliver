@@ -20,6 +20,8 @@ import AdminOrderUpdater from './pages/AdminOrderUpdater';
 import Presentation from './pages/Presentation/Presentation';
 import PasswordResetPage from './pages/PasswordResetPage/PasswordResetPage';
 import PasswordChangePage from './pages/PasswordChangePage/PasswordChangePage';
+import CartAddressPage from './pages/CartAddressPage';
+import CartCompletePage from './pages/CartCompletePage';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: 'cart',
         element: <CartPage />,
+      },
+      {
+        path: 'cart/address',
+        element: <CartAddressPage/>,
+      },
+      {
+        path: 'cart/complete',
+        element: <CartCompletePage/>,
       },
       {
         path: 'admin',
