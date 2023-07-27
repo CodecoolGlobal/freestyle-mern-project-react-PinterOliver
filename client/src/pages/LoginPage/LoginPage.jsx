@@ -22,6 +22,11 @@ function LoginPage() {
 
     if (response.token) {
       localStorage.setItem('token', response.token);
+      localStorage.setItem('canModifyItems', response.canModifyItems);
+      localStorage.setItem('canViewAllOrders', response.canViewAllOrders);
+      localStorage.setItem('canViewAllUsers', response.canViewAllUsers);
+      localStorage.setItem('canModifyRoles', response.canModifyRoles);
+      localStorage.setItem('canAccessStorage', response.canAccessStorage);
       loadExistingCart();
       const resData = await fetchGetCartOrderHeader();
       if (resData.status === 200) {
@@ -34,7 +39,6 @@ function LoginPage() {
     } else {
       console.log(response.error);
     }
-
   };
 
   return (

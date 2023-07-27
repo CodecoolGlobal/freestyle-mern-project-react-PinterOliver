@@ -5,8 +5,8 @@ const crypto = require('crypto');
 
 //Login user if the password is correct
 const login = async (req, res) => {
-  const { username, password } = req.body;
   try {
+    const { username, password } = req.body;
     const account = await User.findOne({ userName: username }).populate('role');
     if (!account) {
       return res.status(404).json({error: 'There is no account with this username'});
@@ -37,18 +37,42 @@ const login = async (req, res) => {
   }
 };
 
-const logout = async (req, res) => {
-  const token = req.headers.token;
-  const user = req.user;
-  user.token = user.token.filter((item) => item !== token);
-  const savedUser = await user.save();
-  if (!savedUser) {
-    res.status(404).json({success: false, error: 'No such user'});
+const checkToken = (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      res.status(404).json({success: false, error: 'No such user'});
+    }
+    res.status(200).json({
+      success: true,
+      canModifyItems: user.role.canModifyItems,
+      canViewAllOrders: user.role.canViewAllOrders,
+      canViewAllUsers: user.role.canViewAllUsers,
+      canModifyRoles: user.role.canModifyRoles,
+      canAccessStorage: user.role.canAccessStorage,
+    });
+  } catch (error) {
+    res.status(400).json({error: error.message});
   }
-  res.status(200).json({success: true, message: 'User session is over'});
+};
+
+const logout = async (req, res) => {
+  try {
+    const token = req.headers.token;
+    const user = req.user;
+    user.token = user.token.filter((item) => item !== token);
+    const savedUser = await user.save();
+    if (!savedUser) {
+      res.status(404).json({success: false, error: 'No such user'});
+    }
+    res.status(200).json({success: true, message: 'User session is over'});
+  } catch (error) {
+    res.status(400).json({success: false, error: error.message});
+  }
 };
 
 module.exports = {
   login,
+  checkToken,
   logout,
 };

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Layout.css';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
 import { fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
+import Loading from '../../components/Loading';
+import { fetch }
 
 function Layout() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const handleLogout = async () => {
     if (window.confirm('Are you sure you want to log out?')) {
@@ -13,13 +16,23 @@ function Layout() {
       localStorage.removeItem('token');
       localStorage.removeItem('cartid');
       localStorage.removeItem('cart');
+      localStorage.removeItem('canModifyItems');
+      localStorage.removeItem('canViewAllOrders');
+      localStorage.removeItem('canViewAllUsers');
+      localStorage.removeItem('canModifyRoles');
+      localStorage.removeItem('canAccessStorage');
       navigate('/');
     }
   };
 
-  if (!localStorage.getItem('token')) {
-    return <Navigate to={'/login'} />;
-  }
+
+  useEffect(() => {
+    setLoading(true);
+
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
+  }, []);
 
   return (
     <div className="Layout">

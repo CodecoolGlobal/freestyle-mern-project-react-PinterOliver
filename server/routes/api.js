@@ -3,6 +3,7 @@ const express = require('express');
 
 const {
   login,
+  checkToken,
   logout,
 } = require('../controllers/loginController');
 
@@ -74,6 +75,7 @@ const {
 } = require('../controllers/validation');
 
 router.route('/login')
+  .get(userValidation, checkToken)
   .post(login)
   .delete(userValidation, logout);
 
