@@ -11,7 +11,9 @@ function Layout() {
 
   useEffect(() => {
     webSocket.current = webSocket.current ?? new WebSocket('ws://localhost:3000/chat');
+  }, []);
 
+  useEffect(() => {
     webSocket.current.onmessage = (event) => {
       const message = JSON.parse(event.data);
       console.log(message);
@@ -26,7 +28,7 @@ function Layout() {
         setChatContent(nextChatContent);
       }
     };
-  }, []);
+  }, [chatContent]);
 
   const handleChatSend = async (message) => {
     const response = await fetch('/api/chat', {
