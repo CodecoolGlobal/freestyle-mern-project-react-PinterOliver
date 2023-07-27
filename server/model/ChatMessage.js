@@ -4,6 +4,7 @@ const { Schema, model } = mongoose;
 
 const messageSchema = new Schema({
   user: { type: mongoose.Types.ObjectId, ref: 'User' },
+  senderName: String,
   text: String,
   isAdminAnswer: {
     type: Boolean,

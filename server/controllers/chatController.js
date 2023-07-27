@@ -17,6 +17,7 @@ const postMessage = async (req, res) => {
     const userId = req.user._id;
     const message = await ChatMessage.create({
       user: userId,
+      senderName: `${req.user.name.first} ${req.user.name.last}`,
       text: req.body.text,
     });
     res.status(200).json({ message: message });

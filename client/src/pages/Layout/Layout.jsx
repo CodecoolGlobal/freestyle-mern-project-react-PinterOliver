@@ -24,7 +24,7 @@ function Layout() {
         );
       }
       if (message.type === 'newMessage') {
-        const nextChatContent = [...chatContent, message.content];
+        const nextChatContent = [message.content, ...chatContent];
         setChatContent(nextChatContent);
       }
     };
@@ -89,7 +89,7 @@ function Layout() {
       <div className="main-content">
         <Outlet />
       </div>
-      <div className="chatBoxContainer">
+      <div className="floatingChatBox">
         <ChatBox onSend={handleChatSend} content={chatContent} />
       </div>
     </div>
