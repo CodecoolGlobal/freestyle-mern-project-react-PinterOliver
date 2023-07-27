@@ -1,5 +1,9 @@
 const API_URL = '/api/books';
-const TOKEN = () => localStorage.getItem('token');
+const { readCookie } = require('./cookieController');
+const TOKEN = () => {
+  console.log('cookie: ', readCookie('token'));
+  return localStorage.getItem('token');
+};
 
 const fetchGetBooks = async (maxPrice, sort, page, perpage) => {
   const response =

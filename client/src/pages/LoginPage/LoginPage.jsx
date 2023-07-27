@@ -8,6 +8,7 @@ import {
   fetchPostOneOrderHeader,
 } from '../../controllers/fetchOrderHeadersController';
 import { fetchGetOrderItems } from '../../controllers/fetchOrderItemsController';
+import { createCookie } from '../../controllers/cookieController';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -21,6 +22,7 @@ function LoginPage() {
     console.log(response);
 
     if (response.token) {
+      createCookie('token', response.token, 1);
       localStorage.setItem('token', response.token);
       localStorage.setItem('canModifyItems', response.canModifyItems);
       localStorage.setItem('canViewAllOrders', response.canViewAllOrders);
@@ -42,6 +44,7 @@ function LoginPage() {
   };
 
   const handleGuestClick = () => {
+    createCookie('token', 'guest', 1);
     localStorage.setItem('token', 'guest');
     navigate('/books');
   };
