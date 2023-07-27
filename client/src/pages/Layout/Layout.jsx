@@ -69,8 +69,27 @@ function Layout() {
       body: JSON.stringify({ text: message }),
     });
     const newMessage = (await response.json()).message;
+    
+    //webSocket.current.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
 
-    webSocket.current.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
+    const waitForConnection = (callback, interval) => {
+      if (webSocket.readyState === 1) {
+          callback();
+      } else {
+          setTimeout(() => {
+              waitForConnection(callback, interval);
+          }, interval);
+      }
+    };
+
+    const send = (messageToSend) => {
+      waitForConnection( () => {
+        webSocket.current.send(messageToSend);
+      }, 1000);
+    };
+
+    send(JSON.stringify({ type: 'newMessage', content: newMessage }));
+
   };
 
   const handleLogout = async () => {
