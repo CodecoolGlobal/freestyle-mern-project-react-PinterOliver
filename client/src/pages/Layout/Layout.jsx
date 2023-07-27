@@ -69,16 +69,16 @@ function Layout() {
       body: JSON.stringify({ text: message }),
     });
     const newMessage = (await response.json()).message;
-    
+
     //webSocket.current.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
 
     const waitForConnection = (callback, interval) => {
       if (webSocket.readyState === 1) {
-          callback();
+        callback();
       } else {
-          setTimeout(() => {
-              waitForConnection(callback, interval);
-          }, interval);
+        setTimeout(() => {
+          waitForConnection(callback, interval);
+        }, interval);
       }
     };
 

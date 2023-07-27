@@ -16,7 +16,7 @@ const getAllUsers = async (req, res) => {
         roleArray.map(async (role) => {
           const finalRole = await Role.findOne({ name: role });
           return finalRole._id;
-        })
+        }),
       );
       search = arraySearch(search, 'role', roleData);
     }
@@ -72,7 +72,7 @@ const changePassword = async (req, res, next) => {
       {
         $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
-      { password: hashedPassword }
+      { password: hashedPassword },
     );
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -91,7 +91,7 @@ const deleteSecurityNumber = async (req, res) => {
       {
         $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
-      { $unset: { security: 1 } }
+      { $unset: { security: 1 } },
     );
     res.status(200).json({ message: 'Security number deleted' });
   } catch (error) {
@@ -138,7 +138,7 @@ const updateOneUser = async (req, res) => {
       {
         ...req.body,
       },
-      { returnDocument: 'after' }
+      { returnDocument: 'after' },
     );
     res.status(200).json({ user: user });
   } catch (error) {
