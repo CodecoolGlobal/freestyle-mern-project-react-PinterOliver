@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Layout.css';
 import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
@@ -6,24 +6,24 @@ import ChatBox from '../../components/ChatBox/ChatBox';
 
 function Layout() {
   const navigate = useNavigate();
-  const [chatContent, setChatContent] = useState('');
-  const [webSocket, setWebSocket] = useState(null);
+  const [chatContent, setChatContent] = useState([]);
+  const webSocket = useRef(null);
 
   useEffect(() => {
-    const webSocket = new WebSocket('ws://localhost:3000/chat');
+    webSocket.current = webSocket.current ?? new WebSocket('ws://localhost:3000/chat');
 
-    setWebSocket(webSocket);
-
-    webSocket.onmessage = (event) => {
+    webSocket.current.onmessage = (event) => {
       const message = JSON.parse(event.data);
+      console.log(message);
 
       if (message.type === 'clientIdRequest') {
-        webSocket.send(
+        webSocket.current.send(
           JSON.stringify({ type: 'clientIdPost', content: localStorage.getItem('token') })
         );
       }
       if (message.type === 'newMessage') {
-        setChatContent(`${chatContent}\n${message.content.text}`);
+        const nextChatContent = [...chatContent, message.content];
+        setChatContent(nextChatContent);
       }
     };
   }, []);
@@ -39,7 +39,7 @@ function Layout() {
     });
     const newMessage = (await response.json()).message;
 
-    webSocket.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
+    webSocket.current.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
   };
 
   const handleLogout = async () => {

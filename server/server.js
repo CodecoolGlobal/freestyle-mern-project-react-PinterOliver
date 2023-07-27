@@ -29,6 +29,7 @@ const main = async () => {
 
     client.on('message', (data) => {
       const message = JSON.parse(data);
+      console.log(message);
 
       if (message.type === 'clientIdPost') {
         client.id = message.content;
