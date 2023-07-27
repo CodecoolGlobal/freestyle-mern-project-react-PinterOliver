@@ -4,9 +4,14 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { useNavigate } from 'react-router';
 
 function OrderHeadersTable({ orderList, onLearnMore, onDelete }) {
-  console.log(orderList);
   const navigate = useNavigate();
   const [expandedRow, setExpandedRow] = useState('');
+
+  if (!orderList || !orderList[0]) {
+    return (
+      <div>There are no orders</div>
+    );
+  }
 
   return (
     <table>

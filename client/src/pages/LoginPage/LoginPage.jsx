@@ -1,29 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import './LoginPage.css';
-import { fetchPostOneLogin, fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
+import {
+  fetchPostOneLogin,
+  fetchDeleteOneLogin,
+  fetchGetOneLogin,
+} from '../../controllers/fetchLoginController';
 import {
   fetchGetCartOrderHeader,
   fetchPostOneOrderHeader,
 } from '../../controllers/fetchOrderHeadersController';
 import { fetchGetOrderItems } from '../../controllers/fetchOrderItemsController';
-import { createCookie } from '../../controllers/cookieController';
+
+const isNotGuest = async () => {
+  const response = await fetchGetOneLogin();
+  return response.success;
+};
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isGuest, setIsGuest] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    isNotGuest()
+      .then((response) => {
+        if (response) setIsGuest(false);
+        else setIsGuest(true);
+      });
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     deleteCache();
     const response = await fetchPostOneLogin(username, password);
-    console.log(response);
 
-    if (response.token) {
-      createCookie('token', response.token, 1);
-      localStorage.setItem('token', response.token);
+    if (response?.success) {
       localStorage.setItem('canModifyItems', response.canModifyItems);
       localStorage.setItem('canViewAllOrders', response.canViewAllOrders);
       localStorage.setItem('canViewAllUsers', response.canViewAllUsers);
@@ -44,10 +58,16 @@ function LoginPage() {
   };
 
   const handleGuestClick = () => {
-    createCookie('token', 'guest', 1);
-    localStorage.setItem('token', 'guest');
     navigate('/books');
   };
+
+  async function deleteCache() {
+    if (!isGuest) {
+      await fetchDeleteOneLogin();
+    }
+    localStorage.removeItem('cartid');
+    localStorage.removeItem('cart');
+  }
 
   return (
     <div className="outerContainer">
@@ -123,15 +143,6 @@ async function loadExistingCart() {
       }),
     ),
   );
-}
-
-async function deleteCache() {
-  if (localStorage.getItem('token')) {
-    await fetchDeleteOneLogin();
-  }
-  localStorage.removeItem('token');
-  localStorage.removeItem('cartid');
-  localStorage.removeItem('cart');
 }
 
 export default LoginPage;

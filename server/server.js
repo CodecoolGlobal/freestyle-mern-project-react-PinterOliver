@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const apiRouter = require('./routes/api');
+const cookieParser = require('cookie-parser');
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -12,6 +13,7 @@ if (!MONGO_URL) {
 }
 
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api', apiRouter);
 
 const main = async () => {

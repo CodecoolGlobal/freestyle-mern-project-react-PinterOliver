@@ -1,7 +1,5 @@
 const API_URL = '/api/books';
-const { readCookie } = require('./cookieController');
 const TOKEN = () => {
-  console.log('cookie: ', readCookie('token'));
   return localStorage.getItem('token');
 };
 

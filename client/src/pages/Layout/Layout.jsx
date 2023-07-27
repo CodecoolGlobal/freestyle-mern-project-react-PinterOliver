@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './Layout.css';
 import { Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
-import { fetchGetOneLogin, fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
-import Loading from '../../components/Loading';
+import { fetchDeleteOneLogin, fetchGetOneLogin } from '../../controllers/fetchLoginController';
 
 const removeEverythingFromStorage = () => {
-  localStorage.removeItem('token');
   localStorage.removeItem('cartid');
   localStorage.removeItem('cart');
   localStorage.removeItem('canModifyItems');
@@ -16,39 +14,30 @@ const removeEverythingFromStorage = () => {
   localStorage.removeItem('canAccessStorage');
 };
 
-const isNotGuest = () => {
-  return localStorage.getItem('token') && localStorage.getItem('token') !== 'guest';
+const isNotGuest = async () => {
+  const response = await fetchGetOneLogin();
+  return response.success;
 };
 
 function Layout() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(true);
+
+  useEffect(() => {
+    isNotGuest()
+      .then((response) => {
+        if (response) setIsGuest(false);
+        else setIsGuest(true);
+      });
+  }, []);
 
   const handleLogout = async () => {
-    if (!isNotGuest() || window.confirm('Are you sure you want to log out?')) {
+    if (isGuest || window.confirm('Are you sure you want to log out?')) {
       await fetchDeleteOneLogin();
       removeEverythingFromStorage();
       navigate('/login');
     }
   };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchGetOneLogin()
-      .then((response) => {
-        const token = localStorage.getItem('token');
-        if (!token || (token !== 'guest' && !response?.success)) {
-          removeEverythingFromStorage();
-          setLoading(false);
-          navigate('/login');
-        }
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div className="Layout">
@@ -70,7 +59,7 @@ function Layout() {
         </a>
         <NavbarButton
           onClick={() => handleLogout()}
-          text={isNotGuest() ? 'Logout' : 'Login'}
+          text={isGuest ? 'Login' : 'Logout'}
         />
       </div>
       <div className="main-content">

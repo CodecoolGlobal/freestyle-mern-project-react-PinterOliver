@@ -3,9 +3,20 @@ const User = require('../model/User.js');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
+const daysToMilliSeconds = (days) => {
+  return days * 24 * 60 * 60 * 1000;
+};
+
+const daysToDate = (days) => {
+  const date = new Date();
+  date.setTime(new Date().getTime() + (daysToMilliSeconds(days)));
+  return date;
+};
+
 //Login user if the password is correct
 const login = async (req, res) => {
   try {
+    const tokenExpireDays = 1;
     const { username, password } = req.body;
     const account = await User.findOne({ userName: username }).populate('role');
     if (!account) {
@@ -21,14 +32,25 @@ const login = async (req, res) => {
       if (!isSaved) {
         return res.status(500).json({ error: 'Can\'t create token' });
       }
-      res.status(200).json({
-        token: newToken,
-        canModifyItems: account.role.canModifyItems,
-        canViewAllOrders: account.role.canViewAllOrders,
-        canViewAllUsers: account.role.canViewAllUsers,
-        canModifyRoles: account.role.canModifyRoles,
-        canAccessStorage: account.role.canAccessStorage,
-      });
+      res
+        .status(200)
+        .cookie(
+          'token',
+          newToken,
+          {
+            expires: daysToDate(tokenExpireDays),
+            httpOnly: true,
+            sameSite: true,
+          },
+        )
+        .json({
+          success: true,
+          canModifyItems: account.role.canModifyItems,
+          canViewAllOrders: account.role.canViewAllOrders,
+          canViewAllUsers: account.role.canViewAllUsers,
+          canModifyRoles: account.role.canModifyRoles,
+          canAccessStorage: account.role.canAccessStorage,
+        });
     } else {
       res.status(401).json({ error: 'Wrong password' });
     }
@@ -65,7 +87,7 @@ const logout = async (req, res) => {
     if (!savedUser) {
       res.status(404).json({success: false, error: 'No such user'});
     }
-    res.status(200).json({success: true, message: 'User session is over'});
+    res.status(200).clearCookie('token').json({success: true, message: 'User session is over'});
   } catch (error) {
     res.status(400).json({success: false, error: error.message});
   }
