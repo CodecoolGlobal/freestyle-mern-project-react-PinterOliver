@@ -1,6 +1,17 @@
 const API_URL = '/api/login';
 const TOKEN = localStorage.getItem('token');
 
+const fetchPostOneLogin = async (username, password) => {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username, password }),
+  });
+  return await response.json();
+};
+
 const fetchDeleteOneLogin = async () => {
   const response = await fetch(API_URL, {
     method: 'DELETE',
@@ -12,5 +23,6 @@ const fetchDeleteOneLogin = async () => {
 };
 
 module.exports = {
+  fetchPostOneLogin,
   fetchDeleteOneLogin,
 };

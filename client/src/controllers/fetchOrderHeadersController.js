@@ -19,8 +19,29 @@ const fetchGetOneOrderHeader = async (id) => {
   return await response.json();
 };
 
+const fetchGetCartOrderHeader = async () => {
+  const response = await fetch(`${API_URL}/cart`, {
+    headers: {
+      token: TOKEN,
+    },
+  });
+  const jsonData = await response.json();
+  jsonData.status = response.status;
+  return jsonData;
+};
+
+const fetchPostOneOrderHeader = async () => {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      token: TOKEN,
+    },
+  });
+  return await response.json();
+};
+
 const fetchPatchOneOrderHeader = async (id, newstate) => {
-  const response = await fetch(`/api/orderheaders/${id}`, {
+  const response = await fetch(`${API_URL}/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-type': 'application/json',
@@ -44,6 +65,8 @@ const fetchDeleteOneOrderHeader = async (id) => {
 module.exports = {
   fetchGetOrderHeaders,
   fetchGetOneOrderHeader,
+  fetchGetCartOrderHeader,
+  fetchPostOneOrderHeader,
   fetchPatchOneOrderHeader,
   fetchDeleteOneOrderHeader,
 };

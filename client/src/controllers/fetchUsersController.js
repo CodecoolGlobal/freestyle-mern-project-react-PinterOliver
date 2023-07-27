@@ -1,3 +1,5 @@
+const { json } = require( "express" );
+
 const API_URL = '/api/users';
 const TOKEN = localStorage.getItem('token');
 
@@ -8,6 +10,19 @@ const fetchGetUsers = async () => {
     },
   });
   return await response.json();
+};
+
+const fetchPostOneUser = async (user) => {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+  });
+  const jsonData = await response.json();
+  jsonData.status = response.status;
+  return jsonData;
 };
 
 const fetchDeleteOneUser = async (id) => {
@@ -22,5 +37,6 @@ const fetchDeleteOneUser = async (id) => {
 
 module.exports = {
   fetchGetUsers,
+  fetchPostOneUser,
   fetchDeleteOneUser,
 };

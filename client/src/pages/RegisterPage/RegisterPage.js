@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './RegisterPage.css';
 import { useNavigate } from 'react-router';
+import { fetchPostOneUser } from '../../controllers/fetchUsersController';
 
 function RegisterPage() {
   const [userName, setUserName] = useState('');
@@ -22,20 +23,12 @@ function RegisterPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(event.target);
-    const response = await fetch('/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userName,
-        name: { first: firstName, last: lastName },
-        email,
-        password,
-      }),
+    const response = await fetchPostOneUser({
+      userName,
+      name: { first: firstName, last: lastName },
+      email,
+      password,
     });
-    const jsonData = await response.json();
-    console.log(jsonData);
     if (response.status === 201) navigate('/');
   };
 

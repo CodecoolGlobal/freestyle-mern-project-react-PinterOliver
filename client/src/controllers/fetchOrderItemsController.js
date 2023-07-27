@@ -10,7 +10,7 @@ const fetchGetOrderItems = async (orderHeaderId) => {
 };
 
 const fetchPostOneOrderItem = async (orderHeaderId, orderItem) => {
-  const response = await fetch(`/api/orderitems/orderheaders/${orderHeaderId}`, {
+  const response = await fetch(`${API_URL}/orderheaders/${orderHeaderId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ const fetchPostOneOrderItem = async (orderHeaderId, orderItem) => {
 };
 
 const fetchPatchOneOrderItem = async (orderItemId, orderItem) => {
-  const otherData = await fetch(`/api/orderitems/${orderItemId}`, {
+  const otherData = await fetch(`${API_URL}/${orderItemId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
