@@ -1,28 +1,32 @@
 /* eslint-disable consistent-return */
 const User = require('../model/User');
 const Role = require('../model/Role');
-const {
-  arraySearch,
-} = require('./filterAndSort');
+const { arraySearch } = require('./filterAndSort');
 const bcrypt = require('bcrypt');
 
 // GET all users
 const getAllUsers = async (req, res) => {
   try {
-    const { roles } = req.query;
+    const { roles, onlyActive } = req.query;
     let search = req.search;
     if (roles) {
       const roleArray = roles.split(',');
-      const roleData = await Promise.all(roleArray.map(async (role) => {
-        const finalRole = await Role.findOne({name: role});
-        return finalRole._id;
-      }));
+      const roleData = await Promise.all(
+        roleArray.map(async (role) => {
+          const finalRole = await Role.findOne({ name: role });
+          return finalRole._id;
+        })
+      );
       search = arraySearch(search, 'role', roleData);
     }
-    const users = await User.find(search).sort({userName: -1}).populate('role');
-    res.status(200).json({users: users});
+    if (onlyActive) {
+      search.token = {};
+      search.token = { $not: { $size: 0 } };
+    }
+    const users = await User.find(search).sort({ userName: -1 }).populate('role');
+    res.status(200).json({ users: users });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -30,9 +34,9 @@ const getAllUsers = async (req, res) => {
 const getOneUser = (req, res) => {
   try {
     const user = req.userData;
-    res.status(200).json({user: user});
+    res.status(200).json({ user: user });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -41,7 +45,7 @@ const addOneUser = async (req, res) => {
   try {
     const user = req.body;
     if (!user.role) {
-      const role = await Role.findOne({name: 'User'});
+      const role = await Role.findOne({ name: 'User' });
       user.role = role._id;
     }
     const saltRounds = 10;
@@ -49,9 +53,9 @@ const addOneUser = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(user.password, salt);
     user.password = hashedPassword;
     const newUser = await User.create(user);
-    res.status(201).json({user: newUser});
+    res.status(201).json({ user: newUser });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -60,9 +64,9 @@ const deleteOneUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByIdAndDelete(id);
-    res.status(202).json({user: user});
+    res.status(202).json({ user: user });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -70,12 +74,16 @@ const deleteOneUser = async (req, res) => {
 const updateOneUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findByIdAndUpdate(id, {
-      ...req.body,
-    }, {returnDocument: 'after'});
-    res.status(202).json({user: user});
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        ...req.body,
+      },
+      { returnDocument: 'after' }
+    );
+    res.status(202).json({ user: user });
   } catch (error) {
-    res.status(400).json({error: error.message});
+    res.status(400).json({ error: error.message });
   }
 };
 
