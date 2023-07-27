@@ -56,7 +56,7 @@ const updateOneStoredItem = async (req, res) => {
     }
     storedItem.amount = amount;
     const savedItem = await storedItem.save();
-    res.status(202).json({storeditem: savedItem});
+    res.status(200).json({storeditem: savedItem});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

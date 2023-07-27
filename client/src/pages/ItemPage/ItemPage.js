@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ItemPage.css';
 import ItemPageItem from '../../components/ItemPageItem';
+import { fetchGetOneBook } from '../../controllers/fetchBooksController';
 
 const ItemPage = () => {
   const path = window.location.pathname;
@@ -9,8 +10,7 @@ const ItemPage = () => {
   const [book, setBook] = useState([]);
 
   useEffect(() => {
-    fetch(`/api/books/${id}`)
-      .then((res) => res.json())
+    fetchGetOneBook(id)
       .then((data) => {
         setBook(data.book);
         console.log(data);
@@ -35,17 +35,17 @@ const ItemPage = () => {
     }
   }
 
-  function addToCart(book) {
+  function addToCart(bookData) {
     const storedCart = JSON.parse(localStorage.getItem('cart'));
-    const foundItem = storedCart.find((item) => item.id === book._id);
+    const foundItem = storedCart.find((item) => item.id === bookData._id);
 
     if (foundItem) {
       foundItem.amount++;
     } else {
       storedCart.push({
-        id: book._id,
-        title: book.title,
-        price: book.price,
+        id: bookData._id,
+        title: bookData.title,
+        price: bookData.price,
         amount: 1,
       });
     }

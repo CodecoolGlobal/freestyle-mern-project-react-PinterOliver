@@ -1,24 +1,23 @@
-import React, { useState } from "react";
-import "./PasswordResetPage.css";
+import React, { useState } from 'react';
+import './PasswordResetPage.css';
+import {
+  fetchGetOneUserByEmail,
+  fetchPutOneUserSecurity,
+} from '../../controllers/fetchUsersController';
 
 function PasswordResetPage() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [showError, setShowError] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
   const handleSubmit = (event) => {
-    let status = 0;
     event.preventDefault();
     setShowError(false);
     setShowMessage(false);
-    fetch(`/api/userid/${email}`)
-      .then((response) => {
-        status = response.status;
-        return response.json();
-      })
-      .then((res) =>
-        status === 200
-          ? (fetch(`/api/user/reset/${res.id}`, { method: 'PUT' }),
+    fetchGetOneUserByEmail(email)
+      .then((response) =>
+        response.status === 200
+          ? (fetchPutOneUserSecurity(response.id),
           setShowMessage(true))
           : setShowError(true),
       );
@@ -27,7 +26,7 @@ function PasswordResetPage() {
   return (
     <div className="outerContainer">
       <div className="loginFormContainer">
-        <img className="logo" src={"logo.png"} alt="logo" />
+        <img className="logo" src={'logo.png'} alt="logo" />
         <hr />
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>

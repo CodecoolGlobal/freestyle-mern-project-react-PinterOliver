@@ -37,7 +37,7 @@ const deleteOneRole = async (req, res) => {
   try {
     const { id } = req.params;
     const role = await Role.findByIdAndDelete(id);
-    res.status(202).json({role: role});
+    res.status(200).json({role: role});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -50,7 +50,7 @@ const updateOneRole = async (req, res) => {
     const role = await Role.findByIdAndUpdate(id, {
       ...req.body,
     }, {returnDocument: 'after'});
-    res.status(202).json({role: role});
+    res.status(200).json({role: role});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
