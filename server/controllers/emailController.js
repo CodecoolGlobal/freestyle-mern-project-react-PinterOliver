@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const nodemailer = require('nodemailer');
 const User = require('../model/User');
 
@@ -10,6 +11,9 @@ const sendCreateUserEmail = async (req, res, next) => {
       auth: {
         user: 'valkyrie@danielsproject.hu',
         pass: 'Daniel343',
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
     const info = await transporter.sendMail({
@@ -28,7 +32,7 @@ const sendCreateUserEmail = async (req, res, next) => {
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
   next();
 };
@@ -73,7 +77,7 @@ const sendCompleteOrderEmail = async (req, res, next) => {
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
   next();
 };
@@ -106,7 +110,7 @@ const sendChangeOrderStateEmail = async (req, res, next) => {
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
   next();
 };
@@ -140,7 +144,7 @@ const sendPasswordResetEmail = async (req, res, next) => {
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
   next();
 };
