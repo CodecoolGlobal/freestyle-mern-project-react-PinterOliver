@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './PasswordResetPage.css';
+import {
+  fetchGetOneUserByEmail,
+  fetchPutOneUserSecurity,
+} from '../../controllers/fetchUsersController';
 
 function PasswordResetPage() {
   const [email, setEmail] = useState('');
@@ -7,18 +11,13 @@ function PasswordResetPage() {
   const [showMessage, setShowMessage] = useState(false);
 
   const handleSubmit = (event) => {
-    let status = 0;
     event.preventDefault();
     setShowError(false);
     setShowMessage(false);
-    fetch(`/api/userid/${email}`)
-      .then((response) => {
-        status = response.status;
-        return response.json();
-      })
-      .then((res) =>
-        status === 200
-          ? (fetch(`/api/user/reset/${res.id}`, { method: 'PUT' }),
+    fetchGetOneUserByEmail(email)
+      .then((response) =>
+        response.status === 200
+          ? (fetchPutOneUserSecurity(response.id),
           setShowMessage(true))
           : setShowError(true),
       );

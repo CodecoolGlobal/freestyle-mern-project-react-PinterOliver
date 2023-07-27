@@ -57,10 +57,26 @@ const fetchDeleteOneUserPassword = async (user) => {
   return await response.json();
 };
 
+const fetchGetOneUserByEmail = async (email) => {
+  const response = await fetch(`${API_URL}/email/${email}`);
+  const jsonData = await response.json();
+  jsonData.status = response.status;
+  return jsonData;
+};
+
+const fetchPutOneUserSecurity = async (id) => {
+  const response = await fetch(`${API_URL}/reset/${id}`, {
+    method: 'PUT',
+  });
+  return await response.json();
+};
+
 module.exports = {
   fetchGetUsers,
   fetchPostOneUser,
   fetchDeleteOneUser,
   fetchPutOneUserPassword,
   fetchDeleteOneUserPassword,
+  fetchGetOneUserByEmail,
+  fetchPutOneUserSecurity,
 };
