@@ -19,7 +19,8 @@
     "mongodb": "^5.6.0",
     "mongoose": "^7.3.1",
     "nodemailer": "^6.9.4",
-    "semver": "^7.5.3"
+    "semver": "^7.5.3",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "eslint": "^8.43.0",
