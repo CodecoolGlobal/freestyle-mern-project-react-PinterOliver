@@ -28,12 +28,12 @@ function Layout() {
     };
   }, [chatContent]);
 
-  const handleChatSend = async (message) => {
+  const handleChatSend = async (message, token) => {
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        token: localStorage.getItem('token'),
+        token: token,
       },
       body: JSON.stringify({ text: message }),
     });

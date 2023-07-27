@@ -18,7 +18,6 @@ import CartPage from './pages/CartPage';
 import AdminOrderList from './pages/AdminOrderList';
 import AdminOrderUpdater from './pages/AdminOrderUpdater';
 import Presentation from './pages/Presentation/Presentation';
-import AdminChatPage from './pages/AdminChatPage';
 
 const router = createBrowserRouter([
   {
@@ -64,10 +63,6 @@ const router = createBrowserRouter([
           {
             path: 'orders/update/:id',
             element: <AdminOrderUpdater />,
-          },
-          {
-            path: 'chat',
-            element: <AdminChatPage />,
           },
         ],
       },

@@ -29,11 +29,6 @@ function AdminPage() {
                 <NavbarButton text="Users" />
               </Link>
             </div>
-            <div>
-              <Link to="chat" className="adminSideButton">
-                <NavbarButton text="Chat" />
-              </Link>
-            </div>
           </div>
         </nav>
       </div>
