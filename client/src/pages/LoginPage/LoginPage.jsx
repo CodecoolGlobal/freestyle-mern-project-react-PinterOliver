@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import './LoginPage.css';
 import { fetchPostOneLogin, fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
 import {
@@ -41,6 +40,11 @@ function LoginPage() {
     }
   };
 
+  const handleGuestClick = () => {
+    localStorage.setItem('token', 'guest');
+    navigate('/books');
+  };
+
   return (
     <div className='outerContainer'>
       <div className="loginFormContainer">
@@ -78,9 +82,9 @@ function LoginPage() {
             <button className="button">Register</button>
           </a>
         </div>
-        <Link to='/books'>
-          <button className="button">Continue as a guest</button>
-        </Link>
+        <button className="button" onClick={handleGuestClick}>
+            Continue as a guest
+        </button>
       </div>
     </div>
   );

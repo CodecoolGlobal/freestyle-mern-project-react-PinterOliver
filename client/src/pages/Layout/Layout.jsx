@@ -2,37 +2,53 @@ import React, { useEffect, useState } from 'react';
 import './Layout.css';
 import { Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
-import { fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
+import { fetchGetOneLogin, fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
 import Loading from '../../components/Loading';
-import { fetch }
+
+const removeEverythingFromStorage = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('cartid');
+  localStorage.removeItem('cart');
+  localStorage.removeItem('canModifyItems');
+  localStorage.removeItem('canViewAllOrders');
+  localStorage.removeItem('canViewAllUsers');
+  localStorage.removeItem('canModifyRoles');
+  localStorage.removeItem('canAccessStorage');
+};
+
+const isNotGuest = () => {
+  return localStorage.getItem('token') && localStorage.getItem('token') !== 'guest';
+};
 
 function Layout() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   const handleLogout = async () => {
-    if (window.confirm('Are you sure you want to log out?')) {
+    if (!isNotGuest() || window.confirm('Are you sure you want to log out?')) {
       await fetchDeleteOneLogin();
-      localStorage.removeItem('token');
-      localStorage.removeItem('cartid');
-      localStorage.removeItem('cart');
-      localStorage.removeItem('canModifyItems');
-      localStorage.removeItem('canViewAllOrders');
-      localStorage.removeItem('canViewAllUsers');
-      localStorage.removeItem('canModifyRoles');
-      localStorage.removeItem('canAccessStorage');
-      navigate('/');
+      removeEverythingFromStorage();
+      navigate('/login');
     }
   };
 
-
   useEffect(() => {
     setLoading(true);
-
-    if (!localStorage.getItem('token')) {
-      navigate('/login');
-    }
+    fetchGetOneLogin()
+      .then((response) => {
+        const token = localStorage.getItem('token');
+        if (!token || (token !== 'guest' && !response?.success)) {
+          removeEverythingFromStorage();
+          setLoading(false);
+          navigate('/login');
+        }
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="Layout">
@@ -52,7 +68,10 @@ function Layout() {
         <a className='topButton' href='/presentation'>
           <NavbarButton text='Presentation'/>
         </a>
-        <NavbarButton onClick={() => handleLogout()} text='Logout'/>
+        <NavbarButton
+          onClick={() => handleLogout()}
+          text={isNotGuest() ? 'Logout' : 'Login'}
+        />
       </div>
       <div className="main-content">
         <Outlet />
