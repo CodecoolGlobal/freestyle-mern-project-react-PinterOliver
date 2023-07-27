@@ -120,7 +120,7 @@ function writeNewFile () {
   fs.writeFileSync('./populate/test.json', JSON.stringify(names, null, 2));
 }
 
-writeNewFile();
+/* writeNewFile(); */
 
 module.exports = {
   pick,
