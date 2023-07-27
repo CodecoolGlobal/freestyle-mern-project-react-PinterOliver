@@ -3,7 +3,7 @@ const ChatMessage = require('../model/ChatMessage.js');
 const getOwnMessages = async (req, res) => {
   try {
     const userId = req.user._id;
-    const limit = req.query.limit;
+    /* const limit = req.query.limit; */
     const message = await ChatMessage.find({ user: userId }).sort({ createdAt: 'desc' });
 
     res.status(200).json({ messages: message });

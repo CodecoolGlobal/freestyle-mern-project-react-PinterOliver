@@ -4,7 +4,6 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
 import ChatBox from '../../components/ChatBox/ChatBox';
 import { fetchGetOneLogin, fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
-import Loading from '../../components/Loading';
 
 const removeEverythingFromStorage = () => {
   localStorage.removeItem('cartid');
@@ -23,7 +22,6 @@ const isNotGuest = async () => {
 
 function Layout() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(true);
   const [chatContent, setChatContent] = useState([]);
   const webSocket = useRef(null);
@@ -44,9 +42,14 @@ function Layout() {
       console.log(message);
 
       if (message.type === 'clientIdRequest') {
-        webSocket.current.send(
-          JSON.stringify({ type: 'clientIdPost', content: localStorage.getItem('token') })
-        );
+        fetchGetOneLogin()
+          .then((response) => {
+            const userId = response.id;
+            webSocket.current.send(
+              //deleted: content: localstorage.getItem('token')
+              JSON.stringify({ type: 'clientIdPost', content: userId })
+            );
+          });
       }
       if (message.type === 'newMessage') {
         const nextChatContent = [message.content, ...chatContent];
@@ -55,12 +58,13 @@ function Layout() {
     };
   }, [chatContent]);
 
-  const handleChatSend = async (message, token) => {
+  //deleted token
+  const handleChatSend = async (message) => {
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        token: token,
+  //deleted token: token
       },
       body: JSON.stringify({ text: message }),
     });

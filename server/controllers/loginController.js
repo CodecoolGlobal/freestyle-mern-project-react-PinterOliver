@@ -66,6 +66,7 @@ const checkToken = (req, res) => {
       res.status(404).json({success: false, error: 'No such user'});
     }
     res.status(200).json({
+      id: user._id,
       success: true,
       canModifyItems: user.role.canModifyItems,
       canViewAllOrders: user.role.canViewAllOrders,
