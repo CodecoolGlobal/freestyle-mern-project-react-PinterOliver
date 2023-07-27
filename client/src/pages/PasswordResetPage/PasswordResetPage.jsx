@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import "./PasswordResetPage.css";
+import React, { useState } from 'react';
+import './PasswordResetPage.css';
 
 function PasswordResetPage() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [showError, setShowError] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
@@ -27,7 +27,7 @@ function PasswordResetPage() {
   return (
     <div className="outerContainer">
       <div className="loginFormContainer">
-        <img className="logo" src={"logo.png"} alt="logo" />
+        <img className="logo" src={'logo.png'} alt="logo" />
         <hr />
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>

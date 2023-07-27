@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import './LoginPage.css';
 import { fetchPostOneLogin, fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
 import {
@@ -9,8 +10,8 @@ import {
 import { fetchGetOrderItems } from '../../controllers/fetchOrderItemsController';
 
 function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -34,7 +35,7 @@ function LoginPage() {
       } else {
         console.log(resData);
       }
-      navigate("/");
+      navigate('/');
     } else {
       console.log(response.error);
     }
@@ -48,7 +49,7 @@ function LoginPage() {
   return (
     <div className="outerContainer">
       <div className="loginFormContainer">
-        <img className="logo" src={"logo.png"} alt="logo" />
+        <img className="logo" src={'logo.png'} alt="logo" />
         <hr />
         <form className="loginForm" onSubmit={handleSubmit}>
           <label>
@@ -107,7 +108,7 @@ async function loadExistingCart() {
   const cartItemsRes = await fetchGetOrderItems(cartOrderId);
   const items = cartItemsRes?.orderitems ?? [];
   localStorage.setItem(
-    "cart",
+    'cart',
     JSON.stringify(
       items.map((order) => {
         return {
@@ -116,8 +117,8 @@ async function loadExistingCart() {
           amount: order.amount,
           price: order.price,
         };
-      })
-    )
+      }),
+    ),
   );
 }
 
@@ -125,9 +126,9 @@ async function deleteCache() {
   if (localStorage.getItem('token')) {
     await fetchDeleteOneLogin();
   }
-  localStorage.removeItem("token");
-  localStorage.removeItem("cartid");
-  localStorage.removeItem("cart");
+  localStorage.removeItem('token');
+  localStorage.removeItem('cartid');
+  localStorage.removeItem('cart');
 }
 
 export default LoginPage;
