@@ -8,7 +8,7 @@ const { generateNumber } = require('../populate/generateParts');
 // GET all users
 const getAllUsers = async (req, res) => {
   try {
-    const { roles } = req.query;
+    const { roles, onlyActive } = req.query;
     let search = req.search;
     if (roles) {
       const roleArray = roles.split(',');
@@ -16,13 +16,15 @@ const getAllUsers = async (req, res) => {
         roleArray.map(async (role) => {
           const finalRole = await Role.findOne({ name: role });
           return finalRole._id;
-        }),
+        })
       );
       search = arraySearch(search, 'role', roleData);
     }
-    const users = await User.find(search)
-      .sort({ userName: -1 })
-      .populate('role');
+    if (onlyActive) {
+      search.token = {};
+      search.token = { $not: { $size: 0 } };
+    }
+    const users = await User.find(search).sort({ userName: -1 }).populate('role');
     res.status(200).json({ users: users });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -52,10 +54,7 @@ const getOneUserbyEmail = async (req, res) => {
 //set security code for one user by their ID
 const resetSecurityCode = async (req, res, next) => {
   try {
-    await User.findOneAndUpdate(
-      { _id: req.params.id},
-      { security: generateNumber(10000, 99999) },
-    );
+    await User.findOneAndUpdate({ _id: req.params.id }, { security: generateNumber(10000, 99999) });
     res.status(200).json({ message: 'security number reset' });
     next();
   } catch (error) {
@@ -71,12 +70,9 @@ const changePassword = async (req, res, next) => {
     const hashedPassword = bcrypt.hashSync(req.body._password, salt);
     const user = await User.findOneAndUpdate(
       {
-        $and: [
-          { _id: req.body._id },
-          { security: req.body._security },
-        ],
+        $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
-      { password: hashedPassword },
+      { password: hashedPassword }
     );
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -93,12 +89,9 @@ const deleteSecurityNumber = async (req, res) => {
   try {
     await User.findOneAndUpdate(
       {
-        $and: [
-          { _id: req.body._id },
-          { security: req.body._security },
-        ],
+        $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
-      { $unset: { security: 1 } },
+      { $unset: { security: 1 } }
     );
     res.status(200).json({ message: 'Security number deleted' });
   } catch (error) {
@@ -140,9 +133,13 @@ const deleteOneUser = async (req, res) => {
 const updateOneUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findByIdAndUpdate(id, {
-      ...req.body,
-    }, { returnDocument: 'after' });
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        ...req.body,
+      },
+      { returnDocument: 'after' }
+    );
     res.status(200).json({ user: user });
   } catch (error) {
     res.status(400).json({ error: error.message });
