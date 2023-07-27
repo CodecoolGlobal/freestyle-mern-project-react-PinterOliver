@@ -34,14 +34,18 @@ function ChatBox({ onSend, content }) {
         <button onClick={() => onSend(inputValue, localStorage.getItem('token'))}>Send</button>
       </div>
 
-      <select onChange={(e) => setSelectedUserToken(e.target.value)} name="user" id="user-select">
-        <option value="">Please select a user!</option>
-        {activeUserList?.map((user) => (
-          <option key={user._id} value={user.token[0]}>
-            {user.userName}
-          </option>
-        ))}
-      </select>
+      {localStorage.getItem('canViewAllUsers') === 'true' ? (
+        <select onChange={(e) => setSelectedUserToken(e.target.value)} name="user" id="user-select">
+          <option value="">Please select a user!</option>
+          {activeUserList?.map((user) => (
+            <option key={user._id} value={user.token[0]}>
+              {user.userName}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
