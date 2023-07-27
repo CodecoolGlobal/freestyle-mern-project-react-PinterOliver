@@ -20,7 +20,7 @@
   left: 18%;
   width: 82%;
   box-sizing: border-box;
-  overflow: scroll;
+  overflow: hidden;
   padding: 10px;
 }
 

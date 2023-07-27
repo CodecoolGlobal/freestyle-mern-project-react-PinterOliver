@@ -6,7 +6,7 @@ function CartTable({ cart, onUpdate }) {
     <table style={{ height: 'fit-content' }}>
       <thead>
         <tr>
-          <th className="titleCol">Title</th>
+          <th className="titleColumn">Title</th>
           <th className="amtCol">Amount</th>
           <th className="priceCol">Unit Price</th>
           <th className="totPriceCol">Total Price</th>
@@ -15,7 +15,7 @@ function CartTable({ cart, onUpdate }) {
       <tbody>
         {cart.map((book) => (
           <tr key={book.id}>
-            <td className="titleCol">{book.title}</td>
+            <td className="titleColumn">{book.title}</td>
             <td className="amtCol">
               <input
                 type="number"
@@ -27,18 +27,18 @@ function CartTable({ cart, onUpdate }) {
                 }}
               />
             </td>
-            <td className="priceCol">{book.price.toLocaleString('hu')}</td>
-            <td className="totPriceCol">{(book.price * book.amount).toLocaleString('hu')}</td>
+            <td className="priceCol">{book.price.toLocaleString('hu')} HUF</td>
+            <td className="totPriceCol">{(book.price * book.amount).toLocaleString('hu')} HUF</td>
           </tr>
         ))}
       </tbody>
       <tfoot>
         <tr>
           <th>Summary</th>
-          <td className="amtCol">{cart.reduce((acc, cv) => (acc += Number(cv.amount)), 0)}</td>
-          <td className="priceCol">{cart.reduce((acc, cv) => (acc += Number(cv.price)), 0)}</td>
+          <td className="amtCol"></td>
+          <td className="priceCol"></td>
           <td className="totPriceCol">
-            {cart.reduce((acc, cv) => (acc += Number(cv.amount) * Number(cv.price)), 0)}
+            {cart.reduce((acc, cv) => (acc += Number(cv.amount) * Number(cv.price)), 0)} HUF
           </td>
         </tr>
       </tfoot>

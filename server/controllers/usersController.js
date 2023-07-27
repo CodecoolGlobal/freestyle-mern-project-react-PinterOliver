@@ -49,6 +49,16 @@ const getOneUserbyEmail = async (req, res) => {
   }
 };
 
+//GET one user by token
+const getOneUserByToken = async (req, res) => {
+  try {
+    const user = await User.findOne({ token: req.params.token });
+    res.status(200).json({ address: user.delivery });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 //set security code for one user by their ID
 const resetSecurityCode = async (req, res, next) => {
   try {
@@ -156,6 +166,7 @@ const updateOneUser = async (req, res) => {
 module.exports = {
   getAllUsers,
   getOneUser,
+  getOneUserByToken,
   addOneUser,
   deleteOneUser,
   updateOneUser,
