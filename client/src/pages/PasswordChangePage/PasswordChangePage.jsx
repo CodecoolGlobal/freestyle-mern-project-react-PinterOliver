@@ -22,6 +22,7 @@ function PasswordResetPage() {
     })
       .then((response) => {
         status = response.status;
+        deleteSecurityNumber();
         return response.json();
       })
       .then((res) =>
@@ -30,6 +31,14 @@ function PasswordResetPage() {
           : (setShowError(true), console.log(status)),
       );
   };
+
+  function deleteSecurityNumber(){
+    fetch(`/api/user/changepassword`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ _id: id, _security: security, _password: password }),
+    });
+  }
 
   return (
     <div className="outerContainer">

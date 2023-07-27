@@ -53,7 +53,7 @@ const getOneUserbyEmail = async (req, res) => {
 const resetSecurityCode = async (req, res, next) => {
   try {
     const user = await User.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: req.params.id},
       { security: generateNumber(10000, 99999) }
     );
     res.status(200).json({ message: "security number reset" });
@@ -64,7 +64,32 @@ const resetSecurityCode = async (req, res, next) => {
 };
 
 //set new password
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
+  try {
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(req.body._password, salt);
+    const user = await User.findOneAndUpdate(
+      {
+        $and: [
+          { _id: req.body._id },
+          { security: req.body._security }
+        ]
+      },
+      { password: hashedPassword }
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });;
+    }
+    res.status(200).json({ message: "Password successfully changed" });
+    next();
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+//Delete security number
+const deleteSecurityNumber = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       {
@@ -73,12 +98,9 @@ const changePassword = async (req, res) => {
           { security: req.body._security }
         ]
       },
-      { password: req.body._password }
+      { $unset: { security: 1 } } 
     );
-    if (!user) {
-      return res.status(404);
-    }
-    res.status(200).json({ message: "Password successfully changed" });
+    res.status(200).json({ message: "Security number deleted" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -140,4 +162,5 @@ module.exports = {
   getOneUserbyEmail,
   resetSecurityCode,
   changePassword,
+  deleteSecurityNumber,
 };
