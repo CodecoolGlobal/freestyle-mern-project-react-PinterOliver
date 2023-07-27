@@ -45,6 +45,10 @@ const {
   addOneUser,
   deleteOneUser,
   updateOneUser,
+  getOneUserbyEmail,
+  resetSecurityCode,
+  changePassword,
+  deleteSecurityNumber,
 } = require('../controllers/usersController');
 
 const {
@@ -54,6 +58,13 @@ const {
   deleteOneRole,
   updateOneRole,
 } = require('../controllers/rolesController');
+
+const {
+  sendCreateUserEmail,
+  sendChangeOrderStateEmail,
+  sendCompleteOrderEmail,
+  sendPasswordResetEmail,
+} = require('../controllers/emailController');
 
 const router = express.Router();
 
@@ -121,12 +132,22 @@ router.route('/orderitems/:id')
 
 router.route('/users')
   .get(userValidation, userAdminValidation, getAllUsers)
-  .post(userDataValidation, addOneUser);
+  .post(userDataValidation, sendCreateUserEmail, addOneUser);
 
 router.route('/users/:id')
   .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
   .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
+
+  router.route('/userid/:email')
+  .get(getOneUserbyEmail);
+
+  router.route('/user/reset/:id')
+  .put(resetSecurityCode, sendPasswordResetEmail);
+
+  router.route('/user/changepassword')
+  .put(changePassword)
+  .delete(deleteSecurityNumber);
 
 router.route('/roles')
   .get(userValidation, roleAdminValidation, getAllRoles)
