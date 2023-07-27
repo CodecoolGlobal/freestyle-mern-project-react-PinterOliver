@@ -53,7 +53,15 @@ const getOneUserbyEmail = async (req, res) => {
 const getOneUserByToken = async (req, res) => {
   try {
     const user = await User.findOne({ token: req.params.token });
-    res.status(200).json({ address: user.delivery });
+    res
+      .status(200)
+      .json({
+        address: user.delivery,
+        name: user.name,
+        email: user.email,
+        phone_number: user.telephone_number,
+        id: user._id,
+      });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -63,7 +71,7 @@ const getOneUserByToken = async (req, res) => {
 const resetSecurityCode = async (req, res, next) => {
   try {
     const user = await User.findOneAndUpdate(
-      { _id: req.params.id},
+      { _id: req.params.id },
       { security: generateNumber(10000, 99999) }
     );
     res.status(200).json({ message: "security number reset" });
@@ -81,15 +89,12 @@ const changePassword = async (req, res, next) => {
     const hashedPassword = bcrypt.hashSync(req.body._password, salt);
     const user = await User.findOneAndUpdate(
       {
-        $and: [
-          { _id: req.body._id },
-          { security: req.body._security }
-        ]
+        $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
       { password: hashedPassword }
     );
     if (!user) {
-      return res.status(404).json({ message: "User not found" });;
+      return res.status(404).json({ message: "User not found" });
     }
     res.status(200).json({ message: "Password successfully changed" });
     next();
@@ -103,12 +108,9 @@ const deleteSecurityNumber = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       {
-        $and: [
-          { _id: req.body._id },
-          { security: req.body._security }
-        ]
+        $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
-      { $unset: { security: 1 } } 
+      { $unset: { security: 1 } }
     );
     res.status(200).json({ message: "Security number deleted" });
   } catch (error) {
