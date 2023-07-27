@@ -10,23 +10,28 @@ function AdminPage() {
         <nav className="side-menu">
           <div>
             <div>
-              <Link to="books" className='adminSideButton'>
-                <NavbarButton text='Books'/>
+              <Link to="books" className="adminSideButton">
+                <NavbarButton text="Books" />
               </Link>
             </div>
             <div>
-              <a href="/admin/books/create" className='adminSideButton'>
-                <NavbarButton text='Add a book'/>
+              <a href="/admin/books/create" className="adminSideButton">
+                <NavbarButton text="Add a book" />
               </a>
             </div>
             <div>
-              <Link to="orders" className='adminSideButton'>
-                <NavbarButton text='Orders'/>
+              <Link to="orders" className="adminSideButton">
+                <NavbarButton text="Orders" />
               </Link>
             </div>
             <div>
-              <Link to="users" className='adminSideButton'>
-                <NavbarButton text='Users'/>
+              <Link to="users" className="adminSideButton">
+                <NavbarButton text="Users" />
+              </Link>
+            </div>
+            <div>
+              <Link to="chat" className="adminSideButton">
+                <NavbarButton text="Chat" />
               </Link>
             </div>
           </div>
