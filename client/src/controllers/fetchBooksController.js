@@ -1,5 +1,5 @@
 const API_URL = '/api/books';
-const TOKEN = localStorage.getItem('token');
+const TOKEN = () => localStorage.getItem('token');
 
 const fetchGetBooks = async (maxPrice, sort, page, perpage) => {
   const response =
@@ -17,7 +17,7 @@ const fetchPostOneBook = async (book) => {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
-      token: TOKEN,
+      token: TOKEN(),
     },
     body: JSON.stringify(book),
   });
@@ -29,7 +29,7 @@ const fetchPatchOneBook = async (id, book) => {
     method: 'PATCH',
     headers: {
       'Content-type': 'application/json',
-      token: TOKEN,
+      token: TOKEN(),
     },
     body: JSON.stringify(book),
   });
@@ -40,7 +40,7 @@ const fetchDeleteOneBook = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: 'DELETE',
     headers: {
-      token: TOKEN,
+      token: TOKEN(),
     },
   });
   return response.json();
