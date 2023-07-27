@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './AdminPage.css';
 import { Outlet, Link } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
+import { fetchGetOneLogin } from '../../controllers/fetchLoginController';
+
+const isNotGuest = async () => {
+  const response = await fetchGetOneLogin();
+  return response.success;
+};
 
 function AdminPage() {
+  const [isGuest, setIsGuest] = useState(true);
+
+  useEffect(() => {
+    isNotGuest()
+      .then((response) => {
+        if (response) setIsGuest(false);
+        else setIsGuest(true);
+      });
+  }, []);
+
   return (
     <>
       <div className="sidebarContainer">
@@ -25,14 +41,14 @@ function AdminPage() {
               ) : ''}
             </div>
             <div>
-              {localStorage.getItem('token') !== 'guest' ? (
+              {!isGuest ? (
                 <Link to="orders" className='adminSideButton'>
                   <NavbarButton text='Orders'/>
                 </Link>
               ) : ''}
             </div>
             <div>
-              {localStorage.getItem('token') !== 'guest' ? (
+              {!isGuest ? (
                 <Link to="users" className='adminSideButton'>
                   <NavbarButton text='Users'/>
                 </Link>

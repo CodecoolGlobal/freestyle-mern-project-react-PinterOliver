@@ -4,10 +4,8 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import NavbarButton from '../../components/NavbarButton/NavbarButton';
 import ChatBox from '../../components/ChatBox/ChatBox';
 import { fetchGetOneLogin, fetchDeleteOneLogin } from '../../controllers/fetchLoginController';
-import Loading from '../../components/Loading';
 
 const removeEverythingFromStorage = () => {
-  localStorage.removeItem('token');
   localStorage.removeItem('cartid');
   localStorage.removeItem('cart');
   localStorage.removeItem('canModifyItems');
@@ -17,15 +15,24 @@ const removeEverythingFromStorage = () => {
   localStorage.removeItem('canAccessStorage');
 };
 
-const isNotGuest = () => {
-  return localStorage.getItem('token') && localStorage.getItem('token') !== 'guest';
+const isNotGuest = async () => {
+  const response = await fetchGetOneLogin();
+  return response.success;
 };
 
 function Layout() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(true);
   const [chatContent, setChatContent] = useState([]);
   const webSocket = useRef(null);
+
+  useEffect(() => {
+    isNotGuest()
+      .then((response) => {
+        if (response) setIsGuest(false);
+        else setIsGuest(true);
+      });
+  }, []);
 
   useEffect(() => {
     webSocket.current = webSocket.current ?? new WebSocket('ws://localhost:3000/chat');
@@ -35,9 +42,14 @@ function Layout() {
       console.log(message);
 
       if (message.type === 'clientIdRequest') {
-        webSocket.current.send(
-          JSON.stringify({ type: 'clientIdPost', content: localStorage.getItem('token') })
-        );
+        fetchGetOneLogin()
+          .then((response) => {
+            const userId = response.id;
+            webSocket.current.send(
+              //deleted: content: localstorage.getItem('token')
+              JSON.stringify({ type: 'clientIdPost', content: userId }),
+            );
+          });
       }
       if (message.type === 'newMessage') {
         const nextChatContent = [message.content, ...chatContent];
@@ -46,44 +58,47 @@ function Layout() {
     };
   }, [chatContent]);
 
-  const handleChatSend = async (message, token) => {
+  //deleted token
+  const handleChatSend = async (message) => {
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        token: token,
+        //deleted token: token
       },
       body: JSON.stringify({ text: message }),
     });
     const newMessage = (await response.json()).message;
 
-    webSocket.current.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
+    //webSocket.current.send(JSON.stringify({ type: 'newMessage', content: newMessage }));
+
+    const waitForConnection = (callback, interval) => {
+      if (webSocket.readyState === 1) {
+        callback();
+      } else {
+        setTimeout(() => {
+          waitForConnection(callback, interval);
+        }, interval);
+      }
+    };
+
+    const send = (messageToSend) => {
+      waitForConnection( () => {
+        webSocket.current.send(messageToSend);
+      }, 1000);
+    };
+
+    send(JSON.stringify({ type: 'newMessage', content: newMessage }));
+
   };
 
   const handleLogout = async () => {
-    if (!isNotGuest() || window.confirm('Are you sure you want to log out?')) {
+    if (isGuest || window.confirm('Are you sure you want to log out?')) {
       await fetchDeleteOneLogin();
       removeEverythingFromStorage();
       navigate('/login');
     }
   };
-
-  useEffect(() => {
-    setLoading(true);
-    fetchGetOneLogin().then((response) => {
-      const token = localStorage.getItem('token');
-      if (!token || (token !== 'guest' && !response?.success)) {
-        removeEverythingFromStorage();
-        setLoading(false);
-        navigate('/login');
-      }
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div className="Layout">
@@ -107,7 +122,10 @@ function Layout() {
           {' '}
           <NavbarButton text="Presentation" />
         </Link>
-        <NavbarButton onClick={() => handleLogout()} text={isNotGuest() ? 'Logout' : 'Login'} />
+        <NavbarButton
+          onClick={() => handleLogout()}
+          text={isGuest ? 'Login' : 'Logout'}
+        />
       </div>
       <div className="main-content">
         <Outlet />

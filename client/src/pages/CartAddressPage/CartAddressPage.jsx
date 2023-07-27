@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import "./CartAddressPage.css";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import './CartAddressPage.css';
+import { Link } from 'react-router-dom';
 
 function CartAddressPage() {
   const [address, setAddress] = useState();
@@ -9,8 +9,7 @@ function CartAddressPage() {
   const [email, setEmail] = useState();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch(`/api/user/token/${token}`)
+    fetch('/api/users/token')
       .then((res) => res.json())
       .then(
         (res) => (

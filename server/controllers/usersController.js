@@ -16,7 +16,7 @@ const getAllUsers = async (req, res) => {
         roleArray.map(async (role) => {
           const finalRole = await Role.findOne({ name: role });
           return finalRole._id;
-        })
+        }),
       );
       search = arraySearch(search, 'role', roleData);
     }
@@ -54,13 +54,15 @@ const getOneUserbyEmail = async (req, res) => {
 //GET one user by token
 const getOneUserByToken = async (req, res) => {
   try {
-    const user = await User.findOne({ token: req.params.token });
+    const token = req.cookies.token;
+    const user = await User.findOne({ token });
     res
       .status(200)
       .json({
         address: user.delivery,
         name: user.name,
         email: user.email,
+        // eslint-disable-next-line camelcase
         phone_number: user.telephone_number,
         id: user._id,
       });
@@ -72,11 +74,11 @@ const getOneUserByToken = async (req, res) => {
 //set security code for one user by their ID
 const resetSecurityCode = async (req, res, next) => {
   try {
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: req.params.id },
-      { security: generateNumber(10000, 99999) }
+      { security: generateNumber(10000, 99999) },
     );
-    res.status(200).json({ message: "security number reset" });
+    res.status(200).json({ message: 'security number reset' });
     next();
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -93,10 +95,10 @@ const changePassword = async (req, res, next) => {
       {
         $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
-      { password: hashedPassword }
+      { password: hashedPassword },
     );
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
     res.status(200).json({ message: 'Password successfully changed' });
     next();
@@ -112,7 +114,7 @@ const deleteSecurityNumber = async (req, res) => {
       {
         $and: [{ _id: req.body._id }, { security: req.body._security }],
       },
-      { $unset: { security: 1 } }
+      { $unset: { security: 1 } },
     );
     res.status(200).json({ message: 'Security number deleted' });
   } catch (error) {
@@ -159,7 +161,7 @@ const updateOneUser = async (req, res) => {
       {
         ...req.body,
       },
-      { returnDocument: 'after' }
+      { returnDocument: 'after' },
     );
     res.status(200).json({ user: user });
   } catch (error) {

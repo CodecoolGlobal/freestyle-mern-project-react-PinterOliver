@@ -19,10 +19,10 @@ const idValidation = (req, res, next) => {
 };
 
 const userValidation = async (req, res, next) => {
-  const token = req.headers.token;
+  const token = req.cookies.token;
   const user = await User.findOne({token: token}).populate('role');
   if (!user) {
-    return res.status(404).json({error: 'No such user'});
+    return res.status(404).json({success: false, error: 'No such user'});
   }
   req.user = user;
   next();

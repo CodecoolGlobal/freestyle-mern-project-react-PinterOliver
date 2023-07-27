@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import "./CartCompletePage.css";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import './CartCompletePage.css';
+import { Link } from 'react-router-dom';
 
 function CartCompletePage() {
-  const cartId = localStorage.getItem("cartid");
-  const cart = JSON.parse(localStorage.getItem("cart"));
-  const token = localStorage.getItem("token");
+  const cartId = localStorage.getItem('cartid');
+  const cart = JSON.parse(localStorage.getItem('cart'));
   const [address, setAddress] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [usersName, setUsersName] = useState();
@@ -13,18 +12,16 @@ function CartCompletePage() {
 
   function handleSendOrder() {
     fetch(`/api/orderheaders/${cartId}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        token: token,
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ newstate: "placed" }),
+      body: JSON.stringify({ newstate: 'placed' }),
     });
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch(`/api/user/token/${token}`)
+    fetch('/api/users/token')
       .then((res) => res.json())
       .then(
         (res) => (
@@ -49,10 +46,10 @@ function CartCompletePage() {
                 <td className='titleColumn'>{book.title}</td>
                 <td className='amtCol'>{book.amount}</td>
                 <td className='priceCol'>
-                  {book.price.toLocaleString("hu")} HUF
+                  {book.price.toLocaleString('hu')} HUF
                 </td>
                 <td className='totPriceCol'>
-                  {(book.price * book.amount).toLocaleString("hu")} HUF
+                  {(book.price * book.amount).toLocaleString('hu')} HUF
                 </td>
               </tr>
             ))}
@@ -65,8 +62,8 @@ function CartCompletePage() {
               <td className='totPriceCol'>
                 {cart.reduce(
                   (acc, cv) => (acc += Number(cv.amount) * Number(cv.price)),
-                  0
-                )}{" "}
+                  0,
+                )}{' '}
                 HUF
               </td>
             </tr>
