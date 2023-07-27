@@ -1,9 +1,9 @@
 /* eslint-disable consistent-return */
-const User = require("../model/User");
-const Role = require("../model/Role");
-const { arraySearch } = require("./filterAndSort");
-const bcrypt = require("bcrypt");
-const { generateNumber } = require("../populate/generateParts");
+const User = require('../model/User');
+const Role = require('../model/Role');
+const { arraySearch } = require('./filterAndSort');
+const bcrypt = require('bcrypt');
+const { generateNumber } = require('../populate/generateParts');
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -11,18 +11,18 @@ const getAllUsers = async (req, res) => {
     const { roles } = req.query;
     let search = req.search;
     if (roles) {
-      const roleArray = roles.split(",");
+      const roleArray = roles.split(',');
       const roleData = await Promise.all(
         roleArray.map(async (role) => {
           const finalRole = await Role.findOne({ name: role });
           return finalRole._id;
-        })
+        }),
       );
-      search = arraySearch(search, "role", roleData);
+      search = arraySearch(search, 'role', roleData);
     }
     const users = await User.find(search)
       .sort({ userName: -1 })
-      .populate("role");
+      .populate('role');
     res.status(200).json({ users: users });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -52,11 +52,11 @@ const getOneUserbyEmail = async (req, res) => {
 //set security code for one user by their ID
 const resetSecurityCode = async (req, res, next) => {
   try {
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: req.params.id},
-      { security: generateNumber(10000, 99999) }
+      { security: generateNumber(10000, 99999) },
     );
-    res.status(200).json({ message: "security number reset" });
+    res.status(200).json({ message: 'security number reset' });
     next();
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -73,15 +73,15 @@ const changePassword = async (req, res, next) => {
       {
         $and: [
           { _id: req.body._id },
-          { security: req.body._security }
-        ]
+          { security: req.body._security },
+        ],
       },
-      { password: hashedPassword }
+      { password: hashedPassword },
     );
     if (!user) {
-      return res.status(404).json({ message: "User not found" });;
+      return res.status(404).json({ message: 'User not found' });
     }
-    res.status(200).json({ message: "Password successfully changed" });
+    res.status(200).json({ message: 'Password successfully changed' });
     next();
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -91,16 +91,16 @@ const changePassword = async (req, res, next) => {
 //Delete security number
 const deleteSecurityNumber = async (req, res) => {
   try {
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       {
         $and: [
           { _id: req.body._id },
-          { security: req.body._security }
-        ]
+          { security: req.body._security },
+        ],
       },
-      { $unset: { security: 1 } } 
+      { $unset: { security: 1 } },
     );
-    res.status(200).json({ message: "Security number deleted" });
+    res.status(200).json({ message: 'Security number deleted' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -111,7 +111,7 @@ const addOneUser = async (req, res) => {
   try {
     const user = req.body;
     if (!user.role) {
-      const role = await Role.findOne({ name: "User" });
+      const role = await Role.findOne({ name: 'User' });
       user.role = role._id;
     }
     const saltRounds = 10;
@@ -130,7 +130,7 @@ const deleteOneUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByIdAndDelete(id);
-    res.status(202).json({ user: user });
+    res.status(200).json({ user: user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -140,14 +140,10 @@ const deleteOneUser = async (req, res) => {
 const updateOneUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findByIdAndUpdate(
-      id,
-      {
-        ...req.body,
-      },
-      { returnDocument: "after" }
-    );
-    res.status(202).json({ user: user });
+    const user = await User.findByIdAndUpdate(id, {
+      ...req.body,
+    }, { returnDocument: 'after' });
+    res.status(200).json({ user: user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

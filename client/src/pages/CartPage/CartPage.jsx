@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import CartTable from '../../components/CartTable';
 import './CartPage.css';
+import {
+  fetchPostOneOrderItem,
+  fetchPatchOneOrderItem,
+} from '../../controllers/fetchOrderItemsController';
 
 function CartPage() {
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')));
@@ -8,41 +12,21 @@ function CartPage() {
   const handleCartUpdate = async (newCart) => {
     setCart(structuredClone(newCart));
     const cartid = localStorage.getItem('cartid');
-    const token = localStorage.getItem('token');
     localStorage.setItem('cart', JSON.stringify(newCart));
     const jsonItems = await Promise.all(
       newCart.map(async (item) => {
-        const smallData = await fetch(`/api/orderitems/orderheaders/${cartid}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            token: token,
-          },
-          body: JSON.stringify({
-            bookid: item.id,
-            amount: Number(item.amount),
-          }),
-        });
-        const smallJSON = await smallData.json();
-        if (smallData.status !== 201) {
+        const smallJSON = await fetchPostOneOrderItem(cartid, item);
+        if (smallJSON.status !== 201) {
           if (smallJSON.rightMethod) {
-            const otherData = await fetch(`/api/orderitems/${smallJSON.orderItem._id}`, {
-              method: smallJSON.rightMethod,
-              headers: {
-                'Content-Type': 'application/json',
-                token: token,
-              },
-              body: JSON.stringify({
-                bookid: item.id,
-                amount: Number(item.amount),
-              }),
-            });
-            const otherJSON = await otherData.json();
-            smallJSON.plus = otherJSON;
+            switch (smallJSON.rightMethod) {
+            case 'PATCH':
+              smallJSON.plus = await fetchPatchOneOrderItem(smallJSON.orderItem._id, item);
+              break;
+            }
           } else console.log(smallJSON.error);
         }
         return smallJSON;
-      })
+      }),
     );
     console.log(jsonItems);
   };

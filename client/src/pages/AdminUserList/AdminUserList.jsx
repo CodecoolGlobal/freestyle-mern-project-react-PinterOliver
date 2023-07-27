@@ -2,29 +2,25 @@ import React, { useEffect, useState } from 'react';
 import './AdminUserList.css';
 import Loading from '../../components/Loading';
 import UsersTable from '../../components/UsersTable';
+import { fetchGetUsers, fetchDeleteOneUser } from '../../controllers/fetchUsersController';
 
 function AdminUserList() {
   const [loading, setLoading] = useState(true);
   const [userList, setUserList] = useState([]);
 
+  const fetchUsers = async () => {
+    const response = await fetchGetUsers();
+    setUserList(response.users ?? []);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch('/api/users', {headers: {
-        token: localStorage.getItem('token'),
-      }});
-      const jsonData = await response.json();
-      console.log(jsonData);
-      setUserList(jsonData.users ?? []);
-      setLoading(false);
-    };
     fetchUsers();
   }, []);
 
   const handleDelete = async (id) => {
-    const response = await fetch(`/api/users/${id}`, {
-      method: 'DELETE',
-    });
-    console.log(await response.json());
+    const response = await fetchDeleteOneUser(id);
+    console.log(response);
     setUserList(userList.filter((user) => user._id !== id));
   };
 

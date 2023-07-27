@@ -1,49 +1,44 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import "./PasswordChangePage.css";
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import './PasswordChangePage.css';
+import {
+  fetchPutOneUserPassword,
+  fetchDeleteOneUserPassword,
+} from '../../controllers/fetchUsersController';
 
 function PasswordResetPage() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showError, setShowError] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [message, setMessage] = useState();
   const { id, security } = useParams();
 
   const handleSubmit = (event) => {
-    let status = 0;
     event.preventDefault();
     setShowError(false);
     setShowMessage(false);
-    fetch(`/api/user/changepassword`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ _id: id, _security: security, _password: password }),
-    })
+    const userData = {
+      _id: id,
+      _security: security,
+      _password: password,
+    };
+    fetchPutOneUserPassword(userData)
       .then((response) => {
-        status = response.status;
-        deleteSecurityNumber();
-        return response.json();
-      })
-      .then((res) =>
-        status === 200
-          ? (setMessage(res.message), setShowMessage(true))
-          : (setShowError(true), console.log(status)),
-      );
+        fetchDeleteOneUserPassword(userData);
+        if (response.status === 200) {
+          setMessage(response.message);
+          setShowMessage(true);
+        } else {
+          setShowError(true);
+        }
+      });
   };
-
-  function deleteSecurityNumber(){
-    fetch(`/api/user/changepassword`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ _id: id, _security: security, _password: password }),
-    });
-  }
 
   return (
     <div className="outerContainer">
       <div className="loginFormContainer">
-        <img className="logo" src={"../../../logo.png"} alt="logo" />
+        <img className="logo" src={'../../../logo.png'} alt="logo" />
         <hr />
         <form className="loginForm" onSubmit={handleSubmit}>
           <label htmlFor="password">
@@ -55,6 +50,7 @@ function PasswordResetPage() {
               className="formInput"
               type="password"
               value={password}
+              // eslint-disable-next-line max-len
               pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!\@\#\$\%\^\&\*\(\)])[A-Za-z\d\!\@\#\$\%\^\&\*\(\)]{8,}'
               // eslint-disable-next-line max-len
               title='Minimum 8 characters, at least 1 lowercase letter, uppercase letter, number, special character'

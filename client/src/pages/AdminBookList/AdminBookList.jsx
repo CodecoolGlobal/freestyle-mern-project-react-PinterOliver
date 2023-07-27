@@ -2,29 +2,29 @@ import React, { useEffect, useState } from 'react';
 import './AdminBookList.css';
 import BooksTable from '../../components/BooksTable';
 import Loading from '../../components/Loading';
+import { fetchGetBooks, fetchDeleteOneBook } from '../../controllers/fetchBooksController';
+import { useNavigate } from 'react-router-dom';
 
 function AdminBookList() {
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
   const [bookList, setBookList] = useState([]);
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      const response = await fetch('/api/books');
-      const jsonData = await response.json();
-      setBookList(jsonData.books);
-      setLoading(false);
-    };
-    fetchBooks();
+    if (!localStorage.getItem('canModifyItems') && !localStorage.getItem('canAccessStorage')) {
+      navigate('/admin');
+    }
+    fetchGetBooks()
+      .then((jsonData) => {
+        setBookList(jsonData.books);
+        setLoading(false);
+      });
   }, []);
 
   const handleDelete = async (id) => {
-    const response = await fetch(`/api/books/${id}`, {
-      method: 'DELETE',
-      headers: {
-        token: localStorage.getItem('token'),
-      },
-    });
-    console.log(await response.json());
+    const response = await fetchDeleteOneBook(id);
+    console.log(response);
     setBookList(bookList.filter((book) => book._id !== id));
   };
 
