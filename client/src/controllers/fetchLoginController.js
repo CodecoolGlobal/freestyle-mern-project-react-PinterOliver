@@ -1,12 +1,7 @@
 const API_URL = '/api/login';
-const TOKEN = () => localStorage.getItem('token');
 
 const fetchGetOneLogin = async () => {
-  const response = await fetch(API_URL, {
-    headers: {
-      token: TOKEN(),
-    },
-  });
+  const response = await fetch(API_URL);
   return await response.json();
 };
 
@@ -24,9 +19,6 @@ const fetchPostOneLogin = async (username, password) => {
 const fetchDeleteOneLogin = async () => {
   const response = await fetch(API_URL, {
     method: 'DELETE',
-    headers: {
-      token: TOKEN(),
-    },
   });
   return await response.json();
 };
