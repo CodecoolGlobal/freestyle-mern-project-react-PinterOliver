@@ -29,7 +29,7 @@ const BookItem = ({ book }) => {
         headers: { token: token },
       });
       const jsonHeader = await resHeader.json();
-      if (jsonHeader && jsonHeader.orderheader._id) {
+      if (jsonHeader && jsonHeader.orderheader?._id) {
         cartid = jsonHeader.orderheader._id;
         localStorage.setItem('cartid', cartid);
       }
