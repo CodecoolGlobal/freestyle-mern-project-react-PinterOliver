@@ -1,10 +1,10 @@
 const API_URL = '/api/orderheaders';
-const TOKEN = localStorage.getItem('token');
+const TOKEN = () => localStorage.getItem('token');
 
 const fetchGetOrderHeaders = async () => {
   const response = await fetch(API_URL, {
     headers: {
-      token: TOKEN,
+      token: TOKEN(),
     },
   });
   return await response.json();
@@ -13,7 +13,7 @@ const fetchGetOrderHeaders = async () => {
 const fetchGetOneOrderHeader = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     headers: {
-      token: TOKEN,
+      token: TOKEN(),
     },
   });
   return await response.json();
@@ -22,7 +22,7 @@ const fetchGetOneOrderHeader = async (id) => {
 const fetchGetCartOrderHeader = async () => {
   const response = await fetch(`${API_URL}/cart`, {
     headers: {
-      token: TOKEN,
+      token: TOKEN(),
     },
   });
   const jsonData = await response.json();
@@ -34,7 +34,7 @@ const fetchPostOneOrderHeader = async () => {
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
-      token: TOKEN,
+      token: TOKEN(),
     },
   });
   return await response.json();
@@ -45,7 +45,7 @@ const fetchPatchOneOrderHeader = async (id, newstate) => {
     method: 'PATCH',
     headers: {
       'Content-type': 'application/json',
-      token: TOKEN,
+      token: TOKEN(),
     },
     body: JSON.stringify({newstate}),
   });
@@ -56,7 +56,7 @@ const fetchDeleteOneOrderHeader = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: 'DELETE',
     headers: {
-      token: TOKEN,
+      token: TOKEN(),
     },
   });
   return await response.json();

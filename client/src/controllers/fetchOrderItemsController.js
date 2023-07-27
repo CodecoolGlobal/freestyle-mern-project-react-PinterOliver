@@ -1,10 +1,10 @@
 const API_URL = '/api/orderitems';
-const TOKEN = localStorage.getItem('token');
+const TOKEN = () => localStorage.getItem('token');
 
 const fetchGetOrderItems = async (orderHeaderId) => {
   const moreInfoResponse = await fetch(`${API_URL}/orderheaders/${orderHeaderId}`,
     {headers: {
-      token: TOKEN,
+      token: TOKEN(),
     }});
   return await moreInfoResponse.json();
 };
@@ -14,7 +14,7 @@ const fetchPostOneOrderItem = async (orderHeaderId, orderItem) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      token: TOKEN,
+      token: TOKEN(),
     },
     body: JSON.stringify({
       bookid: orderItem.id,
@@ -31,7 +31,7 @@ const fetchPatchOneOrderItem = async (orderItemId, orderItem) => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      token: TOKEN,
+      token: TOKEN(),
     },
     body: JSON.stringify({
       bookid: orderItem.id,
@@ -43,7 +43,7 @@ const fetchPatchOneOrderItem = async (orderItemId, orderItem) => {
 
 const fetchDeleteOneOrderItem = async (orderItemId) => {
   const response = await fetch(`${API_URL}/${orderItemId}`, {headers: {
-    token: TOKEN,
+    token: TOKEN(),
   },
   method: 'DELETE',
   });
