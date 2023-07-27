@@ -2,26 +2,35 @@ table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
+  color: rgba(132, 110, 59, 1);
 }
 
 thead,
 tfoot {
-  background-color: #e3c379;
-  font-size: 20px;
+  background-color: whitesmoke;
+  font-size: 15px;
   letter-spacing: 2px;
 }
 
+input{
+  width: 50%;
+}
+
 tbody tr:nth-child(even) {
-  background-color: antiquewhite;
+  background-color: rgba(196, 196, 196, 0.442);
+}
+tbody tr:nth-child(odd) {
+  background-color: rgba(196, 196, 196, 0.986);
 }
 
 td {
   letter-spacing: 1px;
   padding: 2px 10px;
+  font-size: 15px;
 }
 
-.titleCol {
-  width: 70%;
+.titleColumn {
+  width: 10%;
 }
 
 .amtCol {

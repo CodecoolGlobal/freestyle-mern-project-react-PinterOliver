@@ -51,11 +51,32 @@ const getOneUserbyEmail = async (req, res) => {
   }
 };
 
+//GET one user by token
+const getOneUserByToken = async (req, res) => {
+  try {
+    const user = await User.findOne({ token: req.params.token });
+    res
+      .status(200)
+      .json({
+        address: user.delivery,
+        name: user.name,
+        email: user.email,
+        phone_number: user.telephone_number,
+        id: user._id,
+      });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 //set security code for one user by their ID
 const resetSecurityCode = async (req, res, next) => {
   try {
-    await User.findOneAndUpdate({ _id: req.params.id }, { security: generateNumber(10000, 99999) });
-    res.status(200).json({ message: 'security number reset' });
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { security: generateNumber(10000, 99999) }
+    );
+    res.status(200).json({ message: "security number reset" });
     next();
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -75,7 +96,7 @@ const changePassword = async (req, res, next) => {
       { password: hashedPassword },
     );
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.status(200).json({ message: 'Password successfully changed' });
     next();
@@ -149,6 +170,7 @@ const updateOneUser = async (req, res) => {
 module.exports = {
   getAllUsers,
   getOneUser,
+  getOneUserByToken,
   addOneUser,
   deleteOneUser,
   updateOneUser,

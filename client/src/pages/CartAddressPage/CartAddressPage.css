@@ -9,7 +9,7 @@
   color: rgba(132, 110, 59, 1);
 }
 
-.containingContainer {
+.addressContainingContainer {
   padding: 2.5%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-.cartItemsContainer {
+.addressContainer {
   border-radius: 3px;
   box-shadow: #282c34 0px 0px 10px;
   display: flex;
@@ -32,16 +32,20 @@
   align-self: center;
   justify-content: center;
   justify-self: center;
-  width: 50vw;
+  width: 25vw;
   background-color: whitesmoke;
   color: rgb(0, 0, 0);
   font-size: 1.5rem;
   padding: 1rem;
 }
 
-.button {
+.addressContent{
+  color: rgba(132, 110, 59, 1);
+}
+
+.directionButton {
   background-color: transparent;
-  width: 10vw;
+  width: 7vw;
   color: rgba(132, 110, 59, 1);
   border: 2px solid #846e3b;
   border-radius: 5px;
@@ -55,7 +59,37 @@
   display: inline-block;
 }
 
-.button:hover {
+.directionContainer{
+  display: inline-block;
+}
+
+.buttonsContainer{
+  display: block;
+}
+
+.changeAddressButton {
+  background-color: transparent;
+  width: 15vw;
+  color: rgba(132, 110, 59, 1);
+  border: 2px solid #846e3b;
+  border-radius: 5px;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0.5rem;
+  margin: 1vh 1vh;
+  display: inline-block;
+}
+
+
+.directionButton:hover {
+
+  box-shadow: 0px 0px 10px rgb(0, 0, 0);
+}
+
+.changeAddressButton:hover {
 
   box-shadow: 0px 0px 10px rgb(0, 0, 0);
 }

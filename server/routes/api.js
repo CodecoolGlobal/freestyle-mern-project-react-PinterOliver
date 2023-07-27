@@ -45,6 +45,7 @@ const {
   resetSecurityCode,
   changePassword,
   deleteSecurityNumber,
+  getOneUserByToken,
 } = require('../controllers/usersController');
 
 const {
@@ -165,14 +166,11 @@ router.route('/users')
 router.route('/users/:id')
   .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
   .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
-  .patch(
-    idValidation,
-    userValidation,
-    userDataValidation,
-    userAdminValidation,
-    userIdValidation,
-    updateOneUser,
-  );
+  .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
+
+  router.route('/user/token/:token')
+  .get(getOneUserByToken);
+
 
 router.route('/users/email/:email')
   .get(getOneUserbyEmail);
