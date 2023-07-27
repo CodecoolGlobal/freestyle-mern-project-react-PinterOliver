@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './PasswordChangePage.css';
+import {
+  fetchPutOneUserPassword,
+  fetchDeleteOneUserPassword,
+} from '../../controllers/fetchUsersController';
 
 function PasswordResetPage() {
   const [password, setPassword] = useState('');
@@ -11,34 +15,25 @@ function PasswordResetPage() {
   const { id, security } = useParams();
 
   const handleSubmit = (event) => {
-    let status = 0;
     event.preventDefault();
     setShowError(false);
     setShowMessage(false);
-    fetch('/api/user/changepassword', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id: id, _security: security, _password: password }),
-    })
+    const userData = {
+      _id: id,
+      _security: security,
+      _password: password,
+    };
+    fetchPutOneUserPassword(userData)
       .then((response) => {
-        status = response.status;
-        deleteSecurityNumber();
-        return response.json();
-      })
-      .then((res) =>
-        status === 200
-          ? (setMessage(res.message), setShowMessage(true))
-          : (setShowError(true), console.log(status)),
-      );
+        fetchDeleteOneUserPassword(userData);
+        if (response.status === 200) {
+          setMessage(response.message);
+          setShowMessage(true);
+        } else {
+          setShowError(true);
+        }
+      });
   };
-
-  function deleteSecurityNumber(){
-    fetch('/api/user/changepassword', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id: id, _security: security, _password: password }),
-    });
-  }
 
   return (
     <div className="outerContainer">
