@@ -62,6 +62,8 @@ const {
   sendPasswordResetEmail,
 } = require('../controllers/emailController');
 
+const { getOwnMessages, postMessage } = require('../controllers/chatController');
+
 const router = express.Router();
 
 const {
