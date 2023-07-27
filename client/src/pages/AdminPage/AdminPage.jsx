@@ -10,11 +10,12 @@ function AdminPage() {
         <nav className="side-menu">
           <div>
             <div>
-              {localStorage.getItem('canModifyItems') ? (
-                <Link to="books" className='adminSideButton'>
-                  <NavbarButton text='Books'/>
-                </Link>
-              ) : ''}
+              {localStorage.getItem('canModifyItems') || localStorage.getItem('canAccessStorage') ?
+                (
+                  <Link to="books" className='adminSideButton'>
+                    <NavbarButton text='Books'/>
+                  </Link>
+                ) : ''}
             </div>
             <div>
               {localStorage.getItem('canModifyItems') ? (

@@ -11,6 +11,7 @@ function AdminBookUpdater() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem('canModifyItems')) navigate('/admin');
     setLoading(true);
     fetchGetOneBook()
       .then((response) => {
