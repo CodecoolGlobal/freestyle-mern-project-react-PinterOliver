@@ -25,7 +25,7 @@ function Layout() {
   const [isGuest, setIsGuest] = useState(true);
   const [chatContent, setChatContent] = useState([]);
   const webSocket = useRef(null);
-  
+
   useEffect(() => {
     isNotGuest()
       .then((response) => {
@@ -47,7 +47,7 @@ function Layout() {
             const userId = response.id;
             webSocket.current.send(
               //deleted: content: localstorage.getItem('token')
-              JSON.stringify({ type: 'clientIdPost', content: userId })
+              JSON.stringify({ type: 'clientIdPost', content: userId }),
             );
           });
       }
@@ -64,7 +64,7 @@ function Layout() {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-  //deleted token: token
+        //deleted token: token
       },
       body: JSON.stringify({ text: message }),
     });
