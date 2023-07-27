@@ -168,9 +168,8 @@ router.route('/users/:id')
   .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
 
-  router.route('/user/token/:token')
+router.route('/users/token')
   .get(getOneUserByToken);
-
 
 router.route('/users/email/:email')
   .get(getOneUserbyEmail);
