@@ -139,13 +139,13 @@ router.route('/users/:id')
   .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
 
-  router.route('/userid/:email')
+router.route('/users/email/:email')
   .get(getOneUserbyEmail);
 
-  router.route('/user/reset/:id')
+router.route('/users/reset/:id')
   .put(resetSecurityCode, sendPasswordResetEmail);
 
-  router.route('/user/changepassword')
+router.route('/users/changepassword')
   .put(changePassword)
   .delete(deleteSecurityNumber);
 
