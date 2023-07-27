@@ -109,7 +109,7 @@ const updateOneOrderHeader = async (req, res) => {
     order.state = newState;
     const savedOrder = await order.save();
     const updatedOrder = updateHeader(savedOrder);
-    res.status(202).json({orderheader: updatedOrder});
+    res.status(200).json({orderheader: updatedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -122,7 +122,7 @@ const deleteOneOrderHeader = async (req, res) => {
     const deletedItems = await OrderItem.deleteMany({order: id});
     const deletedOrder = await OrderHeader.findByIdAndDelete(id);
     deletedOrder.items = deletedItems;
-    res.status(202).json({orderheader: deletedOrder});
+    res.status(200).json({orderheader: deletedOrder});
   } catch (error) {
     res.status(400).json({error: error.message});
   }

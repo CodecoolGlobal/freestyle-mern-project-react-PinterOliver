@@ -18,6 +18,8 @@ import CartPage from './pages/CartPage';
 import AdminOrderList from './pages/AdminOrderList';
 import AdminOrderUpdater from './pages/AdminOrderUpdater';
 import Presentation from './pages/Presentation/Presentation';
+import PasswordResetPage from './pages/PasswordResetPage/PasswordResetPage';
+import PasswordChangePage from './pages/PasswordChangePage/PasswordChangePage';
 
 const router = createBrowserRouter([
   {
@@ -71,6 +73,14 @@ const router = createBrowserRouter([
   {
     path: 'login',
     element: <LoginPage />,
+  },
+  {
+    path: 'resetpassword',
+    element: <PasswordResetPage />,
+  },
+  {
+    path: 'changepassword/:id/:security',
+    element:  <PasswordChangePage/>,
   },
   {
     path: 'Register',

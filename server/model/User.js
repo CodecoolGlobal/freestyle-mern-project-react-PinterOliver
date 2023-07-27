@@ -22,6 +22,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  security: {
+    type: Number,
+  },
   email: {
     type: String,
     required: true,

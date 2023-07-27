@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const express = require('express');
 
-const { login, logout } = require('../controllers/loginController');
+const { login, checkToken, logout } = require('../controllers/loginController');
 
 const {
   getAllBooks,
@@ -41,6 +41,10 @@ const {
   addOneUser,
   deleteOneUser,
   updateOneUser,
+  getOneUserbyEmail,
+  resetSecurityCode,
+  changePassword,
+  deleteSecurityNumber,
 } = require('../controllers/usersController');
 
 const {
@@ -50,6 +54,13 @@ const {
   deleteOneRole,
   updateOneRole,
 } = require('../controllers/rolesController');
+
+const {
+  sendCreateUserEmail,
+  sendChangeOrderStateEmail,
+  sendCompleteOrderEmail,
+  sendPasswordResetEmail,
+} = require('../controllers/emailController');
 
 const router = express.Router();
 
@@ -70,9 +81,7 @@ const {
   roleDataValidation,
 } = require('../controllers/validation');
 
-const { getOwnMessages, postMessage } = require('../controllers/chatController');
-
-router.route('/login').post(login).delete(userValidation, logout);
+router.route('/login').get(userValidation, checkToken).post(login).delete(userValidation, logout);
 
 router
   .route('/books')
@@ -151,7 +160,7 @@ router
 router
   .route('/users')
   .get(userValidation, userAdminValidation, getAllUsers)
-  .post(userDataValidation, addOneUser);
+  .post(userDataValidation, sendCreateUserEmail, addOneUser);
 
 router
   .route('/users/:id')
@@ -165,6 +174,12 @@ router
     userIdValidation,
     updateOneUser
   );
+
+router.route('/users/email/:email').get(getOneUserbyEmail);
+
+router.route('/users/reset/:id').put(resetSecurityCode, sendPasswordResetEmail);
+
+router.route('/users/changepassword').put(changePassword).delete(deleteSecurityNumber);
 
 router
   .route('/roles')

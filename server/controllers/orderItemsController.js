@@ -156,7 +156,7 @@ const updateOneOrderItem = async (req, res) => {
     order.price = order.amount * order.bookPrice;
     const savedOrder = await order.save();
     const newHeader = updateHeader(order.order);
-    res.status(202).json({orderitem: savedOrder, message: problem, orderheader: newHeader});
+    res.status(200).json({orderitem: savedOrder, message: problem, orderheader: newHeader});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -175,7 +175,7 @@ const deleteOneOrderItem = async (req, res) => {
     }
     const deletedOrder = await OrderItem.findByIdAndDelete(id);
     const newHeader = updateHeader(order.order);
-    res.status(202).json({orderitem: deletedOrder, orderheader: newHeader});
+    res.status(200).json({orderitem: deletedOrder, orderheader: newHeader});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
