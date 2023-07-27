@@ -1,5 +1,3 @@
-const { json } = require( "express" );
-
 const API_URL = '/api/users';
 const TOKEN = localStorage.getItem('token');
 

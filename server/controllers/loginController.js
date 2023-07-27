@@ -21,7 +21,7 @@ const login = async (req, res) => {
       if (!isSaved) {
         return res.status(500).json({ error: 'Can\'t create token' });
       }
-      res.status(202).json({
+      res.status(200).json({
         token: newToken,
         canModifyItems: account.role.canModifyItems,
         canViewAllOrders: account.role.canViewAllOrders,
@@ -45,7 +45,7 @@ const logout = async (req, res) => {
   if (!savedUser) {
     res.status(404).json({success: false, error: 'No such user'});
   }
-  res.status(202).json({success: true, message: 'User session is over'});
+  res.status(200).json({success: true, message: 'User session is over'});
 };
 
 module.exports = {

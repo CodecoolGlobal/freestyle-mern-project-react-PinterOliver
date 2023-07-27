@@ -1,4 +1,4 @@
-const fs = require('fs');
+/* const fs = require('fs'); */
 const bcrypt = require('bcrypt');
 
 const firstNames = require('./firstNames.json');
@@ -115,12 +115,12 @@ function generateEmail (user) {
   return email.toLowerCase();
 }
 
-function writeNewFile () {
+/* function writeNewFile () {
   const names = [''];
   fs.writeFileSync('./populate/test.json', JSON.stringify(names, null, 2));
 }
 
-writeNewFile();
+writeNewFile(); */
 
 module.exports = {
   pick,

@@ -60,7 +60,7 @@ const deleteOneUser = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findByIdAndDelete(id);
-    res.status(202).json({user: user});
+    res.status(200).json({user: user});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
@@ -73,7 +73,7 @@ const updateOneUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(id, {
       ...req.body,
     }, {returnDocument: 'after'});
-    res.status(202).json({user: user});
+    res.status(200).json({user: user});
   } catch (error) {
     res.status(400).json({error: error.message});
   }
