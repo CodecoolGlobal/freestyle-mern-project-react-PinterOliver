@@ -55,9 +55,7 @@ const getOneUserbyEmail = async (req, res) => {
 const getOneUserByToken = async (req, res) => {
   try {
     const token = req.cookies.token;
-    console.log(token);
     const user = await User.findOne({ token: token });
-    console.log(user);
     res
       .status(200)
       .json({
