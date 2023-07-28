@@ -163,13 +163,13 @@ router.route('/users')
   .get(userValidation, userAdminValidation, getAllUsers)
   .post(userDataValidation, sendCreateUserEmail, addOneUser);
 
+router.route('/users/token')
+  .get(getOneUserByToken);
+
 router.route('/users/:id')
   .get(idValidation, userValidation, userAdminValidation, userIdValidation, getOneUser)
   .delete(idValidation, userValidation, userAdminValidation, userIdValidation, deleteOneUser)
   .patch(idValidation, userValidation, userDataValidation, userAdminValidation, userIdValidation, updateOneUser);
-
-router.route('/users/token')
-  .get(getOneUserByToken);
 
 router.route('/users/email/:email')
   .get(getOneUserbyEmail);
