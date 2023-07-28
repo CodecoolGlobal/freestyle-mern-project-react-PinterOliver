@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './CartCompletePage.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function CartCompletePage() {
   const cartId = localStorage.getItem('cartid');
@@ -9,10 +10,9 @@ function CartCompletePage() {
   const [phoneNumber, setPhoneNumber] = useState();
   const [usersName, setUsersName] = useState();
   const [email, setEmail] = useState();
+  const navigate = useNavigate();
 
   function handleSendOrder() {
-
-    const navigate = useNavigate();
 
     fetch(`/api/orderheaders/${cartId}`, {
       method: 'PATCH',
