@@ -78,7 +78,7 @@ function Presentation() {
           <ul className='listing'>
             <li className='listItem'>Trello card: 38</li>
             <li className='listItem'>JS file: 63</li>
-            <li className='listItem'>Git commit: 516</li>
+            <li className='listItem'>Git commit: 521</li>
           </ul>
         </div>
 

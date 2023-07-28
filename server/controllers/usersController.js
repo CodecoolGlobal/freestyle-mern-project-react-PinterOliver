@@ -24,7 +24,7 @@ const getAllUsers = async (req, res) => {
       search.token = {};
       search.token = { $not: { $size: 0 } };
     }
-    const users = await User.find(search).sort({ userName: -1 }).populate('role');
+    const users = await User.find(search).sort({ 'name.first': -1 }).populate('role');
     res.status(200).json({ users: users });
   } catch (error) {
     res.status(400).json({ error: error.message });
