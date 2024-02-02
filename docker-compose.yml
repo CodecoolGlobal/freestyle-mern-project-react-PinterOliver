@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+  react-app:
+    build: client
+    ports:
+      - "3000:3000"
+    restart: always
+  express-app:
+    build: server
+    restart: always
+
+
