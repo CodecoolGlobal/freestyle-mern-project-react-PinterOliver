@@ -7,4 +7,6 @@ COPY . .
 EXPOSE 8080
 RUN chown -R node /usr/src/app
 USER node
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 CMD ["node", "server.js", "npm", "install", "dotenv", "node", "populate/populate.js"]
