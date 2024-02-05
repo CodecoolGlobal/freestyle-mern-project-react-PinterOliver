@@ -1,21 +1,23 @@
 /* eslint-disable require-atomic-updates */
 /* eslint-disable camelcase */
 const fs = require('fs');
-require('dotenv').config();
-const mongoose = require('mongoose');
+const pathToEnvFile = '../.env';
+require('dotenv').config({ path: pathToEnvFile });
 
+const mongoose = require('mongoose');
 const BookModel = require('../model/Book');
 const RoleModel = require('../model/Role');
 const StoredItemModel = require('../model/StoredItem');
 const OrderHeaderModel = require('../model/OrderHeader');
 const OrderItemModel = require('../model/OrderItem');
-const UserModel = require('../model/User');
 
+const UserModel = require('../model/User');
 const genreList = require('./genres.json');
 const states = require('./states.json');
-const userList = require('./userList.json');
 
+const userList = require('./userList.json');
 const { updateHeader } = require('../controllers/orderItemsController');
+
 const {
   pick,
   generateNumber,
@@ -27,10 +29,9 @@ const {
   generateRandomUsers,
   generateEmail,
 } = require('./generateParts');
-
 const START_DAY = new Date('2001-10-09');
-const TODAY = new Date();
 
+const TODAY = new Date();
 const mongoUrl = process.env.MONGO_URL;
 
 if (!mongoUrl) {
