@@ -29,7 +29,7 @@ Clone the repository to your local machine.
 
 Navigate to the root/server directory of the project.
 
-Run the entrypoint.sh script with three arguments: mongodb connection string and port(suggest to use 8080). Replace mongodb connection string and port with your desired values:
+Run the entrypoint.sh script with two arguments: mongodb connection string and port(suggest to use 8080). Replace mongodb connection string and port with your desired values:
 
     ./entrypoint.sh <mongodb connection string> <port(suggest to use 8080)>
 
