@@ -1,9 +1,13 @@
-FROM node:21-alpine3.17
+FROM node:19.5.0-alpine
 
 WORKDIR /react-app
 
-COPY . .
+COPY package*.json ./
 
 RUN npm install
+
+COPY . .
+
+EXPOSE 3000
 
 CMD ["npm", "start"]
