@@ -1,2 +1,3 @@
 passwords.txt
-.env
+server/.env
+passwords for main site.txt
