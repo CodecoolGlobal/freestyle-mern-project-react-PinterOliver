@@ -1,0 +1,4 @@
+client/node_modules
+passwords.txt
+server/.env
+passwords for main site.txt
