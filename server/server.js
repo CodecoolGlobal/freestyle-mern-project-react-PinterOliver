@@ -6,7 +6,7 @@ const app = express();
 const apiRouter = require('./routes/api');
 const cookieParser = require('cookie-parser');
 
-const { MONGO_URL, PORT = 8080 } = process.env;
+const { MONGO_URL, PORT } = process.env;
 
 if (!MONGO_URL) {
   console.error('Missing MONGO_URL environment variable');
