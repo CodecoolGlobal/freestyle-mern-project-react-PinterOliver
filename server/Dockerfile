@@ -7,4 +7,4 @@ COPY . .
 EXPOSE 8080
 RUN chown -R node /usr/src/app
 USER node
-CMD ["node", "server.js"]
+CMD ["node", "server.js", "npm", "install", "dotenv", "node", "populate/populate.js"]
