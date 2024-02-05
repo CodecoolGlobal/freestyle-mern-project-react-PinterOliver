@@ -6,8 +6,12 @@ services:
     ports:
       - "3000:3000"
     restart: always
+    depends_on:
+      - express-app
+
   express-app:
     build: server
     restart: always
-
+    ports:
+      - "8080:8080"
 
