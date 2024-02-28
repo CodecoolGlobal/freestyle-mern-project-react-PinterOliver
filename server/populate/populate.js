@@ -1,8 +1,10 @@
 /* eslint-disable require-atomic-updates */
 /* eslint-disable camelcase */
+require('dotenv').config();
 const fs = require('fs');
-const pathToEnvFile = '../.env';
-require('dotenv').config({ path: pathToEnvFile });
+/*const pathToEnvFile = '../.env';
+require('dotenv').config({ path: pathToEnvFile });*/
+const { MONGO_URL, PORT } = process.env;
 
 const mongoose = require('mongoose');
 const BookModel = require('../model/Book');
@@ -32,7 +34,7 @@ const {
 const START_DAY = new Date('2001-10-09');
 
 const TODAY = new Date();
-const mongoUrl = process.env.MONGO_URL;
+const mongoUrl = MONGO_URL;
 
 if (!mongoUrl) {
   console.error('Missing MONGO_URL environment variable');
@@ -221,7 +223,7 @@ async function populateOrders() {
     await createOrder(user, 'cart');
   }
 
-  const numberOfOrders = 100;
+  const numberOfOrders = 50;
   for (let i = 0; i < numberOfOrders; i++) {
     const rand = Math.random();
     let state;

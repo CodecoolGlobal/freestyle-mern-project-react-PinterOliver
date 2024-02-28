@@ -1,12 +1,19 @@
-FROM node:lts-alpine
+FROM node:slim
+
 ENV NODE_ENV=production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
+
+WORKDIR /express
+
 COPY . .
+
+RUN npm install
+
+RUN chmod +x /express/entrypoint.sh
+
+CMD ["node", "server.js", "npm", "install", "dotenv" ]
+
+RUN node populate/populate.js
+
 EXPOSE 8080
-RUN chown -R node /usr/src/app
-USER node
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-CMD ["node", "server.js", "npm", "install", "dotenv", "node", "populate/populate.js"]
+
+
